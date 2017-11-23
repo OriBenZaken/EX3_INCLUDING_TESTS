@@ -134,5 +134,4 @@ Board::~Board() {
         delete[] board[i];
     }
     delete[] board;
-    cout << "board destor" << endl;
 }

@@ -6,4 +6,3 @@
 TEST(TestSomething, Test1) {
     EXPECT_EQ(1,1);
 }
-
