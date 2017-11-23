@@ -5,6 +5,8 @@
 #include <iostream>
 #include "Board.h"
 #include "TwoPlayersOneComputerGame.h"
+#include <string.h>
+
 using namespace std;
 
 /**
@@ -12,16 +14,28 @@ using namespace std;
  * @return 0
  */
 int main() {
+    cout<<"Hello!"<<endl<<"Please choose one of the following options:"<<endl;
+    cout<<"1. I want to play against human."<<endl;
+    cout<<"2. I want to play against computer."<<endl;
+    IGame:: PlayersType playersType;
+    string input;
+    do {
+        cin >> input;
 
+
+        if (input.compare("1") == 0) {
+
+            playersType = IGame::Humans;
+        } else if (input.compare("2") == 0) {
+            playersType = IGame::HumanVSAI;
+        }else {
+            cout<<"Please choose correct option."<<endl;
+        }
+    }while (input.compare("1") != 0 && input.compare("2") != 0);
     Board b(8);
-
     b.initialize();
-    //Board copy(b);
-
-    IGame* game = new TwoPlayersOneComputerGame(&b, IGame::HumanVSAI);
+    IGame* game = new TwoPlayersOneComputerGame(&b, playersType);
     game->run();
     delete game;
-  /*  delete p1;
-    delete p2;*/
     return 0;
 }
