@@ -32,7 +32,7 @@ int main() {
             cout<<"Please choose correct option."<<endl;
         }
     }while (input.compare("1") != 0 && input.compare("2") != 0);
-    Board b(8);
+    Board b(6);
     b.initialize();
     IGame* game = new TwoPlayersOneComputerGame(&b, playersType);
     game->run();

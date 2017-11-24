@@ -5,9 +5,9 @@
 #include <gmock/gmock-matchers.h>
 #include "gtest/gtest.h"
 #include "StandardGameLogicTest.h"
+#include "MatrixAssertion.h"
 
 TEST_F(StandardGameLogicTest, CorrectPossibleMovesTest) {
-    board.print();
     vector< pair<int, int> > moves = this->gameLogic.possibleMoves(Board::Black, Board::White);
     vector< pair<int , int> > expectedMoves;
     expectedMoves.push_back(make_pair(1, 2));
@@ -18,6 +18,7 @@ TEST_F(StandardGameLogicTest, CorrectPossibleMovesTest) {
 }
 
 TEST_F(StandardGameLogicTest, NoPossibleMovesTest) {
+    board.initialize();
     board.setCell(0,0,Board::White);
     board.setCell(0,1,Board::White);
     board.setCell(1,0,Board::White);
@@ -38,4 +39,21 @@ TEST_F(StandardGameLogicTest, NoPossibleMovesTest) {
     vector< pair<int , int> > expectedMoves;
 
     ASSERT_THAT(moves, expectedMoves);
+}
+
+TEST_F(StandardGameLogicTest, ValidMakeMoveTest) {
+    board.initialize();
+    Board copyBoard(board);
+    copyBoard.setCell(2, 1, Board::Black);
+    copyBoard.setCell(2, 2, Board::Black);
+    gameLogic.makeMove(2, 1, Board::Black, Board::White);
+    EXPECT_TRUE(BoardsMatch(board, copyBoard, board.getSize()));
+}
+
+TEST_F(StandardGameLogicTest, NotValidMakeMoveTest) {
+    board.initialize();
+    Board copyBoard(board);
+    // Empty cell but not a valid move
+    gameLogic.makeMove(4, 2, Board::Black, Board::White);
+    EXPECT_TRUE(BoardsMatch(board, copyBoard, board.getSize()));
 }
