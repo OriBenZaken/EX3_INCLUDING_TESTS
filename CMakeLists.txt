@@ -10,7 +10,7 @@ set(SOURCE_FILES src/Board.h src/Board.h src/GameLogic.cpp src/GameLogic.h src/S
         src/StandartGameLogic.h src/TwoPlayersOneComputerGame.cpp src/TwoPlayersOneComputerGame.h src/HumanPlayer.h src/HumanPlayer.cpp
         src/Board.cpp src/IGame.cpp src/IGame.h src/Player.h src/Player.cpp src/AIPlayer.cpp src/AIPlayer.h)
 
-set(TEST_FILES test/JustATest.cpp test/StandardGameLogicTest.cpp test/StandardGameLogicTest.h test/MatrixAssertion.h)
+set(TEST_FILES test/JustATest.cpp test/StandardGameLogicTest.cpp test/StandardGameLogicTest.h test/MatrixAssertion.h test/AIPlayerTest.cpp test/AIPlayerTest.h)
 
 add_executable(ReversiTests ${SOURCE_FILES} ${TEST_FILES} test/gtest_main.cpp)
 add_executable(Reversi ${SOURCE_FILES} src/main.cpp)
