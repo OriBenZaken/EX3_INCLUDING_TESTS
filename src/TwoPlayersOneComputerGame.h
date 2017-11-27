@@ -34,7 +34,7 @@ public:
             case HumanVSAI:
                 currPlayer = new HumanPlayer(Board::Black);
 
-               StandartGameLogic* copyGameLogic = new StandartGameLogic(*gameLogic);
+               GameLogic* copyGameLogic = new StandartGameLogic(*gameLogic);
 
                 otherPlayer = new AIPlayer(Board::White,copyGameLogic);
                 break;
@@ -48,12 +48,7 @@ private:
     Board* board;
     Player* currPlayer;
     Player* otherPlayer;
-    //todo:delete!!this member!!
-  //  Player* tempJustforCheck;
-    //Board::Cell currPlayer;
-    //Board::Cell otherPlayer;
     Status status;
-    //vector<pair<int, int>> moves;
     /**
      * Swap between current player to other player.
      */

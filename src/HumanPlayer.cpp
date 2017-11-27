@@ -4,6 +4,7 @@
 //
 #include <sstream>
 #include "HumanPlayer.h"
+#include <stdexcept>
 
 pair<int, int> HumanPlayer::getInput(vector< pair<int,int> > options, const Board* board,
                         Board::Cell currentCellType, Board::Cell opponentCellType) {

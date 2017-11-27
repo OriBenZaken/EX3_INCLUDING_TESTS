@@ -8,15 +8,19 @@
 #include <iostream>
 #include <vector>
 #include "Board.h"
-
-
 using namespace std;
-
 //Game Logic interface of Reversi game.
 class GameLogic {
 public:
+    /**
+     * GameLogic empty default ctor.
+     */
     GameLogic(){}
-
+    /**
+     * Copy ctor of GameLogic
+     * @param toCopy reference to Board object.
+     * @return copy of toCopy
+     */
     GameLogic(const GameLogic& toCopy) {
         Board copy(*toCopy.getBoard());
         (*this).setBoard(&copy);

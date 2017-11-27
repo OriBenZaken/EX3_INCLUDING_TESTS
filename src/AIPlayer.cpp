@@ -61,13 +61,11 @@ pair<int, int> AIPlayer::getInput(vector< pair<int,int> > options, const Board* 
             chosenMove = options[i];
         }
     }
-
     //(*board).print();
     //return the selected move
     return chosenMove;
-
 }
 
 AIPlayer::~AIPlayer() {
-   // delete (*this).gameLogic;
+   delete (*this).gameLogic;
 }

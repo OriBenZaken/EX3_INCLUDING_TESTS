@@ -20,9 +20,7 @@ int main() {
     IGame:: PlayersType playersType;
     string input;
     do {
-        cin >> input;
-
-
+        getline(cin,input);
         if (input.compare("1") == 0) {
 
             playersType = IGame::Humans;
@@ -32,7 +30,7 @@ int main() {
             cout<<"Please choose correct option."<<endl;
         }
     }while (input.compare("1") != 0 && input.compare("2") != 0);
-    Board b(6);
+    Board b(4);
     b.initialize();
     IGame* game = new TwoPlayersOneComputerGame(&b, playersType);
     game->run();

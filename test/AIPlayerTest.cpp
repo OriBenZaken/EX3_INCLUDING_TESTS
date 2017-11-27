@@ -99,7 +99,7 @@ TEST_F(AIPlayerTest, ValidMakeMoveTest2) {
 
 AIPlayerTest::~AIPlayerTest() {
 
-    delete gameLogic;
+    //delete gameLogic;
     delete player;
 
 }

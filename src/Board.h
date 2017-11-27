@@ -6,7 +6,6 @@
 #define EX1_BOARD_H
 #include <iostream>
 using namespace std;
-
 /**
  * Describse a Reversi game board.
  * @author Ori Ben Zaken.

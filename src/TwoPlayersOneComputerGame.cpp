@@ -22,8 +22,8 @@ void TwoPlayersOneComputerGame::run() {
             }
             cout << "No possible moves. Play passes back to the other player. ";
             cout << "Press any key to continue." << endl;
-            char keyToContinue;
-            cin >> keyToContinue;
+            string keyToContinue;
+            getline(cin,keyToContinue);
             switchCurrPlayer();
             this->status = NoPossibleMoves;
             continue;

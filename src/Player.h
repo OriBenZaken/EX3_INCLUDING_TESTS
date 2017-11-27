@@ -25,6 +25,14 @@ public:
      * @param type Board::Cell - Can be Black or White.
      */
     Player(Board::Cell type) : type(type) {}
+    /**
+    * display to the player all his possible moves and gets an input of a wished move.
+    * @param options vector of possible moves.
+    * @param board Board
+    * @param currentCellType Board::Cell (White/Black)
+    * @param opponentCellType Board::Cell (White/Black)
+    * @return pair<int, int> of cell in the board - the desired move of the player.
+     */
     Player(Board::Cell type, GameLogic *gameLogic) : type(type) {
        // GameLogic copyLogic(*gameLogic);
         (*this).gameLogic = gameLogic;
@@ -43,6 +51,7 @@ public:
 
     virtual pair<int, int> getInput(vector< pair<int,int> > options, const Board* board,
                                     Board::Cell currentCellType, Board::Cell opponentCellType);
+    virtual ~Player();
 protected:
     Board::Cell type;
     GameLogic * gameLogic;

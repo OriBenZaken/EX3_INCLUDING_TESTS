@@ -8,7 +8,6 @@
 
 #include <gtest/gtest.h>
 #include "StandardGameLogicTest.h"
-#include "StandardGameLogicTest.h"
 #include "../src/StandartGameLogic.h"
 
 class StandardGameLogicTest : public testing::Test {
