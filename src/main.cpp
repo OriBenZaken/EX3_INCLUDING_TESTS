@@ -5,10 +5,7 @@
 #include <iostream>
 #include "Board.h"
 #include "TwoPlayersOneComputerGame.h"
-#include <string.h>
-
 using namespace std;
-
 /**
  * creates a new Reversi game and runs it.
  * @return 0
@@ -22,7 +19,6 @@ int main() {
     do {
         getline(cin,input);
         if (input.compare("1") == 0) {
-
             playersType = IGame::Humans;
         } else if (input.compare("2") == 0) {
             playersType = IGame::HumanVSAI;
@@ -30,7 +26,7 @@ int main() {
             cout<<"Please choose correct option."<<endl;
         }
     }while (input.compare("1") != 0 && input.compare("2") != 0);
-    Board b(4);
+    Board b(8);
     b.initialize();
     IGame* game = new TwoPlayersOneComputerGame(&b, playersType);
     game->run();

@@ -5,9 +5,7 @@
 #include "AIPlayer.h"
 pair<int, int> AIPlayer::getInput(vector< pair<int,int> > options, const Board* board,
                                 Board::Cell currentCellType, Board::Cell opponentCellType){
-    /*for (int i = 0; i<options.size();i++) {
-        cout << options[i].first+1<<options[i].second+1<<endl;
-    }*/
+
     map<pair<int,int>,int> scoresPerOption;
     for(int i=0;i<options.size();i++) {
         Board copyBoard(*board);
@@ -22,18 +20,13 @@ pair<int, int> AIPlayer::getInput(vector< pair<int,int> > options, const Board* 
         vector< pair<int,int> > opponentOptionalScors = (*this).gameLogic->possibleMoves(opponentCellType,currentCellType);
 
         int max;
-        if (opponentOptionalScors.size() != 0) {
+        if (!opponentOptionalScors.empty()) {
             int once = 0;
             for (int j = 0; j < opponentOptionalScors.size(); j++) {
                 Board temp(copyBoard);
                 gameLogic->setBoard(&temp);
-              //  cout << "before movment x" << endl;
-                //gameLogic->getBoard()->print();
-
                 gameLogic->makeMove(opponentOptionalScors[j].first, opponentOptionalScors[j].second,
                                     opponentCellType, currentCellType);
-                //cout << "after movment x" << endl;
-               // gameLogic->getBoard()->print();
                 int optionalMax = gameLogic->getScores(opponentCellType, currentCellType);
                 //update the maximum score
                 if (once == 0) {
@@ -61,8 +54,6 @@ pair<int, int> AIPlayer::getInput(vector< pair<int,int> > options, const Board* 
             chosenMove = options[i];
         }
     }
-    //(*board).print();
-    //return the selected move
     return chosenMove;
 }
 

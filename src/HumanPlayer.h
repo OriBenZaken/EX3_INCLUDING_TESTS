@@ -6,13 +6,15 @@
 #ifndef EX2_HUMANPLAYER_H
 #define EX2_HUMANPLAYER_H
 #include "Player.h"
+/**
+ * Human player in Reversi Game.
+ */
 class HumanPlayer : public Player {
     /**
      * HumanPlayer c'tor
      * @param type Board::Cell (Black/White)
      */
 public:
-    //todo: add documentation
     /**
      * HumanPlayer ctor.
      * @param type Board::Cell (White/Black)

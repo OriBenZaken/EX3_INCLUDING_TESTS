@@ -10,7 +10,6 @@
  * AIPlayer in Reversi Game.
  */
 class AIPlayer : public Player {
-
 public:
 /**
  * AIPlayer c'tor

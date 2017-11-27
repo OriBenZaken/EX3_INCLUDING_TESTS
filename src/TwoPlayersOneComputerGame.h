@@ -15,7 +15,11 @@
 #include "AIPlayer.h"
 
 using namespace std;
-
+/**
+ * Reversi game version:
+ * two players on one machine.
+ * players can be both humans or human against AIplayer.
+ */
 class TwoPlayersOneComputerGame : public IGame {
 public:
     //enum Status {Playing, NoPossibleMoves, GameOver};
@@ -41,7 +45,13 @@ public:
         }
         status = Playing;
     }
+    /**
+     * runs a Reversi Game.
+     */
     void run();
+    /**
+     * TwoPlayersOneComputerGame d'tor.
+     */
     ~TwoPlayersOneComputerGame();
 private:
     GameLogic *gameLogic;

@@ -9,13 +9,15 @@
 #include <vector>
 #include "Board.h"
 using namespace std;
-//Game Logic interface of Reversi game.
+/**
+ * Game Logic interface of Reversi game.
+ */
 class GameLogic {
 public:
     /**
      * GameLogic empty default ctor.
      */
-    GameLogic(){}
+    GameLogic() {}
     /**
      * Copy ctor of GameLogic
      * @param toCopy reference to Board object.
@@ -42,11 +44,22 @@ public:
      * @param opponent Opponent (Cell enum)
      */
     virtual bool makeMove(int row, int col, Board::Cell player, Board::Cell opponent);
+    /**
+     * returns ths game of the board.
+     * @return Board
+     */
     virtual Board *getBoard() const;
-
+    /**
+     * sets board member.
+     * @param board Board
+     */
     virtual void setBoard(Board *board);
+    /**
+     * returns score of current player : #cells of current player type - #cells of opponent player type.
+     * @param current Board::Cell (Black/White)
+     * @param opponent Board::Cell (Black/White)
+     * @return score
+     */
     virtual int getScores(Board::Cell current, Board::Cell opponent);
-
-
 };
 #endif //EX2_GAMELOGIC_H

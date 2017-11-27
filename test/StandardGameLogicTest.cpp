@@ -3,10 +3,11 @@
 //
 
 #include <gmock/gmock-matchers.h>
-#include "gtest/gtest.h"
 #include "StandardGameLogicTest.h"
-#include "MatrixAssertion.h"
-
+#include "BoardsMatch.h"
+/**
+ * checks if in the start positions of the board - possible moves of Black player are as they should be.
+ */
 TEST_F(StandardGameLogicTest, CorrectPossibleMovesTest) {
     vector< pair<int, int> > moves = this->gameLogic.possibleMoves(Board::Black, Board::White);
     vector< pair<int , int> > expectedMoves;
@@ -14,9 +15,29 @@ TEST_F(StandardGameLogicTest, CorrectPossibleMovesTest) {
     expectedMoves.push_back(make_pair(2, 1));
     expectedMoves.push_back(make_pair(3, 4));
     expectedMoves.push_back(make_pair(4, 3));
-    ASSERT_THAT(moves, expectedMoves);
+    ASSERT_THAT(moves, expectedMoves) << "possible moves of Black player are not as they should be";
 }
 
+/**
+ * brings board to this state:
+ *
+ *
+*| 1 | 2 | 3 | 4 | 5 | 6 |
+*--------------------------
+*1| O | O |   |   |   |   |
+*--------------------------
+*2| O | O | X | X |   | O |
+*--------------------------
+*3|   |   | X | X | O | O |
+*--------------------------
+*4|   | X | X | X |   | O |
+*--------------------------
+*5|   |   |   |   |   |   |
+*--------------------------
+*6|   |   |   |   |   |   |
+*--------------------------
+ * checks if Black player got no possible moves in this state.
+*/
 TEST_F(StandardGameLogicTest, NoPossibleMovesTest) {
     board.initialize();
     board.setCell(0,0,Board::White);
@@ -34,13 +55,14 @@ TEST_F(StandardGameLogicTest, NoPossibleMovesTest) {
     board.setCell(3,2,Board::Black);
     board.setCell(3,3,Board::Black);
     board.setCell(3,5,Board::White);
-
     vector< pair<int, int> > moves = this->gameLogic.possibleMoves(Board::Black, Board::White);
     vector< pair<int , int> > expectedMoves;
 
     ASSERT_THAT(moves, expectedMoves);
 }
-
+/**
+ * checks a correct make move behaviour.
+ */
 TEST_F(StandardGameLogicTest, ValidMakeMoveTest) {
     board.initialize();
     Board copyBoard(board);
@@ -50,6 +72,9 @@ TEST_F(StandardGameLogicTest, ValidMakeMoveTest) {
     EXPECT_TRUE(BoardsMatch(board, copyBoard, board.getSize()));
 }
 
+/**
+ * checks that a not valid move doesn't effect on the board.
+ */
 TEST_F(StandardGameLogicTest, NotValidMakeMoveTest) {
     board.initialize();
     Board copyBoard(board);

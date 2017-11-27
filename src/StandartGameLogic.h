@@ -11,7 +11,7 @@
 #include "Player.h"
 
 /**
- * Standart game logic of Reversi game. Players only allowed to put a washer in a cell in the
+ * Standard game logic of Reversi game. Players only allowed to put a washer in a cell in the
  * board which will cause the opponent's cells to flip.
  */
 class StandartGameLogic : public GameLogic {
@@ -22,11 +22,14 @@ public:
      */
     StandartGameLogic(Board* board) : board(board) {}
     //copy ctr
+    /**
+     * StandardGameLogic copy ctor.
+     * @param toCopy reference to StandardGameLogic object.
+     */
     StandartGameLogic(const GameLogic& toCopy) {
         Board copy(*toCopy.getBoard());
         (*this).setBoard(&copy);
     }
-
     /**
      * prints end stores in a array the possible moves of a player in the game.
      * @param moves pair<int, int> array that stores all the possible cells for player's next move.
@@ -44,10 +47,23 @@ public:
      * @param opponent Opponent (Cell enum)
      */
     bool makeMove(int row, int col, Board::Cell player, Board::Cell opponent);
-    Board * getBoard() const;
-
+    /**
+    * sets board member.
+    * @param board Board
+    */
     void setBoard(Board *board);
+    /**
+ * returns score of current player : #cells of current player type - #cells of opponent player type.
+ * @param current Board::Cell (Black/White)
+ * @param opponent Board::Cell (Black/White)
+ * @return score
+ */
     int getScores(Board::Cell current, Board::Cell opponent);
+    /**
+    * sets board member.
+    * @param board Board
+     */
+    Board * getBoard() const;
 private:
     Board* board;
     /**

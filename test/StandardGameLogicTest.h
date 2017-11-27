@@ -9,9 +9,14 @@
 #include <gtest/gtest.h>
 #include "StandardGameLogicTest.h"
 #include "../src/StandartGameLogic.h"
-
+/**
+ * class for StandardGameLogic test.
+ */
 class StandardGameLogicTest : public testing::Test {
 public:
+    /**
+     * StandardGameLogicTes d'tor
+     */
     StandardGameLogicTest() : board(6), gameLogic(&board){
         board.initialize();
     }
