@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Board.h"
 #include "TwoPlayersOneComputerGame.h"
+#define SIZE 8
 using namespace std;
 /**
  * creates a new Reversi game and runs it.
@@ -26,7 +27,7 @@ int main() {
             cout<<"Please choose correct option."<<endl;
         }
     }while (input.compare("1") != 0 && input.compare("2") != 0);
-    Board b(8);
+    Board b(SIZE);
     b.initialize();
     IGame* game = new TwoPlayersOneComputerGame(&b, playersType);
     game->run();
