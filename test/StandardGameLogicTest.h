@@ -4,7 +4,7 @@
 
 #ifndef REVERSITESTS_STANDARDGAMELOGICTEST_H
 #define REVERSITESTS_STANDARDGAMELOGICTEST_H
-
+#define TEST_SIZE 6
 
 #include <gtest/gtest.h>
 #include "StandardGameLogicTest.h"
@@ -17,7 +17,7 @@ public:
     /**
      * StandardGameLogicTes d'tor
      */
-    StandardGameLogicTest() : board(6), gameLogic(&board){
+    StandardGameLogicTest() : board(TEST_SIZE), gameLogic(&board){
         board.initialize();
     }
 
