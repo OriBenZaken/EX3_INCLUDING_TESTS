@@ -5,7 +5,6 @@
 #ifndef REVERSITESTS_AIPLAYERTEST_H
 #define REVERSITESTS_AIPLAYERTEST_H
 
-
 #include <gtest/gtest.h>
 #include "StandardGameLogicTest.h"
 #include "StandardGameLogicTest.h"
@@ -18,7 +17,7 @@ public:
      * constructor.
      * initialize board, gameLogic and player.
      */
-    AIPlayerTest() : board(6){
+    AIPlayerTest() : board(TEST_SIZE){
         board.initialize();
         gameLogic = new StandartGameLogic(&board);
 
