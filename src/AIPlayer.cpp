@@ -11,11 +11,7 @@ pair<int, int> AIPlayer::getInput(vector< pair<int,int> > options, const Board* 
         Board copyBoard(*board);
         //set the current gameLogicBoard
         (*this).gameLogic->setBoard(&copyBoard);
-       // cout<<"copy Boardbefore"<<options[i].first+1<<options[i].second+1<<endl;
-       // this->gameLogic->getBoard()->print();
         (*this).gameLogic->makeMove(options[i].first,options[i].second,currentCellType,opponentCellType);
-       // cout<<"copy BoardAfter"<<options[i].first+1<<options[i].second+1<<endl;
-       // this->gameLogic->getBoard()->print();
         //get opponent optional moves, the params are inverse in purpuse
         vector< pair<int,int> > opponentOptionalScors = (*this).gameLogic->possibleMoves(opponentCellType,currentCellType);
 

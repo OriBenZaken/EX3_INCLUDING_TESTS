@@ -8,7 +8,7 @@ include_directories(lib/googletest-release-1.8.0/googlemock/include)
 
 set(SOURCE_FILES src/Board.h src/Board.h src/GameLogic.cpp src/GameLogic.h src/StandartGameLogic.cpp src/StandartGameLogic.cpp
         src/StandartGameLogic.h src/TwoPlayersOneComputerGame.cpp src/TwoPlayersOneComputerGame.h src/HumanPlayer.h src/HumanPlayer.cpp
-        src/Board.cpp src/IGame.cpp src/IGame.h src/Player.h src/Player.cpp src/AIPlayer.cpp src/AIPlayer.h src/client/Client.cpp src/client/Client.h)
+        src/Board.cpp src/IGame.cpp src/IGame.h src/Player.h src/Player.cpp src/AIPlayer.cpp src/AIPlayer.h src/client/Client.cpp src/client/Client.h src/RemotePlayer.cpp src/RemotePlayer.h src/RemoteGame.cpp src/RemoteGame.h)
 
 set(TEST_FILES test/StandardGameLogicTest.cpp test/StandardGameLogicTest.h test/BoardsMatch.h
         test/AIPlayerTest.cpp test/AIPlayerTest.h)

@@ -11,7 +11,7 @@
 class IGame {
 public:
     enum Status {Playing, NoPossibleMoves, GameOver};
-    enum PlayersType {Humans, HumanVSAI};
+    enum PlayersType {Humans, HumanVSAI, RemoteMode};
     /** Runs a Reversi game until game is over : Win/Lose or a Tie.
      *
      */
