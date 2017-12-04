@@ -91,6 +91,8 @@ pair<int,int> Client:: getMoveFromServer() {
 
 
 void Client::sendMoveToServer(int x, int y) {
+    cout<<x<<endl;
+    cout<<y<<endl;
     int n = write(clientSocket, &x, sizeof(x));
     if (n == -1) {
         throw "Error writing x to socket";

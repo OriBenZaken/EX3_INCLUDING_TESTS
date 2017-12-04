@@ -12,6 +12,10 @@
 #include "RemotePlayer.h"
 #define NO_MOVES -2
 #define GAME_OVER -3
+#define WAITING 0
+#define FIRST_TYPE 1
+#define SECOND_TYPE 2
+
 
 class RemoteGame : public IGame{
 
@@ -22,15 +26,16 @@ public:
         currPlayer = new RemotePlayer(&client);
         client.connectToServer();
         int typeNum = client.getType();
-        if(typeNum ==0) {
+        if(typeNum ==WAITING) {
             cout<<"waiting for other player to join..."<<endl;
             typeNum = client.getType();
-            if(typeNum==1) {
+            if(typeNum==FIRST_TYPE) {
                 currPlayer->setType(Board::Black);
                 //for debug only
                 cout<<"black"<<endl;
+
             }
-        } else if (typeNum ==2) {
+        } else if (typeNum ==SECOND_TYPE) {
             currPlayer->setType(Board::White);
             //for debug only
             cout<<"white"<<endl;
@@ -49,7 +54,7 @@ private:
     Status status;
     Client client;
     int priority;
-    int turn;
+    bool turn;
 
     void setOpponentType();
     /**

@@ -8,17 +8,17 @@ void RemoteGame::setOpponentType() {
 
     if(currPlayer->getType() ==Board::Black) {
         (*this).opponentType = Board::White;
-        (*this).priority = 1;
+        (*this).priority = FIRST_TYPE;
     } else {
         (*this).opponentType = Board::Black;
-        (*this).priority = 2;
+        (*this).priority = SECOND_TYPE;
     }
 
 }
 
 
 void RemoteGame::run() {
-    (*this).turn = 1;
+    (*this).turn = FIRST_TYPE;
     cout << "Current board:" << endl;
     this ->board->print();
     while (this->status != GameOver) {
@@ -64,10 +64,18 @@ void RemoteGame::run() {
             pair<int, int> chosenMove = (*this).client.getMoveFromServer();
             cout<<"!!!!!!!!!!!"<<chosenMove.first<<" "<<chosenMove.second<<endl;
             if (chosenMove.first !=NO_MOVES && chosenMove.second !=NO_MOVES) {
-                this->gameLogic->makeMove(chosenMove.first, chosenMove.second, currPlayer->getType(),
-                                          opponentType);
+                this->gameLogic->makeMove(chosenMove.first, chosenMove.second,
+                                          opponentType,currPlayer->getType());
                 cout << "Current board:" << endl;
                 this ->board->print();
+            } else {
+                (*this).status = NoPossibleMoves;
+                /*if (this->status == NoPossibleMoves) {
+                    cout << "No Possible for both players." << endl;
+                    this->status = GameOver;
+                    (*this).client.sendMoveToServer(GAME_OVER,GAME_OVER);
+                    break;
+                }*/
             }
         }
         //reach this point anyway
@@ -84,10 +92,10 @@ void RemoteGame::run() {
 
 void RemoteGame:: switchTurn() {
 
-    if ((*this).turn ==1) {
-        ((*this).turn =2);
+    if ((*this).turn ==FIRST_TYPE) {
+        ((*this).turn =SECOND_TYPE);
     } else {
-        (*this).turn = 1;
+        (*this).turn = FIRST_TYPE;
     }
 }
 

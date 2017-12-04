@@ -29,8 +29,22 @@ int main() {
             cout<<"Please choose correct option."<<endl;
         }
     }while (input.compare("1") != 0 && input.compare("2") != 0 && input.compare("3") != 0);
-    Board b(SIZE);
+    Board b(4);
     b.initialize();
+
+    /*
+    b.setCell(3,0,Board::Black);
+    b.setCell(3,1,Board::White);
+    b.setCell(3,2,Board::White);
+    b.setCell(3,3,Board::Black);
+    b.setCell(1,1,Board::Empty);
+    b.setCell(1,2,Board::Empty);
+    b.setCell(2,1,Board::Empty);
+    b.setCell(2,2,Board::Empty);
+    b.print();
+    */
+
+
     IGame* game;
     if (playersType == IGame::Humans || playersType ==IGame::HumanVSAI) {
         game = new TwoPlayersOneComputerGame(&b, playersType);
