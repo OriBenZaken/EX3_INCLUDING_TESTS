@@ -8,22 +8,23 @@ void RemoteGame::setOpponentType() {
 
     if(currPlayer->getType() ==Board::Black) {
         (*this).opponentType = Board::White;
-        (*this).priority = FIRST_TYPE;
+        (*this).priority = BLACK_TYPE;
     } else {
         (*this).opponentType = Board::Black;
-        (*this).priority = SECOND_TYPE;
+        (*this).priority = WHITE_TYPE;
     }
 
 }
 
 
 void RemoteGame::run() {
-    (*this).turn = FIRST_TYPE;
+    (*this).turn = BLACK_TYPE;
     cout << "Current board:" << endl;
     this ->board->print();
     while (this->status != GameOver) {
+        // My turn
         if(priority==turn) {
-            announceWhoPlayNow();
+             announceWhoPlayNow();
             vector< pair<int, int> > moves = gameLogic->possibleMoves(currPlayer->getType(), (*this).opponentType);
             if (moves.empty()) {
                 // No possible moves for both players. TwoPlayersOneComputerGame Over
@@ -41,6 +42,7 @@ void RemoteGame::run() {
                 string keyToContinue;
                 getline(cin, keyToContinue);
                 //switchCurrPlayer();
+                switchTurn();
                 this->status = NoPossibleMoves;
                 continue;
             } else {
@@ -48,26 +50,29 @@ void RemoteGame::run() {
                 //take chosen move from player and inform server about the selection
                 pair<int, int> chosenMove = currPlayer->getInput(moves, this->board, currPlayer->getType(),
                                                                  opponentType);
-
                 this->gameLogic->makeMove(chosenMove.first, chosenMove.second, currPlayer->getType(),
                                           opponentType);
-                cout<<"!!!!!!!!!!!"<<chosenMove.first<<" "<<chosenMove.second<<endl;
-
                 cout << "Current board:" << endl;
                 this ->board->print();
-
-
             }
+            // Opponent turn
         } else {
+            int otherPlayerGameStatus = this->client.getOtherPlayerGameStatusFromServer();
+            if (otherPlayerGameStatus == GAME_OVER) {
+                this->status = GameOver;
+                break;
+            }
             //the waiting player side
             cout <<"Waiting to other player's move..."<<endl;
             pair<int, int> chosenMove = (*this).client.getMoveFromServer();
-            cout<<"!!!!!!!!!!!"<<chosenMove.first<<" "<<chosenMove.second<<endl;
+            //cout<<"!!!!!!!!!!!"<<chosenMove.first<<" "<<chosenMove.second<<endl;
             if (chosenMove.first !=NO_MOVES && chosenMove.second !=NO_MOVES) {
                 this->gameLogic->makeMove(chosenMove.first, chosenMove.second,
                                           opponentType,currPlayer->getType());
+                //todo : add a suitbale message
                 cout << "Current board:" << endl;
                 this ->board->print();
+                this->status = Playing;
             } else {
                 (*this).status = NoPossibleMoves;
                 /*if (this->status == NoPossibleMoves) {
@@ -84,6 +89,16 @@ void RemoteGame::run() {
             this->status = GameOver;
         }
         switchTurn();
+        // .my turn
+        if (this->turn == priority) {
+            if (this->status == GameOver) {
+                // let know the server that the game is over
+                this->client.sendGameStatusToServer(GAME_OVER);
+            } else {
+                // let know the server that the game continues
+                this->client.sendGameStatusToServer(KEEP_PLAYING);
+            }
+        }
 
     }
 
@@ -92,10 +107,10 @@ void RemoteGame::run() {
 
 void RemoteGame:: switchTurn() {
 
-    if ((*this).turn ==FIRST_TYPE) {
-        ((*this).turn =SECOND_TYPE);
+    if ((*this).turn ==BLACK_TYPE) {
+        (*this).turn = WHITE_TYPE;
     } else {
-        (*this).turn = FIRST_TYPE;
+        (*this).turn = BLACK_TYPE;
     }
 }
 
@@ -113,9 +128,18 @@ void RemoteGame::announceWinner() {
         }
     }
     if (numOfBlacks > numOfWhites) {
-        cout << "Congratulations X! You Won!." << endl;
+        if (myType == Board::Black) {
+            cout << "Congratulations X! You Won!." << endl;
+        } else {
+            cout << "O you're such a LOSER!." << endl;
+
+        }
     } else if (numOfWhites > numOfBlacks) {
-        cout << "Congratulations O! You Won!." << endl;
+        if (myType == Board::White) {
+            cout << "Congratulations O! You Won!." << endl;
+        } else {
+            cout << "X you're such a LOSER!." << endl;
+        }
     } else {
         cout << "It's a tie." << endl;
     }

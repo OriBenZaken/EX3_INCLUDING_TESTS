@@ -13,8 +13,9 @@
 #define NO_MOVES -2
 #define GAME_OVER -3
 #define WAITING 0
-#define FIRST_TYPE 1
-#define SECOND_TYPE 2
+#define BLACK_TYPE 1
+#define WHITE_TYPE 2
+#define KEEP_PLAYING -4
 
 
 class RemoteGame : public IGame{
@@ -29,14 +30,16 @@ public:
         if(typeNum ==WAITING) {
             cout<<"waiting for other player to join..."<<endl;
             typeNum = client.getType();
-            if(typeNum==FIRST_TYPE) {
+            if(typeNum==BLACK_TYPE) {
                 currPlayer->setType(Board::Black);
+                myType = Board::Black;
                 //for debug only
                 cout<<"black"<<endl;
 
             }
-        } else if (typeNum ==SECOND_TYPE) {
+        } else if (typeNum ==WHITE_TYPE) {
             currPlayer->setType(Board::White);
+            myType = Board::White;
             //for debug only
             cout<<"white"<<endl;
         }
@@ -51,10 +54,11 @@ private:
     Player* currPlayer;
     //Player* otherPlayer;
     Board::Cell opponentType;
+    Board::Cell myType;
     Status status;
     Client client;
     int priority;
-    bool turn;
+    int turn;
 
     void setOpponentType();
     /**

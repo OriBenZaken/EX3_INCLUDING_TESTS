@@ -3,9 +3,13 @@
 // ID: 311492110
 //
 #include <iostream>
+#include <cstdio>
 #include "Board.h"
 #include "TwoPlayersOneComputerGame.h"
+#include <string>
 #define SIZE 8
+
+#include "fstream"
 using namespace std;
 /**
  * creates a new Reversi game and runs it.

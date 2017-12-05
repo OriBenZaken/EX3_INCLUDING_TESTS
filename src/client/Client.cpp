@@ -89,10 +89,20 @@ pair<int,int> Client:: getMoveFromServer() {
 
 }
 
+int Client::getOtherPlayerGameStatusFromServer() {
+    int n, otherPlayerGameStatus;
+    n = read(clientSocket, &otherPlayerGameStatus, sizeof(otherPlayerGameStatus));
+    if (n == -1) {
+        throw "Error reading x from socket";
+    }
+    return otherPlayerGameStatus;
+}
+
+
 
 void Client::sendMoveToServer(int x, int y) {
-    cout<<x<<endl;
-    cout<<y<<endl;
+    //cout<<x<<endl;
+    //cout<<y<<endl;
     int n = write(clientSocket, &x, sizeof(x));
     if (n == -1) {
         throw "Error writing x to socket";
@@ -104,25 +114,10 @@ void Client::sendMoveToServer(int x, int y) {
 
 }
 
-int Client::sendExercise(int arg1, char op, int arg2) {
-    // Write the exercise arguments to the socket
-    int n = write(clientSocket, &arg1, sizeof(arg1));
+
+void Client::sendGameStatusToServer(int gameStatus) {
+    int n = write(clientSocket, &gameStatus, sizeof(gameStatus));
     if (n == -1) {
-        throw "Error writing arg1 to socket";
+        throw "Error writing x to socket";
     }
-    n = write(clientSocket, &op, sizeof(op));
-    if (n == -1) {
-        throw "Error writing op to socket";
-    }
-    n = write(clientSocket, &arg2, sizeof(arg2));
-    if (n == -1) {
-        throw "Error writing arg2 to socket";
-    }
-    // Read the result from the server
-    int result;
-    n = read(clientSocket, &result, sizeof(result));
-    if (n == -1) {
-        throw "Error reading result from socket";
-    }
-    return result;
 }

@@ -14,7 +14,8 @@ public:
     void connectToServer();
     void sendMoveToServer(int x, int y);
     pair<int,int> getMoveFromServer();
-    int sendExercise(int arg1, char op, int arg2);
+    int getOtherPlayerGameStatusFromServer();
+    void sendGameStatusToServer(int gameStatus);
     int getType();
 private:
     const char *serverIP;

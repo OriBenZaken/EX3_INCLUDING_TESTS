@@ -13,6 +13,4 @@ pair<int, int> RemotePlayer:: getInput(vector< pair<int,int> > options, const Bo
     client->sendMoveToServer(selectedMove.first,selectedMove.second);
     return selectedMove;
 
-
-
 }
