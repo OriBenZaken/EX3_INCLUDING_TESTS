@@ -2,6 +2,8 @@
 // Created by liz on 03/12/17.
 //
 
+#include <fstream>
+#include <sstream>
 #include "RemoteGame.h"
 
 void RemoteGame::setOpponentType() {
@@ -31,11 +33,11 @@ void RemoteGame::run() {
                 if (this->status == NoPossibleMoves) {
                     cout << "No Possible for both players." << endl;
                     this->status = GameOver;
-                    (*this).client.sendMoveToServer(GAME_OVER,GAME_OVER);
+                    (*this).client->sendMoveToServer(GAME_OVER,GAME_OVER);
                     break;
                 } else {
                     //inform server this player hasn't moves
-                    (*this).client.sendMoveToServer(NO_MOVES,NO_MOVES);
+                    (*this).client->sendMoveToServer(NO_MOVES,NO_MOVES);
                 }
                 cout << "No possible moves. Play passes back to the other player. ";
                 cout << "Press any key to continue." << endl;
@@ -57,14 +59,14 @@ void RemoteGame::run() {
             }
             // Opponent turn
         } else {
-            int otherPlayerGameStatus = this->client.getOtherPlayerGameStatusFromServer();
+            int otherPlayerGameStatus = this->client->getOtherPlayerGameStatusFromServer();
             if (otherPlayerGameStatus == GAME_OVER) {
                 this->status = GameOver;
                 break;
             }
             //the waiting player side
             cout <<"Waiting to other player's move..."<<endl;
-            pair<int, int> chosenMove = (*this).client.getMoveFromServer();
+            pair<int, int> chosenMove = (*this).client->getMoveFromServer();
             //cout<<"!!!!!!!!!!!"<<chosenMove.first<<" "<<chosenMove.second<<endl;
             if (chosenMove.first !=NO_MOVES && chosenMove.second !=NO_MOVES) {
                 this->gameLogic->makeMove(chosenMove.first, chosenMove.second,
@@ -93,10 +95,10 @@ void RemoteGame::run() {
         if (this->turn == priority) {
             if (this->status == GameOver) {
                 // let know the server that the game is over
-                this->client.sendGameStatusToServer(GAME_OVER);
+                this->client->sendGameStatusToServer(GAME_OVER);
             } else {
                 // let know the server that the game continues
-                this->client.sendGameStatusToServer(KEEP_PLAYING);
+                this->client->sendGameStatusToServer(KEEP_PLAYING);
             }
         }
 
@@ -153,4 +155,29 @@ void RemoteGame::announceWhoPlayNow() {
     } else {
         cout << "O: It's your move." << endl;
     }
+}
+
+pair<const char*, const int> RemoteGame::getServerSettingsFromFile(string fileName) {
+    const char* serverSettingsFileName = fileName.c_str();
+    ifstream fileInput(serverSettingsFileName); // supposed to be fileName. Just for debug.
+    if (fileInput == NULL)  {
+        perror("Error while open the server settings file");
+    }
+    string IP;
+    string portString;
+    getline(fileInput, IP);
+    getline(fileInput, portString);
+    IP = IP.replace(0, sizeof("IP: ") - 1, "");
+    portString = portString.replace(0, sizeof("Port: ") - 1, "");
+    stringstream ss(portString);
+    int port = 0;
+    ss >> port;
+    cout << IP << " " << port << endl;
+    return make_pair(IP.c_str(), port);
+};
+
+RemoteGame::~RemoteGame() {
+    delete this->client;
+    delete this->gameLogic;
+    delete this->currPlayer;
 }

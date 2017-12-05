@@ -21,15 +21,16 @@
 class RemoteGame : public IGame{
 
 public:
-    RemoteGame(Board* board): board(board), client("127.0.0.1", 8003) {
-
+    RemoteGame(Board* board, string serverSettingsFileName) : board(board) {
+        pair<const char*, int> ipAndPort = getServerSettingsFromFile(serverSettingsFileName);
+        client = new Client(ipAndPort.first, ipAndPort.second);
         gameLogic = new StandartGameLogic(board);
-        currPlayer = new RemotePlayer(&client);
-        client.connectToServer();
-        int typeNum = client.getType();
+        currPlayer = new RemotePlayer(client);
+        client->connectToServer();
+        int typeNum = client->getType();
         if(typeNum ==WAITING) {
             cout<<"waiting for other player to join..."<<endl;
-            typeNum = client.getType();
+            typeNum = client->getType();
             if(typeNum==BLACK_TYPE) {
                 currPlayer->setType(Board::Black);
                 myType = Board::Black;
@@ -46,6 +47,7 @@ public:
         (*this).setOpponentType();
     }
     void run();
+    ~RemoteGame();
 
 
 private:
@@ -56,7 +58,7 @@ private:
     Board::Cell opponentType;
     Board::Cell myType;
     Status status;
-    Client client;
+    Client* client;
     int priority;
     int turn;
 
@@ -80,6 +82,7 @@ private:
      * @param col column of the move cell.
      */
     void announceWhoMadeAMove(int row, int col);
+    pair<const char*, const int> getServerSettingsFromFile(string fileName);
 };
 
 

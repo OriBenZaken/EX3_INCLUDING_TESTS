@@ -56,7 +56,7 @@ int main() {
 
    /* Client client("127.0.0.1", 8002);*/
     try {
-        game = new RemoteGame(&b);
+        game = new RemoteGame(&b, "ServerIPAndPort.txt");
         game->run();
         //client.connectToServer();
 
