@@ -23,8 +23,7 @@ class RemoteGame : public IGame{
 
 public:
     RemoteGame(Board* board, string serverSettingsFileName) : board(board) {
-        pair<const char*, int> ipAndPort = getServerSettingsFromFile(serverSettingsFileName);
-        client = new Client(ipAndPort.first, ipAndPort.second);
+        client = getServerSettingsFromFile(serverSettingsFileName);
         gameLogic = new StandartGameLogic(board);
         currPlayer = new RemotePlayer(client);
         client->connectToServer();
@@ -83,7 +82,7 @@ private:
      * @param col column of the move cell.
      */
     void announceWhoMadeAMove(int row, int col);
-    pair<const char*, const int> getServerSettingsFromFile(string fileName);
+    Client* getServerSettingsFromFile(string fileName);
 };
 
 

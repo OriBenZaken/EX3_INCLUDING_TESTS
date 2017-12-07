@@ -58,13 +58,13 @@ void RemoteGame::run() {
             }
             // Opponent turn
         } else {
+            //the waiting player side
+            cout <<"Waiting to other player's move..."<<endl;
             int otherPlayerGameStatus = this->client->getOtherPlayerGameStatusFromServer();
             if (otherPlayerGameStatus == GAME_OVER) {
                 this->status = GameOver;
                 break;
             }
-            //the waiting player side
-            cout <<"Waiting to other player's move..."<<endl;
             pair<int, int> chosenMove = (*this).client->getMoveFromServer();
             //cout<<"!!!!!!!!!!!"<<chosenMove.first<<" "<<chosenMove.second<<endl;
             if (chosenMove.first !=NO_MOVES && chosenMove.second !=NO_MOVES) {
@@ -156,25 +156,32 @@ void RemoteGame::announceWhoPlayNow() {
     }
 }
 
-pair<const char*, const int> RemoteGame::getServerSettingsFromFile(string fileName) {
+Client* RemoteGame::getServerSettingsFromFile(string fileName) {
     const char* serverSettingsFileName = fileName.c_str();
-    ifstream fileInput(serverSettingsFileName); // supposed to be fileName. Just for debug.
-    if (fileInput == NULL)  {
-        perror("Error while open the server settings file");
-    }
-    string IPString;
-    string portString;
-    getline(fileInput, IPString);
-    getline(fileInput, portString);
-    IPString = IPString.replace(0, sizeof("IP: ") - 1, "");
-    IPString = IPString.replace(0, 0, "");
-    //cout << IPString;
-    portString = portString.replace(0, sizeof("Port: ") - 1, "");
-    stringstream ss(portString);
-    int port = 0;
-    ss >> port;
-    return make_pair(IPString.c_str(), port);
-};
+        ifstream fileInput(serverSettingsFileName); // supposed to be fileName. Just for debug.
+        if (fileInput == NULL) {
+            perror("Error while open the server settings file");
+        }
+        string IPString;
+        string portString;
+        getline(fileInput, IPString);
+        getline(fileInput, portString);
+        IPString = IPString.replace(0, sizeof("IP: ") - 1, "");
+        IPString = IPString.replace(0, 0, "");
+        //cout << IPString;
+        portString = portString.replace(0, sizeof("Port: ") - 1, "");
+        stringstream ss(portString);
+        int port = 0;
+        ss >> port;
+    /*std::vector<char> v(IPString.length() + 1);
+    std::strcpy(&v[0], IPString.c_str());
+             char* pc = &v[0];*/
+    //cout << pc << endl;
+    char * writable = new char[IPString.size() + 1];
+    std::copy(IPString.begin(), IPString.end(), writable);
+    writable[IPString.size()] = '\0';
+        return new Client(writable, port);
+}
 
 RemoteGame::~RemoteGame() {
     delete this->client;

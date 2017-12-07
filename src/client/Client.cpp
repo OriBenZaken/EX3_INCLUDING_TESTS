@@ -16,7 +16,10 @@ Client::Client(const char *serverIP, int serverPort):
         serverIP(serverIP), serverPort(serverPort),
         clientSocket(0) {
 }
+
 void Client::connectToServer() {
+    cout << serverIP << endl;
+    //serverIP = "127.0.0.1";
     // Create a socket point
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
