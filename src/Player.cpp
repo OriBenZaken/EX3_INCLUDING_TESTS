@@ -1,7 +1,4 @@
-//
-// Created by ori on 14/11/17.
-// ID: 311492110
-//
+
 #include "Player.h"
 
 Board::Cell Player::getType() {

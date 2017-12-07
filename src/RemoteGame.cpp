@@ -1,9 +1,5 @@
-//
-// Created by liz on 03/12/17.
-//
 
-#include <fstream>
-#include <sstream>
+
 #include "RemoteGame.h"
 
 void RemoteGame::setOpponentType() {
@@ -16,7 +12,6 @@ void RemoteGame::setOpponentType() {
         (*this).priority = WHITE_TYPE;
     }
 }
-
 
 void RemoteGame::run() {
     (*this).turn = BLACK_TYPE;
@@ -42,7 +37,6 @@ void RemoteGame::run() {
                 cout << "Press any key to continue." << endl;
                 string keyToContinue;
                 getline(cin, keyToContinue);
-                //switchCurrPlayer();
                 switchTurn();
                 this->status = NoPossibleMoves;
                 continue;
@@ -66,31 +60,24 @@ void RemoteGame::run() {
                 break;
             }
             pair<int, int> chosenMove = (*this).client->getMoveFromServer();
-            //cout<<"!!!!!!!!!!!"<<chosenMove.first<<" "<<chosenMove.second<<endl;
             if (chosenMove.first !=NO_MOVES && chosenMove.second !=NO_MOVES) {
                 this->gameLogic->makeMove(chosenMove.first, chosenMove.second,
                                           opponentType,currPlayer->getType());
-                //todo : add a suitbale message
+                announceWhoMadeAMove(chosenMove.first,chosenMove.second);
                 cout << "Current board:" << endl;
                 this ->board->print();
                 this->status = Playing;
             } else {
                 (*this).status = NoPossibleMoves;
-                /*if (this->status == NoPossibleMoves) {
-                    cout << "No Possible for both players." << endl;
-                    this->status = GameOver;
-                    (*this).client.sendMoveToServer(GAME_OVER,GAME_OVER);
-                    break;
-                }*/
+
             }
         }
         //reach this point anyway
         if (this->board->getNumOfEmptyCells() == 0) {
-            //todo:tell server game is over!!!!
             this->status = GameOver;
         }
         switchTurn();
-        // .my turn
+        //my turn
         if (this->turn == priority) {
             if (this->status == GameOver) {
                 // let know the server that the game is over
@@ -157,34 +144,37 @@ void RemoteGame::announceWhoPlayNow() {
 }
 
 Client* RemoteGame::getServerSettingsFromFile(string fileName) {
-    const char* serverSettingsFileName = fileName.c_str();
-        ifstream fileInput(serverSettingsFileName); // supposed to be fileName. Just for debug.
-        if (fileInput == NULL) {
-            perror("Error while open the server settings file");
-        }
-        string IPString;
-        string portString;
-        getline(fileInput, IPString);
-        getline(fileInput, portString);
-        IPString = IPString.replace(0, sizeof("IP: ") - 1, "");
-        IPString = IPString.replace(0, 0, "");
-        //cout << IPString;
-        portString = portString.replace(0, sizeof("Port: ") - 1, "");
-        stringstream ss(portString);
-        int port = 0;
-        ss >> port;
-    /*std::vector<char> v(IPString.length() + 1);
-    std::strcpy(&v[0], IPString.c_str());
-             char* pc = &v[0];*/
-    //cout << pc << endl;
-    char * writable = new char[IPString.size() + 1];
+    const char *serverSettingsFileName = fileName.c_str();
+    ifstream fileInput(serverSettingsFileName); // supposed to be fileName. Just for debug.
+    if (fileInput == NULL) {
+        perror("Error while open the server settings file");
+    }
+    string IPString;
+    string portString;
+    getline(fileInput, IPString);
+    getline(fileInput, portString);
+    IPString = IPString.replace(0, sizeof("IP: ") - 1, "");
+    IPString = IPString.replace(0, 0, "");
+    portString = portString.replace(0, sizeof("Port: ") - 1, "");
+    stringstream ss(portString);
+    int port = 0;
+    ss >> port;
+    char *writable = new char[IPString.size() + 1];
     std::copy(IPString.begin(), IPString.end(), writable);
     writable[IPString.size()] = '\0';
-        return new Client(writable, port);
+    return new Client(writable, port);
 }
 
 RemoteGame::~RemoteGame() {
     delete this->client;
     delete this->gameLogic;
     delete this->currPlayer;
+}
+
+void RemoteGame::announceWhoMadeAMove(int row, int col) {
+    if (opponentType ==  Board::Black) {
+        cout << "X played (" << row + 1 << "," << col + 1 << ")" << endl;
+    } else {
+        cout << "O played (" << row + 1 << "," << col + 1 << ")" << endl;
+    }
 }

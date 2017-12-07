@@ -1,11 +1,8 @@
-//
-// Created by ori on 14/11/17.
-// ID: 311492110
-//
 
 #ifndef EX2_HUMANPLAYER_H
 #define EX2_HUMANPLAYER_H
 #include "Player.h"
+#include <sstream>
 /**
  * Human player in Reversi Game.
  */

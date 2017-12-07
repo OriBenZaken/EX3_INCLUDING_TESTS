@@ -16,7 +16,6 @@ set(TEST_FILES test/StandardGameLogicTest.cpp test/StandardGameLogicTest.h test/
         test/AIPlayerTest.cpp test/AIPlayerTest.h)
 
 add_executable(ReversiTests ${SOURCE_FILES} ${TEST_FILES} test/gtest_main.cpp)
-add_executable(Reversi ${SOURCE_FILES} src/main.cpp)
 add_executable(ReversiClient ${SOURCE_FILES} src/client/client_main.cpp)
 add_executable(ReversiServer ${SOURCE_FILES} src/server/server_main.cpp)
 target_link_libraries(ReversiTests gtest gtest_main pthread)

@@ -1,11 +1,9 @@
-//
-// Created by liz on 19/11/17.
-//
 
 #ifndef AIPLAYER_H
 #define AIPLAYER_H
 #include "Player.h"
 #include "GameLogic.h"
+#include <map>
 /**
  * AIPlayer in Reversi Game.
  */

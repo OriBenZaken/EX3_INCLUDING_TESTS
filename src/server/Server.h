@@ -1,7 +1,9 @@
-//
-// Created by liz on 03/12/17.
-//
-
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <iostream>
+#include <stdio.h>
+#include <unistd.h>
 #ifndef SERVERREVERSI_SERVER_H
 #define SERVERREVERSI_SERVER_H
 #define NO_MOVES -2
@@ -11,34 +13,47 @@
 #define WAITING 0
 #define KEEP_PLAYING -4
 
+//server class. manage interaction between two players.
 class Server {
 public:
+    /**
+     * Server constructor.
+     * @param port number
+     */
     Server(int port);
+    /**
+     * start function.
+     * starts the server.
+     */
     void start();
+    /**
+     * stop function.
+     * stops the server.
+     */
     void stop();
 private:
+    /**
+     * handleClient function.
+     * interacts run function of remoteGame
+     * @param clientSocket1 - first client socket
+     * @param clientSocket2 - second client socket
+     */
+    void handleClient(int clientSocket1, int clientSocket2);
+   /**
+    * getClientSocket function.
+    * @return client socket number.
+    */
+    int getClientSocket();
+    /**
+     * swapClients function.
+     * @param current - current client socket
+     * @param opponent - opponent client socket
+     */
+    void swapClients(int * current, int* opponent);
+    //members
     int port;
     int serverSocket; //the socket's file descriptor
-    void handleClient(int clientSocket1, int clientSocket2);
-    int calc(int arg1, const char op, int arg2) const;
-    int moveAnnouncment(int x, int y);
-    int getClientSocket();
-    int swapClients(int * current, int* opponent);
-
-
-
 };
-/*struct in_addr {
-    unsigned long s_addr;
-};*/
-/*
-struct sockaddr_in {
-    short int sin_family;
-    unsigned short int sin_port;
-    struct in_addr sin_addr;
-    unsigned char sin_zero[8];
-};
-//kflkfldkfldkf
-*/
+
 
 #endif //SERVERREVERSI_SERVER_H

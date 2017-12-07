@@ -1,7 +1,4 @@
-//
-// Created by ori on 02/11/17.
-// ID: 311492110
-//
+
 #ifndef EX2_IGAME_H
 #define EX2_IGAME_H
 #include "Player.h"
@@ -19,7 +16,7 @@ public:
     //IGame(Player* currPlayer, Player* otherPlayer) : currPlayer(currPlayer), otherPlayer(otherPlayer) {}
     virtual void run() = 0;
     /**
-     * virtual deafult ctor.
+     * virtual default ctor.
      */
     virtual ~IGame()  {}
 };

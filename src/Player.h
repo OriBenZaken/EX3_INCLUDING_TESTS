@@ -1,7 +1,3 @@
-//
-// Created by ori on 14/11/17.
-// ID: 311492110
-//
 
 #ifndef EX2_PLAYER_H
 #define EX2_PLAYER_H

@@ -1,14 +1,11 @@
-//
-// Created by ori on 24/10/17.
-// ID: 311492110
-//
+
 #ifndef EX2_STANDARTGAMELOGIC_H
 #define EX2_STANDARTGAMELOGIC_H
 #include <iostream>
 #include "Board.h"
 #include "GameLogic.h"
-
 #include "Player.h"
+#include <iostream>
 
 /**
  * Standard game logic of Reversi game. Players only allowed to put a washer in a cell in the

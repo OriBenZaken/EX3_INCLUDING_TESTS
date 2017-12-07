@@ -1,9 +1,4 @@
-//
-// Created by ori on 27/10/17.
-// ID: 311492110
-//
-#include <iostream>
-#include <stdexcept>
+
 #include "TwoPlayersOneComputerGame.h"
 using namespace std;
 
@@ -30,7 +25,6 @@ void TwoPlayersOneComputerGame::run() {
         } else {
             this->status = Playing;
             pair <int, int> chosenMove = currPlayer->getInput(moves, this->board, currPlayer->getType(), otherPlayer->getType());
-            //this->gameLogic->setBoard(board);
             this->gameLogic->makeMove(chosenMove.first, chosenMove.second, currPlayer->getType(), otherPlayer->getType());
             announceWhoMadeAMove(chosenMove.first, chosenMove.second);
             switchCurrPlayer();
@@ -44,7 +38,6 @@ void TwoPlayersOneComputerGame::run() {
     announceWinner();
 }
 
-//todo: check if this is working, appearntly not
 void TwoPlayersOneComputerGame::switchCurrPlayer() {
     Player* temp = currPlayer;
     currPlayer = otherPlayer;
@@ -81,16 +74,19 @@ void TwoPlayersOneComputerGame::announceWhoPlayNow() {
     }
 }
 
+
+
+TwoPlayersOneComputerGame::~TwoPlayersOneComputerGame() {
+    delete this->gameLogic;
+    delete (*this).currPlayer;
+    delete (*this).otherPlayer;
+}
+
+
 void TwoPlayersOneComputerGame::announceWhoMadeAMove(int row, int col) {
     if (currPlayer->getType() ==  Board::Black) {
         cout << "X played (" << row + 1 << "," << col + 1 << ")" << endl;
     } else {
         cout << "O played (" << row + 1 << "," << col + 1 << ")" << endl;
     }
-}
-
-TwoPlayersOneComputerGame::~TwoPlayersOneComputerGame() {
-    delete this->gameLogic;
-    delete (*this).currPlayer;
-    delete (*this).otherPlayer;
 }

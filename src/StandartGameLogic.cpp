@@ -1,8 +1,5 @@
-//
-// Created by ori on 24/10/17.
-// ID: 311492110
-//
-#include <iostream>
+
+
 #include "StandartGameLogic.h"
 using namespace std;
 

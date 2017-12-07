@@ -1,10 +1,7 @@
-//
-// Created by ori on 14/11/17.
-// ID: 311492110
-//
-#include <sstream>
+
+
 #include "HumanPlayer.h"
-#include <stdexcept>
+
 
 pair<int, int> HumanPlayer::getInput(vector< pair<int,int> > options, const Board* board,
                         Board::Cell currentCellType, Board::Cell opponentCellType) {

@@ -1,14 +1,5 @@
-//
-// Created by liz on 03/12/17.
-//
-
 #include "Server.h"
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <iostream>
-#include <stdio.h>
-#include <unistd.h>
+
 
 using namespace std;
 #define  MAX_CONNECTED_CLIENTS 2
@@ -33,25 +24,32 @@ void Server::start() {
     if (bind(serverSocket, (struct sockaddr*)&serverAdress, sizeof(serverAdress)) ==-1) {
         throw "Error on binding";
     }
-    //start listemimg to incoming connections
+    //start listening to incoming connections
     listen(serverSocket, MAX_CONNECTED_CLIENTS);
-
     cout <<"Waiting for client connections..."<<endl;
     //inform types
     int clientSocket1 = getClientSocket();
     int result = WAITING;
     //inform player 1 that we are waiting to other player
-    int n = write (clientSocket1,&result,sizeof(result));
-
+    int n = write(clientSocket1,&result,sizeof(result));
+    if (n ==-1) {
+        cout <<"Error writing to socket" <<endl;
+        return;
+    }
     int clientSocket2 = getClientSocket();
     //inform both players about their types!
     result = BLACK_TYPE;
-    n = write (clientSocket1,&result,sizeof(result));
+    n = write(clientSocket1,&result,sizeof(result));
+    if (n ==-1) {
+        cout <<"Error writing to socket" <<endl;
+        return;
+    }
     result = WHITE_TYPE;
     n = write (clientSocket2,&result,sizeof(result));
-
-    //todo:add check on n!=-1
-
+    if (n ==-1) {
+        cout <<"Error writing to socket" <<endl;
+        return;
+    }
     handleClient(clientSocket1,clientSocket2);
     //reach this point if game ended
     close(clientSocket1);
@@ -91,22 +89,15 @@ void Server::handleClient(int clientSocket1, int clientSocket2) {
             cout <<"Error reading y" <<endl;
             return;
         }
-       /* if ((x == NO_MOVES && y ==NO_MOVES)) {
-            swapClients(&currentClientSocket, &otherClientSocket);
-            continue;
-        }*/
         if ((x == GAME_OVER && y ==GAME_OVER)) {
             gameStatus = GAME_OVER;
             n = write(otherClientSocket,&gameStatus,sizeof(gameStatus));
             // notify other player the game is over
-
             if (n ==-1) {
                 cout <<"Error writing to socket" <<endl;
                 return;
             }
             //end while loop!! end of game
-
-            //cout << "bye~" << endl;
             return;
         }
         gameStatus = KEEP_PLAYING;
@@ -126,7 +117,6 @@ void Server::handleClient(int clientSocket1, int clientSocket2) {
             cout <<"Error writing to socket" <<endl;
             return;
         }
-
         //read game status after one move
         n = read(otherClientSocket,&gameStatus,sizeof(gameStatus));
         if (n ==-1) {
@@ -137,11 +127,10 @@ void Server::handleClient(int clientSocket1, int clientSocket2) {
             return;
         }
         swapClients(&currentClientSocket, &otherClientSocket);
-
     }
 }
 
-int Server::swapClients(int * current, int* opponent) {
+void Server::swapClients(int * current, int* opponent) {
     int temp = *current;
     *current = *opponent;
     *opponent = temp;

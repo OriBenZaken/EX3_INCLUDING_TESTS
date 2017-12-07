@@ -1,12 +1,10 @@
-//
-// Created by ori on 24/10/17.
-// ID: 311492110
-//
 
 #ifndef EX2_GAMELOGIC_H
 #define EX2_GAMELOGIC_H
 #include <iostream>
 #include <vector>
+#include "Board.h"
+#include <iostream>
 #include "Board.h"
 using namespace std;
 /**

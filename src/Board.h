@@ -1,7 +1,4 @@
-//
-// Created by Ori Ben Zaken on 23/10/17.
-// ID: 311492110
-//
+
 #ifndef EX1_BOARD_H
 #define EX1_BOARD_H
 #include <iostream>

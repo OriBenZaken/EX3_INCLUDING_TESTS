@@ -1,16 +1,5 @@
-//
-// Created by ori on 03/12/17.
-//
 
 #include "Client.h"
-#include "../Board.h"
-#include <iostream>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <string.h>
-#include <unistd.h>
 using namespace std;
 Client::Client(const char *serverIP, int serverPort):
         serverIP(serverIP), serverPort(serverPort),
@@ -18,8 +7,6 @@ Client::Client(const char *serverIP, int serverPort):
 }
 
 void Client::connectToServer() {
-    cout << serverIP << endl;
-    //serverIP = "127.0.0.1";
     // Create a socket point
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
@@ -62,18 +49,8 @@ int Client::getType() {
         throw "Error reading result from socket";
     }
     return result;
-    /*else if (result==1) {
-        type ==Board::Black;
-    } else if (result==2) {
-        type ==Board::White;
-    } else if (result ==0) {
-
-    }
-    return type;*/
 
 }
-
-
 
 pair<int,int> Client:: getMoveFromServer() {
     int n;
@@ -103,8 +80,7 @@ int Client::getOtherPlayerGameStatusFromServer() {
 
 
 void Client::sendMoveToServer(int x, int y) {
-    //cout<<x<<endl;
-    //cout<<y<<endl;
+
     int n = write(clientSocket, &x, sizeof(x));
     if (n == -1) {
         throw "Error writing x to socket";
@@ -115,7 +91,6 @@ void Client::sendMoveToServer(int x, int y) {
     }
 
 }
-
 
 void Client::sendGameStatusToServer(int gameStatus) {
     int n = write(clientSocket, &gameStatus, sizeof(gameStatus));

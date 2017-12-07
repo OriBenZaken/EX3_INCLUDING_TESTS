@@ -1,7 +1,4 @@
-//
-// Created by Ori Ben Zaken on 23/10/17.
-// ID: 311492110
-//
+
 #include "Board.h"
 #include <cstdlib>
 using namespace std;
@@ -92,7 +89,6 @@ void Board::print() const {
 }
 
 Board::Cell Board::getCell(int row, int col) const {
-    //cout<<"getcell "<<row<<col<<endl;
     return this->board[row][col];
 }
 

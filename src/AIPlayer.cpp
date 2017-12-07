@@ -1,7 +1,5 @@
-//
-// Created by liz on 19/11/1
 
-#include <map>
+
 #include "AIPlayer.h"
 pair<int, int> AIPlayer::getInput(vector< pair<int,int> > options, const Board* board,
                                 Board::Cell currentCellType, Board::Cell opponentCellType){
