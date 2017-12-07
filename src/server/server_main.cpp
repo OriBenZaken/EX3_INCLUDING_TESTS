@@ -1,10 +1,12 @@
 
 #include "Server.h"
-#include <stdlib.h>
+
 using namespace std;
 
 int main() {
-    Server server(8004);
+
+    int port = Server::getPortFromFile("ServerIPAndPort.txt");
+    Server server(port);
     try {
         server.start();
     } catch (const char* ex) {

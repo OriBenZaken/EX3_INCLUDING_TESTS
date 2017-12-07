@@ -1,4 +1,7 @@
+#include <fstream>
+#include <sstream>
 #include "Server.h"
+#include "stdlib.h"
 
 
 using namespace std;
@@ -120,7 +123,7 @@ void Server::handleClient(int clientSocket1, int clientSocket2) {
         //read game status after one move
         n = read(otherClientSocket,&gameStatus,sizeof(gameStatus));
         if (n ==-1) {
-            cout <<"Error writing to socket" <<endl;
+            cout <<"Error reading to socket" <<endl;
             return;
         }
         if (gameStatus == GAME_OVER) {
@@ -139,4 +142,25 @@ void Server::swapClients(int * current, int* opponent) {
 
 void Server::stop() {
     close(serverSocket);
+}
+
+int Server::getPortFromFile(string serverSettingsFileName) {
+    try {
+        ifstream fileInput(serverSettingsFileName.c_str()); // supposed to be fileName. Just for debug.
+        if (fileInput == NULL) {
+            perror("Error while open the server settings file");
+        }
+        string portString;
+        getline(fileInput, portString);
+        getline(fileInput, portString);
+        portString = portString.replace(0, sizeof("Port: ") - 1, "");
+        stringstream ss(portString);
+        int port = 0;
+        ss >> port;
+        return port;
+    } catch (char * ex) {
+        cout<<"failed to read setting file";
+        exit(-1);
+
+    }
 }

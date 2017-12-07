@@ -1,17 +1,21 @@
+
+#ifndef SERVERREVERSI_SERVER_H
+#define SERVERREVERSI_SERVER_H
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <string.h>
 #include <iostream>
 #include <stdio.h>
 #include <unistd.h>
-#ifndef SERVERREVERSI_SERVER_H
-#define SERVERREVERSI_SERVER_H
+#include <cstdlib>
+
 #define NO_MOVES -2
 #define GAME_OVER -3
 #define BLACK_TYPE 1
 #define WHITE_TYPE 2
 #define WAITING 0
 #define KEEP_PLAYING -4
+using namespace std;
 
 //server class. manage interaction between two players.
 class Server {
@@ -31,7 +35,13 @@ public:
      * stops the server.
      */
     void stop();
-private:
+    /**
+     * getPortFromFile function.
+     * @param serverSettingsFileName - file name.
+     * @return int
+     */
+     static int getPortFromFile(string serverSettingsFileName);
+        private:
     /**
      * handleClient function.
      * interacts run function of remoteGame
