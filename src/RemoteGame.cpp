@@ -15,7 +15,6 @@ void RemoteGame::setOpponentType() {
         (*this).opponentType = Board::Black;
         (*this).priority = WHITE_TYPE;
     }
-
 }
 
 
@@ -163,17 +162,18 @@ pair<const char*, const int> RemoteGame::getServerSettingsFromFile(string fileNa
     if (fileInput == NULL)  {
         perror("Error while open the server settings file");
     }
-    string IP;
+    string IPString;
     string portString;
-    getline(fileInput, IP);
+    getline(fileInput, IPString);
     getline(fileInput, portString);
-    IP = IP.replace(0, sizeof("IP: ") - 1, "");
+    IPString = IPString.replace(0, sizeof("IP: ") - 1, "");
+    IPString = IPString.replace(0, 0, "");
+    //cout << IPString;
     portString = portString.replace(0, sizeof("Port: ") - 1, "");
     stringstream ss(portString);
     int port = 0;
     ss >> port;
-    cout << IP << " " << port << endl;
-    return make_pair(IP.c_str(), port);
+    return make_pair(IPString.c_str(), port);
 };
 
 RemoteGame::~RemoteGame() {

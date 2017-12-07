@@ -6,6 +6,7 @@
 #define REVERSITESTS_REMOTEGAME_H
 
 
+#include <cstring>
 #include "IGame.h"
 #include "client/Client.h"
 #include "StandartGameLogic.h"
