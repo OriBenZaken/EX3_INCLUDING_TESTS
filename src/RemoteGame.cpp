@@ -1,5 +1,6 @@
 
 
+#include <cstdlib>
 #include "RemoteGame.h"
 
 void RemoteGame::setOpponentType() {
@@ -144,25 +145,30 @@ void RemoteGame::announceWhoPlayNow() {
 }
 
 Client* RemoteGame::getServerSettingsFromFile(string fileName) {
-    const char *serverSettingsFileName = fileName.c_str();
-    ifstream fileInput(serverSettingsFileName); // supposed to be fileName. Just for debug.
-    if (fileInput == NULL) {
-        perror("Error while open the server settings file");
+    try {
+        const char *serverSettingsFileName = fileName.c_str();
+        ifstream fileInput(serverSettingsFileName); // supposed to be fileName. Just for debug.
+        if (fileInput == NULL) {
+            perror("Error while open the server settings file");
+        }
+        string IPString;
+        string portString;
+        getline(fileInput, IPString);
+        getline(fileInput, portString);
+        IPString = IPString.replace(0, sizeof("IP: ") - 1, "");
+        IPString = IPString.replace(0, 0, "");
+        portString = portString.replace(0, sizeof("Port: ") - 1, "");
+        stringstream ss(portString);
+        int port = 0;
+        ss >> port;
+        char *writable = new char[IPString.size() + 1];
+        std::copy(IPString.begin(), IPString.end(), writable);
+        writable[IPString.size()] = '\0';
+        return new Client(writable, port);
+    } catch (char* ex) {
+        cout<<"error while reading settings file";
+        exit(-1);
     }
-    string IPString;
-    string portString;
-    getline(fileInput, IPString);
-    getline(fileInput, portString);
-    IPString = IPString.replace(0, sizeof("IP: ") - 1, "");
-    IPString = IPString.replace(0, 0, "");
-    portString = portString.replace(0, sizeof("Port: ") - 1, "");
-    stringstream ss(portString);
-    int port = 0;
-    ss >> port;
-    char *writable = new char[IPString.size() + 1];
-    std::copy(IPString.begin(), IPString.end(), writable);
-    writable[IPString.size()] = '\0';
-    return new Client(writable, port);
 }
 
 RemoteGame::~RemoteGame() {
