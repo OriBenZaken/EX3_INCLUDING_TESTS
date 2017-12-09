@@ -8,8 +8,8 @@
 #include <gtest/gtest.h>
 #include "StandardGameLogicTest.h"
 #include "StandardGameLogicTest.h"
-#include "../src/StandartGameLogic.h"
-#include "../src/AIPlayer.h"
+#include "../src/client/StandartGameLogic.h"
+#include "../src/client/AIPlayer.h"
 
 class AIPlayerTest : public testing::Test {
 public:

@@ -1,6 +1,6 @@
 
 #include <gmock/gmock-matchers.h>
-#include "../src/Board.h"
+#include "../src/client/Board.h"
 #include "AIPlayerTest.h"
 
 

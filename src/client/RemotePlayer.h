@@ -3,7 +3,7 @@
 #define REVERSITESTS_REMOTEPLAYER_H
 #include "Player.h"
 #include "HumanPlayer.h"
-#include "client/Client.h"
+#include "Client.h"
 
 //RemotePlayer class.
 class RemotePlayer : public Player{

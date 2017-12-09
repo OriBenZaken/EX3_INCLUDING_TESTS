@@ -2,7 +2,7 @@
 #ifndef REVERSITESTS_CLIENT_H
 #define REVERSITESTS_CLIENT_H
 #include <iostream>
-#include "../Board.h"
+#include "Board.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -51,6 +51,7 @@ public:
      * @return type of player
      */
     int getType();
+    ~Client();
 private:
     //members
     const char *serverIP;

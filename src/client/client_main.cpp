@@ -1,7 +1,7 @@
 
 #include "Client.h"
-#include "../TwoPlayersOneComputerGame.h"
-#include "../RemoteGame.h"
+#include "TwoPlayersOneComputerGame.h"
+#include "RemoteGame.h"
 #define SIZE 8
 using namespace std;
 //main function, runs the program
@@ -12,7 +12,7 @@ int main() {
     cout<<"2. an AI player."<<endl;
     cout<<"3. a remote player."<<endl;
     IGame:: PlayersType playersType;
-    string input;
+    string input = "";
     //take selected game from player
     do {
         getline(cin,input);

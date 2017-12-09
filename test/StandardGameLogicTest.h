@@ -8,7 +8,7 @@
 
 #include <gtest/gtest.h>
 #include "StandardGameLogicTest.h"
-#include "../src/StandartGameLogic.h"
+#include "../src/client/StandartGameLogic.h"
 /**
  * class for StandardGameLogic test.
  */

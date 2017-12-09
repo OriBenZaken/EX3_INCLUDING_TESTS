@@ -98,3 +98,7 @@ void Client::sendGameStatusToServer(int gameStatus) {
         throw "Error writing x to socket";
     }
 }
+
+Client::~Client() {
+    delete[] this->serverIP;
+}

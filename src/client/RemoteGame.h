@@ -6,7 +6,7 @@
 #include <sstream>
 #include <cstring>
 #include "IGame.h"
-#include "client/Client.h"
+#include "Client.h"
 #include "StandartGameLogic.h"
 #include "RemotePlayer.h"
 #define NO_MOVES -2
@@ -43,6 +43,7 @@ public:
             myType = Board::White;
         }
         (*this).setOpponentType();
+        this->status = IGame::Playing;
     }
     /**
      * run method.

@@ -3,6 +3,7 @@
 #define EX2_HUMANPLAYER_H
 #include "Player.h"
 #include <sstream>
+#include <stdexcept>
 /**
  * Human player in Reversi Game.
  */
