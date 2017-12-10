@@ -7,7 +7,7 @@
 using namespace std;
 #define  MAX_CONNECTED_CLIENTS 2
 
-Server::Server(int port): port(port), serverSocket(0) {
+Server::Server(int port): port(port), serverSocket(0), numberOfConnectedClients(0) {
     cout<<"Server" <<endl;
 }
 
@@ -29,34 +29,43 @@ void Server::start() {
     }
     //start listening to incoming connections
     listen(serverSocket, MAX_CONNECTED_CLIENTS);
-    cout <<"Waiting for client connections..."<<endl;
-    //inform types
-    int clientSocket1 = getClientSocket();
-    int result = WAITING;
-    //inform player 1 that we are waiting to other player
-    int n = write(clientSocket1,&result,sizeof(result));
-    if (n ==-1) {
-        cout <<"Error writing to socket" <<endl;
-        return;
+    while (true) {
+        cout << "Waiting for client connections..." << endl;
+        if ((*this).numberOfConnectedClients ==0) {
+
+            //inform types
+            int clientSocket1 = getClientSocket();
+            int result = WAITING;
+            //inform player 1 that we are waiting to other player
+            int n = write(clientSocket1, &result, sizeof(result));
+            if (n == -1) {
+                cout << "Error writing to socket" << endl;
+                return;
+            }
+            int clientSocket2 = getClientSocket();
+            //inform both players about their types!
+            result = BLACK_TYPE;
+            n = write(clientSocket1, &result, sizeof(result));
+            if (n == -1) {
+                cout << "Error writing to socket" << endl;
+                return;
+            }
+            result = WHITE_TYPE;
+            n = write(clientSocket2, &result, sizeof(result));
+            if (n == -1) {
+                cout << "Error writing to socket" << endl;
+                return;
+            }
+            handleClient(clientSocket1, clientSocket2);
+            //reach this point if game ended
+            close(clientSocket1);
+            (*this).numberOfConnectedClients--;
+
+            close(clientSocket2);
+            (*this).numberOfConnectedClients--;
+       }
+
     }
-    int clientSocket2 = getClientSocket();
-    //inform both players about their types!
-    result = BLACK_TYPE;
-    n = write(clientSocket1,&result,sizeof(result));
-    if (n ==-1) {
-        cout <<"Error writing to socket" <<endl;
-        return;
-    }
-    result = WHITE_TYPE;
-    n = write (clientSocket2,&result,sizeof(result));
-    if (n ==-1) {
-        cout <<"Error writing to socket" <<endl;
-        return;
-    }
-    handleClient(clientSocket1,clientSocket2);
-    //reach this point if game ended
-    close(clientSocket1);
-    close(clientSocket2);
 
 
 }
@@ -67,6 +76,7 @@ int Server::getClientSocket() {
     socklen_t clientAddressLen;
     //accept a new client connection
     int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressLen);
+    (*this).numberOfConnectedClients++;
     cout <<"Client connected" <<endl;
     if (clientSocket==-1) {
         throw "Error on accept";
@@ -151,7 +161,6 @@ int Server::getPortFromFile(string serverSettingsFileName) {
             perror("Error while open the server settings file");
         }
         string portString;
-        getline(fileInput, portString);
         getline(fileInput, portString);
         portString = portString.replace(0, sizeof("Port: ") - 1, "");
         stringstream ss(portString);

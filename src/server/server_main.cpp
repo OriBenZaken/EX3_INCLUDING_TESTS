@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
 
-    int port = Server::getPortFromFile("ServerIPAndPort.txt");
+    int port = Server::getPortFromFile("ServerPort.txt");
     Server server(port);
     try {
         server.start();

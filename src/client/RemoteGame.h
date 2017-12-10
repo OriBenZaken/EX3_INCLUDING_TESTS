@@ -31,6 +31,7 @@ public:
         currPlayer = new RemotePlayer(client);
         client->connectToServer();
         int typeNum = client->getType();
+        cout << "Connected to server." << endl;
         if (typeNum == WAITING) {
             cout << "waiting for other player to join..." << endl;
             typeNum = client->getType();

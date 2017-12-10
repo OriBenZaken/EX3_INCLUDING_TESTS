@@ -63,6 +63,7 @@ public:
     //members
     int port;
     int serverSocket; //the socket's file descriptor
+    int numberOfConnectedClients;
 };
 
 
