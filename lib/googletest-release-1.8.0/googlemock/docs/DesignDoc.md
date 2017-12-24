@@ -51,11 +51,11 @@ boiler-plate C++ requires.
 
 We propose to introduce a new macro:
 ```
-ACTION(name) { statements; }
+ACTION(roomName) { statements; }
 ```
 
 Using this in a namespace scope will define an action with the given
-name that executes the statements.  Inside the statements, you can
+roomName that executes the statements.  Inside the statements, you can
 refer to the K-th (0-based) argument of the mock function as `argK`.
 For example:
 ```
@@ -116,7 +116,7 @@ we have:
 Sometimes you'll want to parameterize the action.   For that we propose
 another macro
 ```
-ACTION_P(name, param) { statements; }
+ACTION_P(roomName, param) { statements; }
 ```
 
 For example,
@@ -189,7 +189,7 @@ ACTION_P(Bar, param) {
 }
 ```
 where `StaticAssertTypeEq` is a compile-time assertion we plan to add to
-Google Test (the name is chosen to match `static_assert` in C++0x).
+Google Test (the roomName is chosen to match `static_assert` in C++0x).
 
 ### Using the ACTION Object's Type ###
 
@@ -263,7 +263,7 @@ Once the macros for defining actions are implemented, we plan to do
 the same for matchers:
 
 ```
-MATCHER(name) { statements; }
+MATCHER(roomName) { statements; }
 ```
 
 where you can refer to the value being matched as `arg`.  For example,

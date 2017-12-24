@@ -10,7 +10,7 @@ class Foo {
   ...
   virtual ~Foo();
   virtual int GetSize() const = 0;
-  virtual string Describe(const char* name) = 0;
+  virtual string Describe(const char* roomName) = 0;
   virtual string Describe(int type) = 0;
   virtual bool Process(Bar elem, int count) = 0;
 };
@@ -21,7 +21,7 @@ class Foo {
 
 class MockFoo : public Foo {
   MOCK_CONST_METHOD0(GetSize, int());
-  MOCK_METHOD1(Describe, string(const char* name));
+  MOCK_METHOD1(Describe, string(const char* roomName));
   MOCK_METHOD1(Describe, string(int type));
   MOCK_METHOD2(Process, bool(Bar elem, int count));
 };
@@ -449,7 +449,7 @@ affect the meaning of the `.After()`.
 
 When you have a long chain of sequential expectations, it's easier to
 specify the order using **sequences**, which don't require you to given
-each expectation in the chain a different name.  <i>All expected<br>
+each expectation in the chain a different roomName.  <i>All expected<br>
 calls</i> in the same sequence must occur in the order they are
 specified.
 
@@ -483,7 +483,7 @@ using ::testing::InSequence;
 }
 ```
 says that all expected calls in the scope of `dummy` must occur in
-strict order. The name `dummy` is irrelevant.)
+strict order. The roomName `dummy` is irrelevant.)
 
 # Verifying and Resetting a Mock #
 

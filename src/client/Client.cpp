@@ -1,4 +1,5 @@
 
+#include <sstream>
 #include "Client.h"
 using namespace std;
 Client::Client(const char *serverIP, int serverPort):
@@ -188,6 +189,66 @@ void Client::sendCloseGameRequest(string name) {
     int n = write(clientSocket, msg, sizeof(msg));
     if (n == -1) {
         throw "Error writing close game request to socket";
+    }
+}
+
+void Client::sendPlayCommand(int x, int y) {
+    string str = "play <";
+    stringstream ss;
+    ss << x;
+    str.append(ss.str());
+    str.append("><");
+    ss.str("");
+    ss << y;
+    str.append(ss.str());
+    str.append(">");
+    cout << str;
+
+    char msg[MSG_BUFFER_SIZE] = "";
+    str.copy(msg, str.length());
+    int n = write(clientSocket, msg, sizeof(msg));
+    if (n == -1) {
+        throw "Error writing play command to socket";
+    }
+}
+
+void Client::Foo(string &roomName) {
+    string choice;
+    cout << "Welcome to Reversi Online!" << endl;
+    while (true) {
+        cout << "Please, choose between the following options: (enter number of option)" << endl;
+        cout << "1. Create a new game room." << endl;
+        cout << "2. Join to existing game room." << endl;
+        getline(cin, choice);
+        if (choice == "1") {
+            cout << "Enter roomName for the new room:" << endl;
+            getline(cin, choice);
+            if (this->sendStartNewGameRequest(choice)) {
+                cout << "New room '" << choice << "' was created. Waiting for second player to join..." << endl;
+                roomName.assign(choice);
+                return;
+            } else {
+                cout << "Request was rejected by server. Let's try again." << endl;
+                continue;
+            }
+        } else if (choice == "2") {
+            vector<string> rooms = this->getGamesList();
+            cout << "Enter the roomName of room to join between the existing rooms:" << endl;
+            for (int i = 0; i < rooms.size(); i++) {
+                cout << i + 1 << ". " << rooms[i] << endl;
+            }
+            getline(cin, choice);
+            if (this->sendJoinToGameRequest(choice)) {
+                cout << "Joined to room '" << choice << "'." << endl;
+                roomName.assign(choice);
+                return;
+            } else {
+                cout << "Request was rejected by server. Let's try again." << endl;
+                continue;
+            }
+        } else {
+            cout << "Invalid input. Let's try again." << endl;
+        }
     }
 }
 

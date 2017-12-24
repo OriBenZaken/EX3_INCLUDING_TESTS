@@ -11,7 +11,6 @@ using namespace std;
 int main() {
     Printer* printer = new ConsolePrinter();
 
-
     cout<<"Hello!"<<endl<<"Please choose one of the following options:"<<endl;
     cout<<"1. a human local player."<<endl;
     cout<<"2. an AI player."<<endl;

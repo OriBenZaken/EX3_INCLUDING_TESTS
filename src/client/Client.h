@@ -60,6 +60,8 @@ public:
     vector<string> getGameListFromString(char* buff);
     bool sendJoinToGameRequest(string name);
     void sendCloseGameRequest(string name);
+    void sendPlayCommand(int x, int y);
+    void Foo(string &roomName);
     ~Client();
 private:
     //members

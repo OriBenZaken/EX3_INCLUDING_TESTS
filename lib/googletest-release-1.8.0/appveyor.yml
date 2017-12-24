@@ -22,7 +22,7 @@ build:
 
 artifacts:
   - path: '_build/Testing/Temporary/*'
-    name: test_results
+    roomName: test_results
 
 before_build:
 - ps: |

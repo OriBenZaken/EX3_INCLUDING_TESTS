@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # These variables are automatically filled in by the configure script.
-name="@PACKAGE_TARNAME@"
+roomName="@PACKAGE_TARNAME@"
 version="@PACKAGE_VERSION@"
 
 show_usage()
@@ -233,7 +233,7 @@ else
   # prefix. Assume (as our own libraries do) that we can resolve the prefix,
   # and are present in the dynamic link paths.
   gmock_ldflags="-L${libdir}"
-  gmock_libs="-l${name}"
+  gmock_libs="-l${roomName}"
   gmock_cppflags="-I${includedir}"
   gmock_cxxflags=""
 

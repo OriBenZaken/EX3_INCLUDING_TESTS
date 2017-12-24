@@ -28,11 +28,13 @@ void RemoteGame::run() {
                 if (this->status == NoPossibleMoves) {
                     this->printer->noPossibleMovesForBothPlayers();
                     this->status = GameOver;
-                    (*this).client->sendMoveToServer(GAME_OVER,GAME_OVER);
+                    //(*this).client->sendMoveToServer(GAME_OVER,GAME_OVER)
+                    this->client->sendCloseGameRequest(this->roomName);
                     break;
                 } else {
                     //inform server this player hasn't moves
-                    (*this).client->sendMoveToServer(NO_MOVES,NO_MOVES);
+                    //(*this).client->sendMoveToServer(NO_MOVES,NO_MOVES);
+                    this->client->sendPlayCommand(NO_MOVES, NO_MOVES);
                 }
                 this->printer->noPossibleMovesForCurrentPlayer();
                 switchTurn();

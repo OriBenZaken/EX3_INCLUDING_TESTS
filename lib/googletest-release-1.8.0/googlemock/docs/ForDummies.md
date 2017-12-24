@@ -102,7 +102,7 @@ You don't need to define these mock methods somewhere else - the `MOCK_METHOD*` 
 
 **Tip:** If even this is too much work for you, you'll find the
 `gmock_gen.py` tool in Google Mock's `scripts/generator/` directory (courtesy of the [cppclean](http://code.google.com/p/cppclean/) project) useful.  This command-line
-tool requires that you have Python 2.4 installed.  You give it a C++ file and the name of an abstract class defined in it,
+tool requires that you have Python 2.4 installed.  You give it a C++ file and the roomName of an abstract class defined in it,
 and it will print the definition of the mock class for you.  Due to the
 complexity of the C++ language, this script may not always work, but
 it can be quite handy when it does.  For more details, read the [user documentation](../scripts/generator/README).
@@ -361,7 +361,7 @@ TEST(FooTest, DrawsLineSegment) {
 }
 ```
 
-By creating an object of type `InSequence`, all expectations in its scope are put into a _sequence_ and have to occur _sequentially_. Since we are just relying on the constructor and destructor of this object to do the actual work, its name is really irrelevant.
+By creating an object of type `InSequence`, all expectations in its scope are put into a _sequence_ and have to occur _sequentially_. Since we are just relying on the constructor and destructor of this object to do the actual work, its roomName is really irrelevant.
 
 In this example, we test that `Foo()` calls the three expected functions in the order as written. If a call is made out-of-order, it will be an error.
 

@@ -17,7 +17,7 @@ $$ }} This line fixes auto-indentation of the following code in Emacs.
 // copyright notice, this list of conditions and the following disclaimer
 // in the documentation and/or other materials provided with the
 // distribution.
-//     * Neither the name of Google Inc. nor the names of its
+//     * Neither the roomName of Google Inc. nor the names of its
 // contributors may be used to endorse or promote products derived from
 // this software without specific prior written permission.
 //
@@ -382,9 +382,9 @@ $$   // show up in the generated code.
 //
 // The syntax
 //
-//   MATCHER(name, description_string) { statements; }
+//   MATCHER(roomName, description_string) { statements; }
 //
-// defines a matcher with the given name that executes the statements,
+// defines a matcher with the given roomName that executes the statements,
 // which must return a bool to indicate if the match succeeds.  Inside
 // the statements, you can refer to the value being matched by 'arg',
 // and refer to its type by 'arg_type'.
@@ -394,7 +394,7 @@ $$   // show up in the generated code.
 // MATCHER() is usually defined in a header file shared by multiple
 // C++ source files, we require the description to be a C-string
 // literal to avoid possible side effects.  It can be empty, in which
-// case we'll use the sequence of words in the matcher name as the
+// case we'll use the sequence of words in the matcher roomName as the
 // description.
 //
 // For example:
@@ -418,7 +418,7 @@ $$   // show up in the generated code.
 //     Actual: 7
 //
 // where the description "is even" is automatically calculated from the
-// matcher name IsEven.
+// matcher roomName IsEven.
 //
 // Argument Type
 // =============
@@ -439,7 +439,7 @@ $$   // show up in the generated code.
 // Sometimes you'll want to parameterize the matcher.  For that you
 // can use another macro:
 //
-//   MATCHER_P(name, param_name, description_string) { statements; }
+//   MATCHER_P(roomName, param_name, description_string) { statements; }
 //
 // For example:
 //
@@ -494,7 +494,7 @@ $$   // show up in the generated code.
 //   Expected: is not in range [2, 4]
 //
 // If you specify "" as the description, the failure message will
-// contain the sequence of words in the matcher name followed by the
+// contain the sequence of words in the matcher roomName followed by the
 // parameter values printed as a tuple.  For example,
 //
 //   MATCHER_P2(InClosedRange, low, hi, "") { ... }
@@ -595,7 +595,7 @@ $for i
 [[
 $var macro_name = [[$if i==0 [[MATCHER]] $elif i==1 [[MATCHER_P]]
                                          $else [[MATCHER_P$i]]]]
-$var class_name = [[name##Matcher[[$if i==0 [[]] $elif i==1 [[P]]
+$var class_name = [[roomName##Matcher[[$if i==0 [[]] $elif i==1 [[P]]
                                                  $else [[P$i]]]]]]
 $range j 0..i-1
 $var template = [[$if i==0 [[]] $else [[
@@ -620,7 +620,7 @@ $var param_field_decls2 = [[$for j
     p$j##_type p$j;\
 ]]]]
 
-#define $macro_name(name$for j [[, p$j]], description)\$template
+#define $macro_name(roomName$for j [[, p$j]], description)\$template
   class $class_name {\
    public:\
     template <typename arg_type>\
@@ -642,7 +642,7 @@ $var param_field_decls2 = [[$for j
         if (!gmock_description.empty())\
           return gmock_description;\
         return ::testing::internal::FormatMatcherDescription(\
-            negation, #name, \
+            negation, #roomName, \
             ::testing::internal::UniversalTersePrintTupleFieldsToStrings(\
                 ::testing::tuple<$for j, [[p$j##_type]]>($for j, [[p$j]])));\
       }\
@@ -658,7 +658,7 @@ $var param_field_decls2 = [[$for j
    private:\
     GTEST_DISALLOW_ASSIGN_($class_name);\
   };\$template
-  inline $class_name$param_types name($param_types_and_names) {\
+  inline $class_name$param_types roomName($param_types_and_names) {\
     return $class_name$param_types($params);\
   }\$template
   template <typename arg_type>\

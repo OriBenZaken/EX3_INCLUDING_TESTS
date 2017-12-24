@@ -17,7 +17,7 @@ $$}} This meta comment fixes auto-indentation in editors.
 // copyright notice, this list of conditions and the following disclaimer
 // in the documentation and/or other materials provided with the
 // distribution.
-//     * Neither the name of Google Inc. nor the names of its
+//     * Neither the roomName of Google Inc. nor the names of its
 // contributors may be used to endorse or promote products derived from
 // this software without specific prior written permission.
 //
@@ -266,9 +266,9 @@ $range j2 2..i
 // The ACTION* family of macros can be used in a namespace scope to
 // define custom actions easily.  The syntax:
 //
-//   ACTION(name) { statements; }
+//   ACTION(roomName) { statements; }
 //
-// will define an action with the given name that executes the
+// will define an action with the given roomName that executes the
 // statements.  The value returned by the statements will be used as
 // the return value of the action.  Inside the statements, you can
 // refer to the K-th (0-based) argument of the mock function by
@@ -296,7 +296,7 @@ $range j2 2..i
 // Sometimes you'll want to parameterize the action.   For that you can use
 // another macro:
 //
-//   ACTION_P(name, param_name) { statements; }
+//   ACTION_P(roomName, param_name) { statements; }
 //
 // For example:
 //
@@ -381,9 +381,9 @@ $for k [[, \
 //                   AND_n_VALUE_PARAMS(p1, ..., p_n)) { statements; }
 //
 // defines an action template that takes m explicit template
-// parameters and n value parameters.  name_i is the name of the i-th
+// parameters and n value parameters.  name_i is the roomName of the i-th
 // template parameter, and kind_i specifies whether it's a typename,
-// an integral constant, or a template.  p_i is the name of the i-th
+// an integral constant, or a template.  p_i is the roomName of the i-th
 // value parameter.
 //
 // Example:
@@ -431,7 +431,7 @@ $for k [[, \
 // implementing ACTION_TEMPLATE.  The main trick we use is to create
 // new macro invocations when expanding a macro.  For example, we have
 //
-//   #define ACTION_TEMPLATE(name, template_params, value_params)
+//   #define ACTION_TEMPLATE(roomName, template_params, value_params)
 //       ... GMOCK_INTERNAL_DECL_##template_params ...
 //
 // which causes ACTION_TEMPLATE(..., HAS_1_TEMPLATE_PARAMS(typename, T), ...)
@@ -456,7 +456,7 @@ $range j 1..n
 $for j [[
 $range m 0..j-1
 #define GMOCK_INTERNAL_DECL_HAS_$j[[]]
-_TEMPLATE_PARAMS($for m, [[kind$m, name$m]]) $for m, [[kind$m name$m]]
+_TEMPLATE_PARAMS($for m, [[kind$m, roomName$m]]) $for m, [[kind$m roomName$m]]
 
 
 ]]
@@ -466,7 +466,7 @@ _TEMPLATE_PARAMS($for m, [[kind$m, name$m]]) $for m, [[kind$m name$m]]
 $for j [[
 $range m 0..j-1
 #define GMOCK_INTERNAL_LIST_HAS_$j[[]]
-_TEMPLATE_PARAMS($for m, [[kind$m, name$m]]) $for m, [[name$m]]
+_TEMPLATE_PARAMS($for m, [[kind$m, roomName$m]]) $for m, [[roomName$m]]
 
 
 ]]
@@ -541,18 +541,18 @@ $if i==1 [[P]] $elif i>=2 [[P$i]]
 ]]
 
 
-// The name of the class template implementing the action template.
-#define GMOCK_ACTION_CLASS_(name, value_params)\
-    GTEST_CONCAT_TOKEN_(name##Action, GMOCK_INTERNAL_COUNT_##value_params)
+// The roomName of the class template implementing the action template.
+#define GMOCK_ACTION_CLASS_(roomName, value_params)\
+    GTEST_CONCAT_TOKEN_(roomName##Action, GMOCK_INTERNAL_COUNT_##value_params)
 
 $range k 0..n-1
 
-#define ACTION_TEMPLATE(name, template_params, value_params)\
+#define ACTION_TEMPLATE(roomName, template_params, value_params)\
   template <GMOCK_INTERNAL_DECL_##template_params\
             GMOCK_INTERNAL_DECL_TYPE_##value_params>\
-  class GMOCK_ACTION_CLASS_(name, value_params) {\
+  class GMOCK_ACTION_CLASS_(roomName, value_params) {\
    public:\
-    explicit GMOCK_ACTION_CLASS_(name, value_params)\
+    explicit GMOCK_ACTION_CLASS_(roomName, value_params)\
         GMOCK_INTERNAL_INIT_##value_params {}\
     template <typename F>\
     class gmock_Impl : public ::testing::ActionInterface<F> {\
@@ -579,15 +579,15 @@ $for k [[, arg$k[[]]_type arg$k]]) const;\
     }\
     GMOCK_INTERNAL_DEFN_##value_params\
    private:\
-    GTEST_DISALLOW_ASSIGN_(GMOCK_ACTION_CLASS_(name, value_params));\
+    GTEST_DISALLOW_ASSIGN_(GMOCK_ACTION_CLASS_(roomName, value_params));\
   };\
   template <GMOCK_INTERNAL_DECL_##template_params\
             GMOCK_INTERNAL_DECL_TYPE_##value_params>\
-  inline GMOCK_ACTION_CLASS_(name, value_params)<\
+  inline GMOCK_ACTION_CLASS_(roomName, value_params)<\
       GMOCK_INTERNAL_LIST_##template_params\
-      GMOCK_INTERNAL_LIST_TYPE_##value_params> name(\
+      GMOCK_INTERNAL_LIST_TYPE_##value_params> roomName(\
           GMOCK_INTERNAL_DECL_##value_params) {\
-    return GMOCK_ACTION_CLASS_(name, value_params)<\
+    return GMOCK_ACTION_CLASS_(roomName, value_params)<\
         GMOCK_INTERNAL_LIST_##template_params\
         GMOCK_INTERNAL_LIST_TYPE_##value_params>(\
             GMOCK_INTERNAL_LIST_##value_params);\
@@ -600,7 +600,7 @@ $for k [[, arg$k[[]]_type arg$k]]) const;\
       typename arg6_type, typename arg7_type, typename arg8_type, \
       typename arg9_type>\
   typename ::testing::internal::Function<F>::Result\
-      GMOCK_ACTION_CLASS_(name, value_params)<\
+      GMOCK_ACTION_CLASS_(roomName, value_params)<\
           GMOCK_INTERNAL_LIST_##template_params\
           GMOCK_INTERNAL_LIST_TYPE_##value_params>::gmock_Impl<F>::\
               gmock_PerformImpl(\
@@ -614,7 +614,7 @@ $range j 0..i-1
 
   template <$for j, [[typename p$j##_type]]>\
 ]]]]
-$var class_name = [[name##Action[[$if i==0 [[]] $elif i==1 [[P]]
+$var class_name = [[roomName##Action[[$if i==0 [[]] $elif i==1 [[P]]
                                                 $else [[P$i]]]]]]
 $range j 0..i-1
 $var ctor_param_list = [[$for j, [[p$j##_type gmock_p$j]]]]
@@ -637,7 +637,7 @@ $var arg_types_and_names = [[$for k, [[arg$k[[]]_type arg$k]]]]
 $var macro_name = [[$if i==0 [[ACTION]] $elif i==1 [[ACTION_P]]
                                         $else [[ACTION_P$i]]]]
 
-#define $macro_name(name$for j [[, p$j]])\$template
+#define $macro_name(roomName$for j [[, p$j]])\$template
   class $class_name {\
    public:\
     [[$if i==1 [[explicit ]]]]$class_name($ctor_param_list)$inits {}\
@@ -665,7 +665,7 @@ $arg_types_and_names) const;\$param_field_decls
    private:\
     GTEST_DISALLOW_ASSIGN_($class_name);\
   };\$template
-  inline $class_name$param_types name($param_types_and_names) {\
+  inline $class_name$param_types roomName($param_types_and_names) {\
     return $class_name$param_types($params);\
   }\$template
   template <typename F>\
@@ -725,7 +725,7 @@ namespace internal {
 namespace invoke_argument {
 
 // Appears in InvokeArgumentAdl's argument list to help avoid
-// accidental calls to user functions of the same name.
+// accidental calls to user functions of the same roomName.
 struct AdlTag {};
 
 // InvokeArgumentAdl - a helper for InvokeArgument.

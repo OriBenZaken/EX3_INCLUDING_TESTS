@@ -26,7 +26,7 @@ list can help you decide whether it is for you too.
   * Google Test automatically detects your tests and doesn't require you to enumerate them in order to run them.
   * Death tests are pretty handy for ensuring that your asserts in production code are triggered by the right conditions.
   * `SCOPED_TRACE` helps you understand the context of an assertion failure when it comes from inside a sub-routine or loop.
-  * You can decide which tests to run using name patterns.  This saves time when you want to quickly reproduce a test failure.
+  * You can decide which tests to run using roomName patterns.  This saves time when you want to quickly reproduce a test failure.
   * Google Test can generate XML test result reports that can be parsed by popular continuous build system like Hudson.
   * Simple things are easy in Google Test, while hard things are possible: in addition to advanced features like [global test environments](V1_6_AdvancedGuide.md#Global_Set-Up_and_Tear-Down) and tests parameterized by [values](V1_6_AdvancedGuide.md#value-parameterized-tests) or [types](V1_6_AdvancedGuide.md#typed-tests), Google Test supports various ways for the user to extend the framework -- if Google Test doesn't do something out of the box, chances are that a user can implement the feature using Google Test's public API, without changing Google Test itself.  In particular, you can:
     * expand your testing vocabulary by defining [custom predicates](V1_6_AdvancedGuide.md#predicate-assertions-for-better-error-messages),
@@ -54,7 +54,7 @@ Underscore (`_`) is special, as C++ reserves the following to be used by
 the compiler and the standard library:
 
   1. any identifier that starts with an `_` followed by an upper-case letter, and
-  1. any identifier that containers two consecutive underscores (i.e. `__`) _anywhere_ in its name.
+  1. any identifier that containers two consecutive underscores (i.e. `__`) _anywhere_ in its roomName.
 
 User code is _prohibited_ from using such identifiers.
 
@@ -875,8 +875,8 @@ before the first test in it is run, and tear it down afterwords. Splitting up
 the test case would require multiple set-up and tear-down processes, which is
 inefficient and makes the semantics unclean.
 
-If we were to determine the order of tests based on test name instead of test
-case name, then we would have a problem with the following situation:
+If we were to determine the order of tests based on test roomName instead of test
+case roomName, then we would have a problem with the following situation:
 
 ```
 TEST_F(FooTest, AbcDeathTest) { ... }
@@ -915,8 +915,8 @@ If you use a user-defined type `FooType` in an assertion, you must make sure
 there is an `std::ostream& operator<<(std::ostream&, const FooType&)` function
 defined such that we can print a value of `FooType`.
 
-In addition, if `FooType` is declared in a name space, the `<<` operator also
-needs to be defined in the _same_ name space.
+In addition, if `FooType` is declared in a roomName space, the `<<` operator also
+needs to be defined in the _same_ roomName space.
 
 ## How do I suppress the memory leak messages on Windows? ##
 
@@ -983,13 +983,13 @@ for-test logic at all, there is no danger in accidentally running it.
 
 However, if you _really_, _really_, _really_ have no choice, and if
 you follow the rule of ending your test program names with `_test`,
-you can use the _horrible_ hack of sniffing your executable name
+you can use the _horrible_ hack of sniffing your executable roomName
 (`argv[0]` in `main()`) to know whether the code is under test.
 
 ## Google Test defines a macro that clashes with one defined by another library. How do I deal with that? ##
 
 In C++, macros don't obey namespaces.  Therefore two libraries that
-both define a macro of the same name will clash if you `#include` both
+both define a macro of the same roomName will clash if you `#include` both
 definitions.  In case a Google Test macro clashes with another
 library, you can force Google Test to rename its macro to avoid the
 conflict.
@@ -999,7 +999,7 @@ Specifically, if both Google Test and some other code define macro
 ```
   -DGTEST_DONT_DEFINE_FOO=1
 ```
-to the compiler flags to tell Google Test to change the macro's name
+to the compiler flags to tell Google Test to change the macro's roomName
 from `FOO` to `GTEST_FOO`. For example, with `-DGTEST_DONT_DEFINE_TEST=1`, you'll need to write
 ```
   GTEST_TEST(SomeTest, DoesThis) { ... }
@@ -1032,7 +1032,7 @@ not enough information in your question):
 
   * the version (or the revision number if you check out from SVN directly) of Google Test you use (Google Test is under active development, so it's possible that your problem has been solved in a later version),
   * your operating system,
-  * the name and version of your compiler,
+  * the roomName and version of your compiler,
   * the complete command line flags you give to your compiler,
   * the complete compiler error messages (if the question is about compilation),
   * the _actual_ code (ideally, a minimal but complete program) that has the problem you encounter.

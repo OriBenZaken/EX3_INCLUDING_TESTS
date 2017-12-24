@@ -34,13 +34,11 @@ public:
         client->connectToServer();
         int typeNum = client->getType();
         cout << "Connected to server." << endl;
-        if (typeNum == WAITING) {
-            cout << "waiting for other player to join..." << endl;
-            typeNum = client->getType();
-            if (typeNum == BLACK_TYPE) {
-                currPlayer->setType(Board::Black);
-                myType = Board::Black;
-            }
+        this->client->Foo(roomName);
+        typeNum = client->getType();
+        if (typeNum == BLACK_TYPE) {
+            currPlayer->setType(Board::Black);
+            myType = Board::Black;
         } else if (typeNum == WHITE_TYPE) {
             currPlayer->setType(Board::White);
             myType = Board::White;
@@ -101,7 +99,7 @@ private:
      */
     Client *getServerSettingsFromFile(string fileName);
     //members
-    string name;
+    string roomName;
     GameLogic *gameLogic;
     Printer *printer;
     Board *board;

@@ -495,7 +495,7 @@ MOCK_METHOD1(GetSize, int, const map<int, std::string>& m);
 
 Guess what?  You'll get a compiler error as the compiler thinks that
 `const map<int, std::string>& m` are **two**, not one, arguments. To work
-around this you can use `typedef` to give the map type a name, but
+around this you can use `typedef` to give the map type a roomName, but
 that gets in the way of your work.  Google Mock's syntax avoids this
 problem as the function's argument types are protected inside a pair
 of parentheses:
@@ -571,7 +571,7 @@ prints you a note.
 
 So, when you see the message and believe that there shouldn't be any
 uninteresting calls, you should investigate what's going on.  To make
-your life easier, Google Mock prints the function name and arguments
+your life easier, Google Mock prints the function roomName and arguments
 when an uninteresting call is encountered.
 
 ## I want to define a custom action.  Should I use Invoke() or implement the action interface? ##
@@ -618,7 +618,7 @@ not enough information in your question):
 
   * the version (or the revision number if you check out from SVN directly) of Google Mock you use (Google Mock is under active development, so it's possible that your problem has been solved in a later version),
   * your operating system,
-  * the name and version of your compiler,
+  * the roomName and version of your compiler,
   * the complete command line flags you give to your compiler,
   * the complete compiler error messages (if the question is about compilation),
   * the _actual_ code (ideally, a minimal but complete program) that has the problem you encounter.
