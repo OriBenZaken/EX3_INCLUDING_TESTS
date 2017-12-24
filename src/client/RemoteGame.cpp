@@ -54,12 +54,16 @@ void RemoteGame::run() {
         } else {
             //the waiting player side
             this->printer->waitForOtherPlayerMove();
-            int otherPlayerGameStatus = this->client->getOtherPlayerGameStatusFromServer();
+           /* int otherPlayerGameStatus = this->client->getOtherPlayerGameStatusFromServer();
             if (otherPlayerGameStatus == GAME_OVER) {
                 this->status = GameOver;
                 break;
-            }
+            }*/
             pair<int, int> chosenMove = (*this).client->getMoveFromServer();
+            if (chosenMove.first == GAME_OVER) {
+                this->status = GameOver;
+                break;
+            }
             if (chosenMove.first !=NO_MOVES && chosenMove.second !=NO_MOVES) {
                 this->gameLogic->makeMove(chosenMove.first, chosenMove.second,
                                           opponentType,currPlayer->getType());
@@ -75,10 +79,11 @@ void RemoteGame::run() {
         //reach this point anyway
         if (this->board->getNumOfEmptyCells() == 0) {
             this->status = GameOver;
+            (*this).client->sendCloseGameRequest((*this).roomName);
         }
         switchTurn();
         //my turn
-        if (this->turn == priority) {
+        /*if (this->turn == priority) {
             if (this->status == GameOver) {
                 // let know the server that the game is over
                 this->client->sendGameStatusToServer(GAME_OVER);
@@ -86,7 +91,7 @@ void RemoteGame::run() {
                 // let know the server that the game continues
                 this->client->sendGameStatusToServer(KEEP_PLAYING);
             }
-        }
+        }*/
 
     }
 

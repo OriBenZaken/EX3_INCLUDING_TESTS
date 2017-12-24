@@ -11,7 +11,7 @@
 #include <unistd.h>
 #include <vector>
 #define MSG_BUFFER_SIZE 50
-
+#define GAME_OVER -3
 using namespace std;
 
 class Client {

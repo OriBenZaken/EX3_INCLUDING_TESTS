@@ -32,7 +32,7 @@ public:
         gameLogic = new StandartGameLogic(board);
         currPlayer = new RemotePlayer(client, printer);
         client->connectToServer();
-        int typeNum = client->getType();
+        int typeNum;// = client->getType();
         cout << "Connected to server." << endl;
         this->client->Foo(roomName);
         typeNum = client->getType();

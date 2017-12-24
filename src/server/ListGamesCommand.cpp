@@ -7,8 +7,8 @@
 int ListGamesCommand:: execute(vector<string> args,vector<Room> &rooms){
     string roomNames= "";
     //todo: add mutex
-    pthread_mutex_t count_mutex;
-    pthread_mutex_lock(&count_mutex);
+   /* pthread_mutex_t count_mutex;
+    pthread_mutex_lock(&count_mutex);*/
     for (int i=0; i<rooms.size(); i++) {
         if(i==rooms.size()-1) {
             roomNames += rooms.at(i).getRoomName();
@@ -17,10 +17,10 @@ int ListGamesCommand:: execute(vector<string> args,vector<Room> &rooms){
 
         }
     }
-    pthread_mutex_unlock(&count_mutex);
+  /*  pthread_mutex_unlock(&count_mutex);*/
 
     //write size of string to client
-    int len =roomNames.length();
+    int len =roomNames.length() +1;
     int n = write(clientSocket, &len, sizeof(len));
     if (n == -1) {
         cout << "Error writing to socket" << endl;

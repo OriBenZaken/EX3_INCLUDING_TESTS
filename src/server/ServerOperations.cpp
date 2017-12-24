@@ -47,7 +47,7 @@ void ServerOperations::swapClients(int * current, int* opponent,
 
 void* ServerOperations::acceptClient(void* arguments) {
     Server::ThreadArgs *args = (Server::ThreadArgs*) arguments;
-
+    cout<<"enter accept client";
     Server* server = args->server;
     int serverSocket = (*server).getServerSocket();
     while (true) {
@@ -60,7 +60,7 @@ void* ServerOperations::acceptClient(void* arguments) {
         args->clientSocket1 = clientSocket;
         (*server).getThreads().push_back(0);
         pthread_create(&(*server).getThreads().back(), NULL,ServerOperations::preGameRequests,(void *)&args);
-
+        cout<<"created pregame";
 
 
     }

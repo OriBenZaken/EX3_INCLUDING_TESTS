@@ -54,7 +54,7 @@ public:
     static int getPortFromFile(string serverSettingsFileName);
 
     vector<string> splitCommand(string command);
-    void * preGameRequests(void * args) ;
+    void * preGameRequests(int clientsocket);
 
 
         typedef struct ThreadArgs {
@@ -66,7 +66,7 @@ public:
 
 private:
 
-    void *handleClient(void* clients1);
+    void *handleClient(int client1, int client2);
 
     /**
      * getClientSocket function.

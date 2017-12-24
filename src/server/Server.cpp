@@ -35,11 +35,11 @@ void Server::start() {
     //todo: to be exported to other thread
     Server::ThreadArgs threadArgs;
     threadArgs.server = this;
-    (*this).threads.push_back(threadNum);
+   /* (*this).threads.push_back(threadNum);
     pthread_create(&(*this).threads.back(), NULL,ServerOperations::acceptClient,(void *)&threadArgs);
+*/
 
-
-
+acceptClient();
 
     string exit;
     cin >> exit;
@@ -100,12 +100,12 @@ int Server::getPortFromFile(string serverSettingsFileName) {
 
 
 ///my threads:
-/*
-void* Server::handleClient(void* clients1) {
-    ThreadArgs *args = (ThreadArgs*) clients1;
-    int clientSocket1 = args->clientSocket1;
-    int clientSocket2 = args->clientSocket2;
-    vector<Room>& rooms = args->rooms;
+
+void* Server::handleClient(int client1, int client2) {
+    //ThreadArgs *args = (ThreadArgs*) clients1;
+    int clientSocket1 = client1;
+    int clientSocket2 = client2;
+   // vector<Room>& rooms = args->rooms;
 
     int x;
     int y;
@@ -145,25 +145,27 @@ void Server::acceptClient() {
         int clientSocket = getClientSocket();
 
         //todo: create preGameRequests thread
+        cout <<"about to call preGameRequests";
+        (*this).preGameRequests(clientSocket);
 
     }
 }
 
 
 
-void * Server::preGameRequests(void * args) {
+void * Server::preGameRequests(int clientSocket) {
 
     //todo: initialize params of this function
-    int clientSocket;
+   // int clientSocket;
 
-
+    cout <<"enter preGameRequests";
     //as long as no other user connected read client request and write to him
     CommandsManager commandsManagerPerClient(clientSocket);
     while (true) {
 
-        string command =readCommandFromClient(clientSocket);
+        string command = readCommandFromClient(clientSocket);
         //todo: to be deleted just for debug
-        command = "start <liz>";
+        // command = "start <liz>";
 
         vector<string> splitedCommand = splitCommand(command);
         int result = ERROR;
@@ -172,32 +174,25 @@ void * Server::preGameRequests(void * args) {
         }
 
         //stop running the while loop
-        if (command.compare("list_games") != 0 && result==VALID) {
+        if (command.compare("list_games") != 0 && result == VALID) {
             break;//end handle of this client for now until game starts
         }
+    }
         //todo: create handle client thread after join from here!
-
+        cout <<"create handle client thread after join from here!r";
         //continue thread of accept
-        pthread_mutex_t count_mutex;
-        pthread_mutex_lock(&count_mutex);
+        /*pthread_mutex_t count_mutex;
+        pthread_mutex_lock(&count_mutex);*/
         for (int i = 0; i < (*this).rooms.size(); i++) {
             if (rooms.at(i).getRoomStatus() == Room::TwoPlayersConnected) {
                 //todo: create handle client of two client sockets
-                *//* ThreadArgs clients1;
-                 clients1.clientSocket1 =rooms.at(i).getFirstClientSocket();
-                 clients1.clientSocket2 =rooms.at(i).getSecondClientSocket();
-                 clients1.rooms = (*this).rooms;
-                 ThreadArgs arr[1];
-                 arr[0]=clients1;
+                (*this).handleClient(rooms.at(i).getFirstClientSocket(),rooms.at(i).getSecondClientSocket());
 
-                 (*this).threads.push_back(threadNum);
-                // pthread_create(&(*this).threads.at(threadNum), NULL,handleClient,(void *)&clients1);
-                 threadNum++;
-                 rooms.at(i).setRoomStatus(Room::Running);*//*
+                 rooms.at(i).setRoomStatus(Room::Running);
             }
         }
-        pthread_mutex_unlock(&count_mutex);
-    }
+       /* pthread_mutex_unlock(&count_mutex);*/
+
 
     //###############################################thread
 
@@ -259,7 +254,7 @@ int Server::getClientSocket() {
         throw "Error on accept";
     }
     return clientSocket;
-}*/
+}
 
 int Server::getPort() const {
     return port;

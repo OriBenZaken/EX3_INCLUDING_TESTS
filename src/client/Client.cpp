@@ -61,6 +61,9 @@ pair<int,int> Client:: getMoveFromServer() {
     if (n == -1) {
         throw "Error reading x from socket";
     }
+    if (x == GAME_OVER) {
+        return make_pair(x,x);
+    }
     n = read(clientSocket, &y, sizeof(y));
     if (n == -1) {
         throw "Error reading y from socket";
@@ -202,7 +205,6 @@ void Client::sendPlayCommand(int x, int y) {
     ss << y;
     str.append(ss.str());
     str.append(">");
-    cout << str;
 
     char msg[MSG_BUFFER_SIZE] = "";
     str.copy(msg, str.length());
