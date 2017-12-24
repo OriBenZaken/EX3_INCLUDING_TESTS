@@ -4,7 +4,7 @@
 #include <sstream>
 #include <unistd.h>
 
-void JoinCommand:: execute(vector<string> args,vector<Room> &rooms) {
+int JoinCommand:: execute(vector<string> args,vector<Room> &rooms) {
 
     Room::RoomStatus roomStatus;
     bool isValid = false;
@@ -29,14 +29,14 @@ void JoinCommand:: execute(vector<string> args,vector<Room> &rooms) {
         int n = write(clientSocket, &msg, sizeof(msg));
         if (n == -1) {
             cout << "Error writing to socket" << endl;
-            return;
+            return ERROR;
         }
     } else {
         int msg = VALID;
         int n = write(clientSocket, &msg, sizeof(msg));
         if (n == -1) {
             cout << "Error writing to socket" << endl;
-            return;
+            return ERROR;
         }
 
         //write players type for both players
@@ -44,15 +44,15 @@ void JoinCommand:: execute(vector<string> args,vector<Room> &rooms) {
         n = write(rooms.at(indexOfRoom).getFirstClientSocket(), &result, sizeof(result));
         if (n == -1) {
             cout << "Error writing to socket" << endl;
-            return;
+            return ERROR;
         }
         result = WHITE_TYPE;
         n = write(rooms.at(indexOfRoom).getSecondClientSocket(), &result, sizeof(result));
         if (n == -1) {
             cout << "Error writing to socket" << endl;
-            return;
+            return ERROR;
         }
-
+        return VALID;
     }
 
 }

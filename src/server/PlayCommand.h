@@ -10,7 +10,7 @@ class PlayCommand: public Command {
 public:
     PlayCommand(int clientSocket);
 
-    virtual void execute(vector<string> args,vector<Room> &rooms);
+    virtual int execute(vector<string> args,vector<Room> &rooms);
 
 };
 

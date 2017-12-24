@@ -4,7 +4,7 @@
 
 #include <unistd.h>
 #include "StartCommand.h"
-void StartCommand:: execute(vector<string> args,vector<Room> &rooms){
+int StartCommand:: execute(vector<string> args,vector<Room> &rooms){
 
     Room::RoomStatus roomStatus;
     bool isValid = true;
@@ -24,7 +24,7 @@ void StartCommand:: execute(vector<string> args,vector<Room> &rooms){
         int n = write(clientSocket, &msg, sizeof(msg));
         if (n == -1) {
             cout << "Error writing to socket" << endl;
-            return;
+            return ERROR;
         }
     } else {
         Room room;
@@ -36,8 +36,9 @@ void StartCommand:: execute(vector<string> args,vector<Room> &rooms){
         int n = write(clientSocket, &msg, sizeof(msg));
         if (n == -1) {
             cout << "Error writing to socket" << endl;
-            return;
+            return ERROR;
         }
+        return VALID;
     }
 
 }

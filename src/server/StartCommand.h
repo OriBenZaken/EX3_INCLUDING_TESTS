@@ -11,7 +11,7 @@ class StartCommand: public Command {
 public:
     StartCommand(int clientSocket);
 
-    virtual void execute(vector<string> args,vector<Room> &rooms);
+    virtual int execute(vector<string> args,vector<Room> &rooms);
 
 };
 

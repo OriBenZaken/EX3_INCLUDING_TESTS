@@ -10,7 +10,7 @@ public:
     ListGamesCommand(int clientSocket);
 
 
-    virtual void execute(vector<string> args,vector<Room> &rooms);
+    virtual int execute(vector<string> args,vector<Room> &rooms);
 
 private:
 

@@ -16,11 +16,17 @@
 using namespace std;
 
 class Command {
+
 public:
     Command(int clientSocket):clientSocket(clientSocket) {
 
     }
-    virtual void execute(vector<string> args,vector<Room> &rooms)=0;
+   /* enum CommonReturnCodes {
+        Success,
+        Failure
+
+    };*/
+    virtual int execute(vector<string> args,vector<Room> &rooms)=0;
     virtual ~Command() {}
 protected:
     int clientSocket;

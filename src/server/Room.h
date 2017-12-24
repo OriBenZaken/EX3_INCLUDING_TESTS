@@ -10,7 +10,7 @@ class Room {
 
 public:
     Room(){}
-    enum RoomStatus {WaittingToOtherPlayer, TwoPlayersConnected, Running, Stoped};
+    enum RoomStatus {WaittingToOtherPlayer, TwoPlayersConnected, Running, Stopped};
 
     const string &getRoomName() const;
 

@@ -4,7 +4,7 @@
 
 #include <unistd.h>
 #include "PlayCommand.h"
-void PlayCommand:: execute(vector<string> args,vector<Room> &rooms){
+int PlayCommand:: execute(vector<string> args,vector<Room> &rooms){
     int x,y;
     istringstream(args.at(1)) >> x;
     istringstream(args.at(2)) >> y;
@@ -17,30 +17,31 @@ void PlayCommand:: execute(vector<string> args,vector<Room> &rooms){
             int n = write(rooms.at(i).getSecondClientSocket(), &x, sizeof(x));
             if (n == -1) {
                 cout << "Error writing to socket" << endl;
-                return;
+                return ERROR;
             }
             n = write(rooms.at(i).getSecondClientSocket(), &y, sizeof(y));
             if (n == -1) {
                 cout << "Error writing to socket" << endl;
-                return;
+                return ERROR;
             }
             break;
         } else if ((rooms.at(i).getSecondClientSocket())==clientSocket) {
             int n = write(rooms.at(i).getFirstClientSocket(), &x, sizeof(x));
             if (n == -1) {
                 cout << "Error writing to socket" << endl;
-                return;
+                return ERROR;
             }
             n = write(rooms.at(i).getFirstClientSocket(), &y, sizeof(y));
             if (n == -1) {
                 cout << "Error writing to socket" << endl;
-                return;
+                return ERROR;
             }
             break;
         }
     }
 
     pthread_mutex_unlock(&count_mutex);
+    return VALID;
 }
 
 

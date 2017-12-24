@@ -14,9 +14,9 @@ CommandsManager::CommandsManager(int clientSocket): clientSocket(clientSocket) {
 
 }
 CommandsManager::CommandsManager(){}
-void CommandsManager::executeCommand(string command, vector<string> args,vector<Room> &rooms) {
+int CommandsManager::executeCommand(string command, vector<string> args,vector<Room> &rooms) {
    Command *commandObj = commandsMap[command];
-   commandObj->execute(args,rooms);
+    return commandObj->execute(args,rooms);
 }
 
 CommandsManager::~CommandsManager() {

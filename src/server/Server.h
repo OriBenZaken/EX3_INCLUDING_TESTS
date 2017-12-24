@@ -19,6 +19,10 @@
 #define WAITING 0
 #define KEEP_PLAYING -4
 #define MSG_SIZE 100
+#define ERROR -1
+#define VALID 1
+
+#define EXIT -1000
 using namespace std;
 
 //server class. manage interaction between two players.
@@ -29,46 +33,58 @@ public:
      * @param port number
      */
     Server(int port);
+
     /**
      * start function.
      * starts the server.
      */
     void start();
+
     /**
      * stop function.
      * stops the server.
      */
     void stop();
+
     /**
      * getPortFromFile function.
      * @param serverSettingsFileName - file name.
      * @return int
      */
-     static int getPortFromFile(string serverSettingsFileName);
+    static int getPortFromFile(string serverSettingsFileName);
+
     vector<string> splitCommand(string command);
+    void * preGameRequests(void * args) ;
+
+
+        typedef struct ThreadArgs {
+        int clientSocket1;
+        int clientSocket2;
+        Server* server;
+    } ThreadArgs;
+
 
 private:
+
+    void *handleClient(void* clients1);
+
     /**
-     * handleClient function.
-     * interacts run function of remoteGame
-     * @param clientSocket1 - first client socket
-     * @param clientSocket2 - second client socket
+     * getClientSocket function.
+     * @return client socket number.
      */
-    void handleClient(int clientSocket1, int clientSocket2);
-   /**
-    * getClientSocket function.
-    * @return client socket number.
-    */
     int getClientSocket();
+
     /**
      * swapClients function.
      * @param current - current client socket
      * @param opponent - opponent client socket
      */
-    void swapClients(int * current, int* opponent,
-                     CommandsManager* commandsManagerCurrentClient, CommandsManager* commandsManagerOtherClient);
+    void swapClients(int *current, int *opponent,
+                     CommandsManager *commandsManagerCurrentClient, CommandsManager *commandsManagerOtherClient);
+
     void acceptClient();
-    string readCommandFromClient(int clientSocket);
+
+    static string readCommandFromClient(int clientSocket);
 
 
     //members
@@ -77,7 +93,23 @@ private:
     int numberOfConnectedClients;
     vector<Room> rooms;
     vector<pthread_t> threads;
-};
+    //index of thread
+    int threadNum;
+    pthread_mutex_t count_mutex;
+public:
+    int getPort() const;
 
+    int getServerSocket() const;
+
+    int getNumberOfConnectedClients() const;
+
+    vector<Room> &getRooms();
+
+    vector<pthread_t> &getThreads();
+
+    int getThreadNum() const;
+
+    pthread_mutex_t &getCount_mutex();
+};
 
 #endif //SERVERREVERSI_SERVER_H

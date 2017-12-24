@@ -4,7 +4,7 @@
 
 #include <unistd.h>
 #include "ListGamesCommand.h"
-void ListGamesCommand:: execute(vector<string> args,vector<Room> &rooms){
+int ListGamesCommand:: execute(vector<string> args,vector<Room> &rooms){
     string roomNames= "";
     //todo: add mutex
     pthread_mutex_t count_mutex;
@@ -24,7 +24,7 @@ void ListGamesCommand:: execute(vector<string> args,vector<Room> &rooms){
     int n = write(clientSocket, &len, sizeof(len));
     if (n == -1) {
         cout << "Error writing to socket" << endl;
-        return;
+        return ERROR;
     }
     //write the string to client
     char msg[len];
@@ -32,9 +32,9 @@ void ListGamesCommand:: execute(vector<string> args,vector<Room> &rooms){
     n = write((*this).clientSocket, msg,len);
     if (n == -1) {
         cout << "Error writing to socket" << endl;
-        return;
+        return ERROR;
     }
-
+    return VALID;
 
 
 }

@@ -13,7 +13,7 @@ public:
     CommandsManager(int clientSocket);
     CommandsManager();
     ~CommandsManager();
-    void executeCommand(string command, vector<string> args,vector<Room> &rooms);
+    int executeCommand(string command, vector<string> args,vector<Room> &rooms);
 private:
     map<string, Command *> commandsMap;
     int clientSocket;
