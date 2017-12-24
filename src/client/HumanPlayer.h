@@ -2,6 +2,7 @@
 #ifndef EX2_HUMANPLAYER_H
 #define EX2_HUMANPLAYER_H
 #include "Player.h"
+#include "Printer.h"
 #include <sstream>
 #include <stdexcept>
 /**
@@ -17,7 +18,7 @@ public:
      * HumanPlayer ctor.
      * @param type Board::Cell (White/Black)
      */
-    HumanPlayer(Board::Cell type) : Player(type) {}
+    HumanPlayer(Board::Cell type, Printer* printer) : Player(type), printer(printer) {}
     /**
      * display to the human player all his possible moves and gets an input of a wished move.
      * @param options vector of possible moves.
@@ -37,5 +38,6 @@ private:
      * @return true - a possible move, else- false.
      */
     bool isValidMove(vector< pair<int,int> > options, int row, int col);
+    Printer* printer;
 };
 #endif //EX2_HUMANPLAYER_H

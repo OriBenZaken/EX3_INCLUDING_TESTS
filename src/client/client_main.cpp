@@ -2,10 +2,15 @@
 #include "Client.h"
 #include "TwoPlayersOneComputerGame.h"
 #include "RemoteGame.h"
+#include "Printer.h"
+#include "ConsolePrinter.h"
+
 #define SIZE 8
 using namespace std;
 //main function, runs the program
 int main() {
+    Printer* printer = new ConsolePrinter();
+
 
     cout<<"Hello!"<<endl<<"Please choose one of the following options:"<<endl;
     cout<<"1. a human local player."<<endl;
@@ -31,13 +36,13 @@ int main() {
     //create game
     IGame* game;
     if (playersType == IGame::Humans || playersType ==IGame::HumanVSAI) {
-        game = new TwoPlayersOneComputerGame(&b, playersType);
+        game = new TwoPlayersOneComputerGame(&b, playersType, printer);
         game->run();
         delete game;
         return 0;
     }
     try {
-        game = new RemoteGame(&b, "ServerIPAndPort.txt");
+        game = new RemoteGame(&b, "ServerIPAndPort.txt", printer);
         game->run();
 
     } catch (const char *msg) {

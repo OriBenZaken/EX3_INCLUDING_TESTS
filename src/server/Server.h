@@ -8,13 +8,17 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <cstdlib>
+#include <vector>
+#include "Room.h"
+#include "pthread.h"
+#include "CommandsManager.h"
 
 #define NO_MOVES -2
 #define GAME_OVER -3
-#define BLACK_TYPE 1
-#define WHITE_TYPE 2
+
 #define WAITING 0
 #define KEEP_PLAYING -4
+#define MSG_SIZE 100
 using namespace std;
 
 //server class. manage interaction between two players.
@@ -41,7 +45,9 @@ public:
      * @return int
      */
      static int getPortFromFile(string serverSettingsFileName);
-        private:
+    vector<string> splitCommand(string command);
+
+private:
     /**
      * handleClient function.
      * interacts run function of remoteGame
@@ -59,11 +65,18 @@ public:
      * @param current - current client socket
      * @param opponent - opponent client socket
      */
-    void swapClients(int * current, int* opponent);
+    void swapClients(int * current, int* opponent,
+                     CommandsManager* commandsManagerCurrentClient, CommandsManager* commandsManagerOtherClient);
+    void acceptClient();
+    string readCommandFromClient(int clientSocket);
+
+
     //members
     int port;
     int serverSocket; //the socket's file descriptor
     int numberOfConnectedClients;
+    vector<Room> rooms;
+    vector<pthread_t> threads;
 };
 
 

@@ -25,15 +25,16 @@ public:
      * TwoPlayersOneComputerGame ctor.
      * @param board Board (reference)
      */
-    TwoPlayersOneComputerGame(Board* board, IGame::PlayersType playersType) : board(board) {
+    TwoPlayersOneComputerGame(Board* board, IGame::PlayersType playersType, Printer* printer) : board(board),
+                                                                                                printer(printer) {
         gameLogic = new StandartGameLogic(board);
         switch (playersType) {
             case Humans:
-                currPlayer = new HumanPlayer(Board::Black);
-                otherPlayer = new HumanPlayer(Board::White);
+                currPlayer = new HumanPlayer(Board::Black, printer);
+                otherPlayer = new HumanPlayer(Board::White, printer);
                 break;
             case HumanVSAI:
-                currPlayer = new HumanPlayer(Board::Black);
+                currPlayer = new HumanPlayer(Board::Black, printer);
 
                 GameLogic *copyGameLogic = new StandartGameLogic(*gameLogic);
 
@@ -54,6 +55,7 @@ private:
     //members
     GameLogic *gameLogic;
     Board* board;
+    Printer* printer;
     Player* currPlayer;
     Player* otherPlayer;
     Status status;
@@ -61,6 +63,7 @@ private:
      * Swap between current player to other player.
      */
     void switchCurrPlayer();
+    //todo: erase java docs
     /**
      * Checks who is the winning player and prints a suitable message to the console.
      */

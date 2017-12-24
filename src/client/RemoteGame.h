@@ -9,6 +9,8 @@
 #include "Client.h"
 #include "StandartGameLogic.h"
 #include "RemotePlayer.h"
+#include "Printer.h"
+
 #define NO_MOVES -2
 #define GAME_OVER -3
 #define WAITING 0
@@ -25,10 +27,10 @@ public:
      * @param board - game's board
      * @param serverSettingsFileName - settings file name
      */
-    RemoteGame(Board *board, string serverSettingsFileName) : board(board) {
+    RemoteGame(Board *board, string serverSettingsFileName, Printer* printer) : board(board), printer(printer) {
         client = getServerSettingsFromFile(serverSettingsFileName);
         gameLogic = new StandartGameLogic(board);
-        currPlayer = new RemotePlayer(client);
+        currPlayer = new RemotePlayer(client, printer);
         client->connectToServer();
         int typeNum = client->getType();
         cout << "Connected to server." << endl;
@@ -64,7 +66,7 @@ private:
      * sets opponent type
      */
     void setOpponentType();
-
+    //todo: erase java docs
     /**
      * Swap between current player to other player.
      */
@@ -99,7 +101,9 @@ private:
      */
     Client *getServerSettingsFromFile(string fileName);
     //members
+    string name;
     GameLogic *gameLogic;
+    Printer *printer;
     Board *board;
     Player *currPlayer;
     Board::Cell opponentType;

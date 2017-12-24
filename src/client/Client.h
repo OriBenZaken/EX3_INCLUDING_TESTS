@@ -9,6 +9,8 @@
 #include <netdb.h>
 #include <string.h>
 #include <unistd.h>
+#include <vector>
+#define MSG_BUFFER_SIZE 50
 
 using namespace std;
 
@@ -51,6 +53,13 @@ public:
      * @return type of player
      */
     int getType();
+
+    //
+    bool sendStartNewGameRequest(string name);
+    vector<string> getGamesList();
+    vector<string> getGameListFromString(char* buff);
+    bool sendJoinToGameRequest(string name);
+    void sendCloseGameRequest(string name);
     ~Client();
 private:
     //members

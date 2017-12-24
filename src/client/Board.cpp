@@ -51,43 +51,6 @@ void Board::initialize() {
     this->board[startPos + 1][startPos + 1] = White;
 }
 
-void Board::print() const {
-    cout << " |";
-    for (int i = 0 ; i <  size; i++) {
-        if (i < 9) {
-            cout << " ";
-        }
-        cout << i + 1 << " |";
-    }
-    cout << endl;
-    for (int i = 0 ; i <  2 + 4 * size ; i++) {
-        cout << "-";
-    }
-    for (int i = 0 ; i <  size ; i++) {
-        cout << endl << i + 1 << "|";
-        for (int j = 0; j < size; j++) {
-            cout << " ";
-            switch(board[i][j]) {
-                case Empty:
-                    cout << " ";
-                    break;
-                case White:
-                    cout << "O";
-                    break;
-                case Black:
-                    cout << "X";
-                    break;
-            }
-            cout << " |";
-        }
-        cout << endl;
-        for (int k = 0 ; k <  2 + 4 * size ; k++) {
-            cout << "-";
-        }
-    }
-    cout << endl;
-}
-
 Board::Cell Board::getCell(int row, int col) const {
     return this->board[row][col];
 }

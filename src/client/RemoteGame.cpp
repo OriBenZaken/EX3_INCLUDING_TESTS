@@ -16,17 +16,17 @@ void RemoteGame::setOpponentType() {
 
 void RemoteGame::run() {
     (*this).turn = BLACK_TYPE;
-    cout << "Current board:" << endl;
-    this ->board->print();
+    this->printer->printCurrentBoard();
+    this->printer->printBoard(this->board);
     while (this->status != GameOver) {
         // My turn
         if(priority==turn) {
-             announceWhoPlayNow();
+             this->printer->announceWhoPlayNow(this->currPlayer);
             vector< pair<int, int> > moves = gameLogic->possibleMoves(currPlayer->getType(), (*this).opponentType);
             if (moves.empty()) {
                 // No possible moves for both players. TwoPlayersOneComputerGame Over
                 if (this->status == NoPossibleMoves) {
-                    cout << "No Possible for both players." << endl;
+                    this->printer->noPossibleMovesForBothPlayers();
                     this->status = GameOver;
                     (*this).client->sendMoveToServer(GAME_OVER,GAME_OVER);
                     break;
@@ -34,10 +34,7 @@ void RemoteGame::run() {
                     //inform server this player hasn't moves
                     (*this).client->sendMoveToServer(NO_MOVES,NO_MOVES);
                 }
-                cout << "No possible moves. Play passes back to the other player. ";
-                cout << "Press any key to continue." << endl;
-                string keyToContinue;
-                getline(cin, keyToContinue);
+                this->printer->noPossibleMovesForCurrentPlayer();
                 switchTurn();
                 this->status = NoPossibleMoves;
                 continue;
@@ -48,13 +45,13 @@ void RemoteGame::run() {
                                                                  opponentType);
                 this->gameLogic->makeMove(chosenMove.first, chosenMove.second, currPlayer->getType(),
                                           opponentType);
-                cout << "Current board:" << endl;
-                this ->board->print();
+                this->printer->printCurrentBoard();
+                this->printer->printBoard(this->board);
             }
             // Opponent turn
         } else {
             //the waiting player side
-            cout <<"Waiting to other player's move..."<<endl;
+            this->printer->waitForOtherPlayerMove();
             int otherPlayerGameStatus = this->client->getOtherPlayerGameStatusFromServer();
             if (otherPlayerGameStatus == GAME_OVER) {
                 this->status = GameOver;
@@ -64,9 +61,9 @@ void RemoteGame::run() {
             if (chosenMove.first !=NO_MOVES && chosenMove.second !=NO_MOVES) {
                 this->gameLogic->makeMove(chosenMove.first, chosenMove.second,
                                           opponentType,currPlayer->getType());
-                announceWhoMadeAMove(chosenMove.first,chosenMove.second);
-                cout << "Current board:" << endl;
-                this ->board->print();
+                this->printer->announceWhoMadeAMove(chosenMove.first, chosenMove.second, opponentType);
+                this->printer->printCurrentBoard();
+                this->printer->printBoard(board);
                 this->status = Playing;
             } else {
                 (*this).status = NoPossibleMoves;
@@ -91,7 +88,7 @@ void RemoteGame::run() {
 
     }
 
-    announceWinner();
+    this->printer->announceWinner(this->board, myType);
 }
 
 void RemoteGame:: switchTurn() {
@@ -100,47 +97,6 @@ void RemoteGame:: switchTurn() {
         (*this).turn = WHITE_TYPE;
     } else {
         (*this).turn = BLACK_TYPE;
-    }
-}
-
-void RemoteGame::announceWinner() {
-    int numOfWhites = 0;
-    int numOfBlacks = 0;
-    int size = this->board->getSize();
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            if (this->board->getCell(i, j) == Board::Black) {
-                numOfBlacks++;
-            } else if (this->board->getCell(i, j) == Board::White) {
-                numOfWhites++;
-            }
-        }
-    }
-    if (numOfBlacks > numOfWhites) {
-        if (myType == Board::Black) {
-            cout << "Congratulations X! You Won!." << endl;
-        } else {
-            cout << "O you're such a LOSER!." << endl;
-
-        }
-    } else if (numOfWhites > numOfBlacks) {
-        if (myType == Board::White) {
-            cout << "Congratulations O! You Won!." << endl;
-        } else {
-            cout << "X you're such a LOSER!." << endl;
-        }
-    } else {
-        cout << "It's a tie." << endl;
-    }
-}
-
-
-void RemoteGame::announceWhoPlayNow() {
-    if (this->currPlayer->getType() == Board::Black) {
-        cout << "X: It's your move." << endl;
-
-    } else {
-        cout << "O: It's your move." << endl;
     }
 }
 
@@ -175,12 +131,5 @@ RemoteGame::~RemoteGame() {
     delete this->client;
     delete this->gameLogic;
     delete this->currPlayer;
-}
-
-void RemoteGame::announceWhoMadeAMove(int row, int col) {
-    if (opponentType ==  Board::Black) {
-        cout << "X played (" << row + 1 << "," << col + 1 << ")" << endl;
-    } else {
-        cout << "O played (" << row + 1 << "," << col + 1 << ")" << endl;
-    }
+    delete printer;
 }

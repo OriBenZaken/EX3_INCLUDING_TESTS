@@ -13,12 +13,12 @@ public:
    * RemotePlayer c'tor
    * @param type Board::Cell (Black/White)
    */
-    RemotePlayer(Board::Cell type) : Player(type), humanPlayer(type) {}
+    RemotePlayer(Board::Cell type, Printer* printer) : Player(type), humanPlayer(type, printer) {}
     /**
      * RemotePlayer ctor.
      * @param type Board::Cell (White/Black)
      */
-    RemotePlayer(Client* client) : humanPlayer(type) {
+    RemotePlayer(Client* client, Printer* printer) : humanPlayer(type, printer) {
         (*this).client =client;
     }
     /**

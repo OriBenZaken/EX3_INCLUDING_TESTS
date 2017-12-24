@@ -99,6 +99,98 @@ void Client::sendGameStatusToServer(int gameStatus) {
     }
 }
 
+bool Client::sendStartNewGameRequest(string name) {
+    string str = "start <";
+    str.append(name);
+    str.append(">");
+    char msg[MSG_BUFFER_SIZE] = "";
+    str.copy(msg, str.length());
+    int n = write(clientSocket, msg, sizeof(msg));
+    if (n == -1) {
+        throw "Error writing start request to socket";
+    }
+    int res;
+    n = read(clientSocket, &res, sizeof(res));
+    if (n == -1) {
+        throw "Error reading respond start request from socket";
+    }
+    if (res == 1) {
+        return true;
+    }
+    return false;
+}
+
+vector<string> Client::getGamesList() {
+    char msg[] = "list_games";
+    int n = write(clientSocket, msg, sizeof(msg));
+    if (n == -1) {
+        throw "Error writing list_games request to socket";
+    }
+    int buffLength;
+    n = read(clientSocket, &buffLength, sizeof(buffLength));
+    if (n == -1) {
+        throw "Error reading games list length from socket";
+    }
+    char buff[buffLength];
+    n = read(clientSocket, buff, sizeof(buff));
+    if (n == -1) {
+        throw "Error reading games list from socket";
+    }
+    vector<string> GameList = getGameListFromString(buff);
+    return GameList;
+}
+
+vector<string> Client::getGameListFromString(char *buff) {
+    vector<string> gamesList;
+    string str(buff);
+    string name;
+    int commaIndex;
+    while (true) {
+        commaIndex = str.find(",");
+        if (commaIndex == -1) {
+            gamesList.push_back(str);
+            break;
+        }
+        name = str.substr(0, commaIndex);
+        gamesList.push_back(name);
+        str = str.substr(commaIndex + 1, str.length());
+    }
+    return gamesList;
+}
+
+bool Client::sendJoinToGameRequest(string name) {
+    string str = "join <";
+    str.append(name);
+    str.append(">");
+    char msg[MSG_BUFFER_SIZE] = "";
+    str.copy(msg, str.length());
+    int n = write(clientSocket, msg, sizeof(msg));
+    if (n == -1) {
+        throw "Error writing join to game request to socket";
+    }
+    int res;
+    n = read(clientSocket, &res, sizeof(res));
+    if (n == -1) {
+        throw "Error reading join to game respond from socket";
+    }
+    if (res == 1) {
+        return true;
+    }
+    return false;
+}
+
+void Client::sendCloseGameRequest(string name) {
+    string str = "close <";
+    str.append(name);
+    str.append(">");
+    char msg[MSG_BUFFER_SIZE] = "";
+    str.copy(msg, str.length());
+    int n = write(clientSocket, msg, sizeof(msg));
+    if (n == -1) {
+        throw "Error writing close game request to socket";
+    }
+}
+
 Client::~Client() {
     delete[] this->serverIP;
 }

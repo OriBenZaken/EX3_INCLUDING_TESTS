@@ -5,17 +5,11 @@
 
 pair<int, int> HumanPlayer::getInput(vector< pair<int,int> > options, const Board* board,
                         Board::Cell currentCellType, Board::Cell opponentCellType) {
-    int i = 0;
-    cout << "Your possible moves: ";
-    cout << "(" << options[i].first + 1 << "," << options[i].second + 1 << ")";
-    while (i + 1 < options.size()) {
-        i++;
-        cout << ",(" << options[i].first + 1 << "," << options[i].second + 1 << ")";
-    }
+    this->printer->printPossibleMoves(options);
     string move;
     int row = 0, col = 0;
     while (true) {
-        cout << endl << "Please enter your move row,col:" << endl;
+        this->printer->enterYourMove();
         getline(cin,move);
         try {
             unsigned long index = move.find(',');
@@ -25,14 +19,14 @@ pair<int, int> HumanPlayer::getInput(vector< pair<int,int> > options, const Boar
             istringstream(move.substr(0, (int)index)) >> row;
             istringstream(move.substr((int)index + 1 , move.size() - 2)) >> col;
         } catch (...) {
-            cout << "Wrong input format. Should be 'row,col'. Let's try again." << endl;
+            this->printer->illegalMoveInputFormat();
             continue;
         }
         row--, col--;
         if (isValidMove(options, row, col)) {
             break;
         } else {
-            cout << "The move you chose is illegal. Try again." << endl;
+            this->printer->illegalMoveInput();
         }
     }
     return make_pair(row, col);

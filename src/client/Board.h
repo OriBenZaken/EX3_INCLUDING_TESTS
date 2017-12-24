@@ -26,10 +26,6 @@ public:
      */
     void initialize();
     /**
-     * prints the game board to the console.
-     */
-    void print() const;
-    /**
      * returns the value in a given position in the board.
      * @param row Row index
      * @param col Column index
