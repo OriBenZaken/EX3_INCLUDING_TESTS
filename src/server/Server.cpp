@@ -33,13 +33,13 @@ void Server::start() {
     //start listening to incoming connections
     listen(serverSocket, MAX_CONNECTED_CLIENTS);
     //todo: to be exported to other thread
-    Server::ThreadArgs threadArgs;
+    ThreadArgs threadArgs;
     threadArgs.server = this;
-   /* (*this).threads.push_back(threadNum);
+   (*this).threads.push_back(threadNum);
     pthread_create(&(*this).threads.back(), NULL,ServerOperations::acceptClient,(void *)&threadArgs);
-*/
 
-acceptClient();
+
+//acceptClient();
 
     string exit;
     cin >> exit;
@@ -99,6 +99,20 @@ int Server::getPortFromFile(string serverSettingsFileName) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ///my threads:
 
 void* Server::handleClient(int client1, int client2) {
@@ -112,7 +126,7 @@ void* Server::handleClient(int client1, int client2) {
     int gameStatus;
     int currentClientSocket = clientSocket1;
     int otherClientSocket = clientSocket2;
- 
+
 
     while (true) {
         //take move from current player
@@ -239,14 +253,14 @@ void * Server::preGameRequests(int clientSocket) {
         //continue thread of accept
         /*pthread_mutex_t count_mutex;
         pthread_mutex_lock(&count_mutex);*/
-        for (int i = 0; i < (*this).rooms.size(); i++) {
+      /*  for (int i = 0; i < (*this).rooms.size(); i++) {
             if (rooms.at(i).getRoomStatus() == Room::TwoPlayersConnected) {
                 //todo: create handle client of two client sockets
                 (*this).handleClient(rooms.at(i).getFirstClientSocket(),rooms.at(i).getSecondClientSocket());
 
                  rooms.at(i).setRoomStatus(Room::Running);
             }
-        }
+        }*/
        /* pthread_mutex_unlock(&count_mutex);*/
 
 

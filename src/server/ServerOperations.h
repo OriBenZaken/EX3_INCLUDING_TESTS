@@ -14,8 +14,7 @@ class ServerOperations {
 public:
 
     static void* handleClient(void* arguments) ;
-    static void swapClients(int * current, int* opponent,
-                             CommandsManager* commandsManagerCurrentClient, CommandsManager* commandsManagerOtherClient);
+    static void swapClients(int * current, int* opponent);
     static void* acceptClient(void* arguments);
 
     static void * preGameRequests(void * arguments);
