@@ -112,28 +112,83 @@ void* Server::handleClient(int client1, int client2) {
     int gameStatus;
     int currentClientSocket = clientSocket1;
     int otherClientSocket = clientSocket2;
-    CommandsManager commandsManagerCurrentClient(clientSocket1);
-    CommandsManager commandsManagerOtherClient(clientSocket2);
-    while (true) {
+    //commandsManager commandsManagerCurrentClient(clientSocket1);
+    //CommandsManager commandsManagerOtherClient(clientSocket2);
+
+    /*while (true) {
         //take move from current player
         vector<string> splittedCommand = splitCommand(readCommandFromClient(currentClientSocket));
-        commandsManagerCurrentClient.executeCommand(splittedCommand.at(0),splittedCommand,rooms);
         if (splittedCommand.at(0).compare("close")==0) {
             break;
         }
+        commandsManagerCurrentClient.executeCommand(splittedCommand.at(0),splittedCommand,rooms);
         swapClients(&currentClientSocket, &otherClientSocket,
                     &commandsManagerCurrentClient, &commandsManagerOtherClient);
+    }*/
+
+    //int x;
+    //int y;
+    //int gameStatus;
+    //int currentClientSocket = clientSocket1;
+    //int otherClientSocket = clientSocket2;
+    while (true) {
+        int n;
+        vector<string> splittedCommand = splitCommand(readCommandFromClient(currentClientSocket));
+        cout << endl << splittedCommand[0] << endl;
+        if (splittedCommand.at(0).compare("close")==0) {
+            gameStatus = GAME_OVER;
+            n = write(otherClientSocket,&gameStatus,sizeof(gameStatus));
+            // notify other player the game is over
+            if (n ==-1) {
+                cout <<"Error writing to socket" <<endl;
+                break;
+            }
+            break;
+        }
+        gameStatus = KEEP_PLAYING;
+        //take move from current player
+        n = read(currentClientSocket, &x, sizeof(x));
+        if (n==-1) {
+            cout << "Error reading x";
+            break;
+        }
+        n = read(currentClientSocket,&y,sizeof(y));
+        if (n ==-1) {
+            cout <<"Error reading y" <<endl;
+            break;
+        }
+        n = write(otherClientSocket,&gameStatus,sizeof(gameStatus));
+        if (n ==-1) {
+            cout <<"Error writing to socket" <<endl;
+            break;
+        }
+        //inform opponent about selected move
+        n = write(otherClientSocket,&x,sizeof(x));
+        if (n ==-1) {
+            cout <<"Error writing to socket" <<endl;
+            break;
+        }
+        n = write(otherClientSocket,&y,sizeof(y));
+        if (n ==-1) {
+            cout <<"Error writing to socket" <<endl;
+            break;
+        }
+        cout << endl << x << "," << y << endl;
+        splittedCommand = splitCommand(readCommandFromClient(otherClientSocket));
+        //read game status after one move
+        n = read(otherClientSocket,&gameStatus,sizeof(gameStatus));
+        if (splittedCommand.at(0).compare("close")==0) {
+            gameStatus = GAME_OVER;
+            break;
+        }
+        swapClients(&currentClientSocket, &otherClientSocket);
     }
 }
 
-void Server::swapClients(int * current, int* opponent,
-                         CommandsManager* commandsManagerCurrentClient, CommandsManager* commandsManagerOtherClient) {
+void Server::swapClients(int * current, int* opponent) {
     int temp = *current;
     *current = *opponent;
     *opponent = temp;
-    CommandsManager temp1 = *commandsManagerCurrentClient;
-    *commandsManagerCurrentClient = *commandsManagerOtherClient;
-    *commandsManagerOtherClient = temp1;
 }
 
 
@@ -201,7 +256,7 @@ void * Server::preGameRequests(int clientSocket) {
 
 string Server::readCommandFromClient(int clientSocket){
     char commandCharArr[MSG_SIZE];
-    int n = read(clientSocket, &commandCharArr, sizeof(commandCharArr));
+    int n = read(clientSocket, commandCharArr, sizeof(commandCharArr));
     if (n == -1) {
         cout << "Error reading command";
         return "";

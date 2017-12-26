@@ -69,7 +69,6 @@ pair<int,int> Client:: getMoveFromServer() {
         throw "Error reading y from socket";
     }
     return make_pair(x,y);
-
 }
 
 int Client::getOtherPlayerGameStatusFromServer() {
@@ -93,7 +92,7 @@ void Client::sendMoveToServer(int x, int y) {
     if (n == -1) {
         throw "Error writing y to socket";
     }
-
+    cout << x << ", " << y << endl;
 }
 
 void Client::sendGameStatusToServer(int gameStatus) {
@@ -195,6 +194,17 @@ void Client::sendCloseGameRequest(string name) {
     }
 }
 
+void Client::sendKeepPlayingRequest(string name) {
+    string str = "keep_playing <";
+    str.append(name);
+    str.append(">");
+    char msg[MSG_BUFFER_SIZE] = "";
+    str.copy(msg, str.length());
+    int n = write(clientSocket, msg, sizeof(msg));
+    if (n == -1) {
+        throw "Error writing keep_playing request to socket";
+    }
+}
 void Client::sendPlayCommand(int x, int y) {
     string str = "play <";
     stringstream ss;
@@ -212,6 +222,7 @@ void Client::sendPlayCommand(int x, int y) {
     if (n == -1) {
         throw "Error writing play command to socket";
     }
+
 }
 
 void Client::Foo(string &roomName) {
@@ -223,7 +234,7 @@ void Client::Foo(string &roomName) {
         cout << "2. Join to existing game room." << endl;
         getline(cin, choice);
         if (choice == "1") {
-            cout << "Enter roomName for the new room:" << endl;
+            cout << "Enter room name for the new room:" << endl;
             getline(cin, choice);
             if (this->sendStartNewGameRequest(choice)) {
                 cout << "New room '" << choice << "' was created. Waiting for second player to join..." << endl;
@@ -235,7 +246,7 @@ void Client::Foo(string &roomName) {
             }
         } else if (choice == "2") {
             vector<string> rooms = this->getGamesList();
-            cout << "Enter the roomName of room to join between the existing rooms:" << endl;
+            cout << "Enter the name of room to join between the existing rooms:" << endl;
             for (int i = 0; i < rooms.size(); i++) {
                 cout << i + 1 << ". " << rooms[i] << endl;
             }

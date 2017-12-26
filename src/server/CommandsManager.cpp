@@ -15,7 +15,15 @@ CommandsManager::CommandsManager(int clientSocket): clientSocket(clientSocket) {
 }
 CommandsManager::CommandsManager(){}
 int CommandsManager::executeCommand(string command, vector<string> args,vector<Room> &rooms) {
-   Command *commandObj = commandsMap[command];
+    static int i = 0;
+    Command *commandObj = commandsMap[command];
+    if (command == "play") {
+        i++;
+        cout << endl << i << endl;
+        if (i == 3) {
+            return 1;
+        }
+    }
     return commandObj->execute(args,rooms);
 }
 

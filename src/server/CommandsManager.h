@@ -14,9 +14,10 @@ public:
     CommandsManager();
     ~CommandsManager();
     int executeCommand(string command, vector<string> args,vector<Room> &rooms);
+    //todo: move to private again
+    int clientSocket;
 private:
     map<string, Command *> commandsMap;
-    int clientSocket;
 };
 
 

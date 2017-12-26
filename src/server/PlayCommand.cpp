@@ -12,6 +12,7 @@ int PlayCommand:: execute(vector<string> args,vector<Room> &rooms){
   /*  pthread_mutex_t count_mutex;
     pthread_mutex_lock(&count_mutex);*/
 
+
     for (int i = 0; i < rooms.size(); i++) {
         if ((rooms.at(i).getFirstClientSocket())==clientSocket) {
             int n = write(rooms.at(i).getSecondClientSocket(), &x, sizeof(x));

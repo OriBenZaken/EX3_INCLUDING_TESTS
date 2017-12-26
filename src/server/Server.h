@@ -79,8 +79,7 @@ private:
      * @param current - current client socket
      * @param opponent - opponent client socket
      */
-    void swapClients(int *current, int *opponent,
-                     CommandsManager *commandsManagerCurrentClient, CommandsManager *commandsManagerOtherClient);
+    void swapClients(int *current, int *opponent);
 
     void acceptClient();
 

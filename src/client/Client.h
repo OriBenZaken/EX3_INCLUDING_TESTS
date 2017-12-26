@@ -10,7 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <vector>
-#define MSG_BUFFER_SIZE 50
+#define MSG_BUFFER_SIZE 100
 #define GAME_OVER -3
 using namespace std;
 
@@ -60,7 +60,8 @@ public:
     vector<string> getGameListFromString(char* buff);
     bool sendJoinToGameRequest(string name);
     void sendCloseGameRequest(string name);
-    void sendPlayCommand(int x, int y);
+    void sendKeepPlayingRequest(string name);
+        void sendPlayCommand(int x, int y);
     void Foo(string &roomName);
     ~Client();
 private:
