@@ -14,6 +14,7 @@ void* ServerOperations::handleClient(void* arguments) {
     int clientSocket2 = args->clientSocket2;
     Server* server = args->server;
     vector<Room>& rooms = (*server).getRooms();
+    pthread_mutex_t &count_mutex = (*server).getCount_mutex();
 
 
     int x;
@@ -36,7 +37,7 @@ void* ServerOperations::handleClient(void* arguments) {
         if (splittedCommand.at(0).compare("close")==0) {
             break;
         }
-        commandsManager.executeCommand(splittedCommand.at(0),splittedCommand,rooms);
+        commandsManager.executeCommand(splittedCommand.at(0),splittedCommand,rooms,count_mutex);
         swapClients(&currentClientSocket, &otherClientSocket);
     }
 
@@ -125,7 +126,7 @@ void * ServerOperations::preGameRequests(void * arguments) {
         vector<string> splitedCommand = splitCommand(command);
         int result = ERROR;
         if (splitedCommand.size() != 0) {
-            result = commandsManagerPerClient.executeCommand(splitedCommand.at(0), splitedCommand, rooms);
+            result = commandsManagerPerClient.executeCommand(splitedCommand.at(0), splitedCommand, rooms, count_mutex);
         }
 
         //stop running the while loop
@@ -136,7 +137,7 @@ void * ServerOperations::preGameRequests(void * arguments) {
     //todo: create handle client thread after join from here!
    // if (command.compare("join") == 0)
         //continue thread of accept
-       // pthread_mutex_lock(&count_mutex);
+    pthread_mutex_lock(&count_mutex);
     for (int i = 0; i < rooms.size(); i++) {
         if (rooms.at(i).getRoomStatus()==Room::TwoPlayersConnected) {
             //todo: create handle client of two client sockets
@@ -150,7 +151,7 @@ void * ServerOperations::preGameRequests(void * arguments) {
 
         }
     }
-   // pthread_mutex_unlock(&count_mutex);
+   pthread_mutex_unlock(&count_mutex);
 }
 
 

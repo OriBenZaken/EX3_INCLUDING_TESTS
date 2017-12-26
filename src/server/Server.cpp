@@ -48,6 +48,9 @@ void Server::start() {
             int clientSocket = (*this).rooms.at(i).getFirstClientSocket();
           //  int n = write(clientSocket,EXIT, )
             //todo: how to inform all clients ??!
+            close(rooms.at(i).getFirstClientSocket());
+            close(rooms.at(i).getSecondClientSocket());
+
         }
     }
 
@@ -135,7 +138,7 @@ void* Server::handleClient(int client1, int client2) {
         if (splittedCommand.at(0).compare("close")==0) {
             break;
         }
-        commandsManager.executeCommand(splittedCommand.at(0),splittedCommand,rooms);
+        commandsManager.executeCommand(splittedCommand.at(0),splittedCommand,rooms,count_mutex);
         swapClients(&currentClientSocket, &otherClientSocket);
     }
 
@@ -240,7 +243,7 @@ void * Server::preGameRequests(int clientSocket) {
         vector<string> splitedCommand = splitCommand(command);
         int result = ERROR;
         if (splitedCommand.size() != 0) {
-            result = commandsManagerPerClient.executeCommand(splitedCommand.at(0), splitedCommand, (*this).rooms);
+            result = commandsManagerPerClient.executeCommand(splitedCommand.at(0), splitedCommand, (*this).rooms,count_mutex);
         }
 
         //stop running the while loop

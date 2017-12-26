@@ -26,7 +26,7 @@ public:
         Failure
 
     };*/
-    virtual int execute(vector<string> args,vector<Room> &rooms)=0;
+    virtual int execute(vector<string> args,vector<Room> &rooms,pthread_mutex_t &count_mutex)=0;
     virtual ~Command() {}
 protected:
     int clientSocket;

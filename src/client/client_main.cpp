@@ -5,7 +5,7 @@
 #include "Printer.h"
 #include "ConsolePrinter.h"
 
-#define SIZE 8
+#define SIZE 4
 using namespace std;
 //main function, runs the program
 int main() {

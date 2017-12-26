@@ -4,13 +4,13 @@
 
 #include <unistd.h>
 #include "PlayCommand.h"
-int PlayCommand:: execute(vector<string> args,vector<Room> &rooms){
+int PlayCommand:: execute(vector<string> args,vector<Room> &rooms,pthread_mutex_t &count_mutex){
     int x,y;
     istringstream(args.at(1)) >> x;
     istringstream(args.at(2)) >> y;
     //todo: add mutex
-  /*  pthread_mutex_t count_mutex;
-    pthread_mutex_lock(&count_mutex);*/
+  /*  pthread_mutex_t count_mutex;*/
+    pthread_mutex_lock(&count_mutex);
 
 
     for (int i = 0; i < rooms.size(); i++) {
@@ -41,7 +41,7 @@ int PlayCommand:: execute(vector<string> args,vector<Room> &rooms){
         }
     }
 
-  /*  pthread_mutex_unlock(&count_mutex);*/
+   pthread_mutex_unlock(&count_mutex);
     return VALID;
 }
 

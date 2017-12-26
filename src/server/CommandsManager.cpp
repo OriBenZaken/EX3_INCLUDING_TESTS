@@ -14,9 +14,9 @@ CommandsManager::CommandsManager(int clientSocket): clientSocket(clientSocket) {
 
 }
 CommandsManager::CommandsManager(){}
-int CommandsManager::executeCommand(string command, vector<string> args,vector<Room> &rooms) {
+int CommandsManager::executeCommand(string command, vector<string> args,vector<Room> &rooms,pthread_mutex_t &count_mutex) {
     Command *commandObj = commandsMap[command];
-    return commandObj->execute(args,rooms);
+    return commandObj->execute(args,rooms, count_mutex);
 }
 
 CommandsManager::~CommandsManager() {

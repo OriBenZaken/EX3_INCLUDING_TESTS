@@ -4,13 +4,13 @@
 #include <sstream>
 #include <unistd.h>
 
-int JoinCommand:: execute(vector<string> args,vector<Room> &rooms) {
+int JoinCommand:: execute(vector<string> args,vector<Room> &rooms,pthread_mutex_t &count_mutex) {
 
     Room::RoomStatus roomStatus;
     bool isValid = false;
     //todo: add mutex
-  /*  pthread_mutex_t count_mutex;
-    pthread_mutex_lock(&count_mutex);*/
+    /*pthread_mutex_t count_mutex;*/
+    pthread_mutex_lock(&count_mutex);
     int indexOfRoom;
     for (int i = 0; i < rooms.size(); i++) {
         if ((rooms.at(i).getRoomName().compare(args.at(1)) == 0)&&
@@ -26,7 +26,7 @@ int JoinCommand:: execute(vector<string> args,vector<Room> &rooms) {
 
         }
     }
-   /* pthread_mutex_unlock(&count_mutex);*/
+   pthread_mutex_unlock(&count_mutex);
     if (!isValid) {
         int msg= ERROR;
         int n = write(clientSocket, &msg, sizeof(msg));

@@ -13,7 +13,7 @@ public:
     CommandsManager(int clientSocket);
     CommandsManager();
     ~CommandsManager();
-    int executeCommand(string command, vector<string> args,vector<Room> &rooms);
+    int executeCommand(string command, vector<string> args,vector<Room> &rooms,pthread_mutex_t &count_mutex);
     //todo: move to private again
     int clientSocket;
 private:
