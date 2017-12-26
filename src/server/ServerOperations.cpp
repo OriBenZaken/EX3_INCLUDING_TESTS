@@ -14,18 +14,24 @@ void* ServerOperations::handleClient(void* arguments) {
     int clientSocket2 = args->clientSocket2;
     Server* server = args->server;
     vector<Room>& rooms = (*server).getRooms();
-    
+
 
     int x;
     int y;
     int gameStatus;
     int currentClientSocket = clientSocket1;
     int otherClientSocket = clientSocket2;
+    cout<<"current clientsocket "<<clientSocket1<<endl;
+    cout<<"opposite clientsocket "<<clientSocket2<<endl;
+
 
 
     while (true) {
         //take move from current player
-        vector<string> splittedCommand = splitCommand(readCommandFromClient(currentClientSocket));
+        cout<<"handel client is about to call readCommandFromClient: "<<endl;
+        string command = readCommandFromClient(currentClientSocket);
+        cout<<"handel client recieved this command: "<<command<<endl;
+        vector<string> splittedCommand = splitCommand(command);
         CommandsManager commandsManager(currentClientSocket);
         if (splittedCommand.at(0).compare("close")==0) {
             break;
@@ -33,12 +39,12 @@ void* ServerOperations::handleClient(void* arguments) {
         commandsManager.executeCommand(splittedCommand.at(0),splittedCommand,rooms);
         swapClients(&currentClientSocket, &otherClientSocket);
     }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
    /* int x;
     int y;
@@ -134,10 +140,13 @@ void * ServerOperations::preGameRequests(void * arguments) {
     for (int i = 0; i < rooms.size(); i++) {
         if (rooms.at(i).getRoomStatus()==Room::TwoPlayersConnected) {
             //todo: create handle client of two client sockets
-            (*server).getThreads().push_back(0);
-            pthread_create(&(*server).getThreads().back(), NULL, ServerOperations::handleClient, args);
             rooms.at(i).setRoomStatus(Room::Running);
             args->clientSocket2 = rooms.at(i).getSecondClientSocket();
+            args->clientSocket1 =rooms.at(i).getFirstClientSocket();
+            (*server).getThreads().push_back(0);
+            cout <<"we are on function preGameRequests, first client socket "<<args->clientSocket1<<"second client socket "<<args->clientSocket2 <<endl;
+            pthread_create(&(*server).getThreads().back(), NULL, ServerOperations::handleClient, args);
+
 
         }
     }
@@ -148,7 +157,7 @@ void * ServerOperations::preGameRequests(void * arguments) {
 
 
 string ServerOperations::readCommandFromClient(int clientSocket){
-    cout <<"enter readCommandFromClient"<<endl;
+    cout <<"enter readCommandFromClient, want to talk to "<< clientSocket<<endl;
     char commandCharArr[MSG_SIZE];
     int n = read(clientSocket, commandCharArr, sizeof(commandCharArr));
     cout << n << endl;

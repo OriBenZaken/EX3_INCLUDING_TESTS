@@ -18,6 +18,9 @@ int JoinCommand:: execute(vector<string> args,vector<Room> &rooms) {
             isValid = true;
             rooms.at(i).setRoomStatus(Room::TwoPlayersConnected);
             rooms.at(i).setSecondClientSocket((*this).clientSocket);
+            cout<<"execute of join set second client socket to be "<<rooms.at(i).getSecondClientSocket()<<endl;
+            cout<<"execute of join, just to make sure, the first client socket is "<<rooms.at(i).getFirstClientSocket()<<endl;
+
             indexOfRoom = i;
             break;
 
