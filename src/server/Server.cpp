@@ -112,37 +112,38 @@ void* Server::handleClient(int client1, int client2) {
     int gameStatus;
     int currentClientSocket = clientSocket1;
     int otherClientSocket = clientSocket2;
-    //commandsManager commandsManagerCurrentClient(clientSocket1);
-    //CommandsManager commandsManagerOtherClient(clientSocket2);
+ 
 
-    /*while (true) {
+    while (true) {
         //take move from current player
         vector<string> splittedCommand = splitCommand(readCommandFromClient(currentClientSocket));
+        CommandsManager commandsManager(currentClientSocket);
         if (splittedCommand.at(0).compare("close")==0) {
             break;
         }
-        commandsManagerCurrentClient.executeCommand(splittedCommand.at(0),splittedCommand,rooms);
-        swapClients(&currentClientSocket, &otherClientSocket,
-                    &commandsManagerCurrentClient, &commandsManagerOtherClient);
-    }*/
+        commandsManager.executeCommand(splittedCommand.at(0),splittedCommand,rooms);
+        swapClients(&currentClientSocket, &otherClientSocket);
+    }
 
     //int x;
     //int y;
     //int gameStatus;
     //int currentClientSocket = clientSocket1;
     //int otherClientSocket = clientSocket2;
-    while (true) {
+  /*  while (true) {
         int n;
         vector<string> splittedCommand = splitCommand(readCommandFromClient(currentClientSocket));
         cout << endl << splittedCommand[0] << endl;
         if (splittedCommand.at(0).compare("close")==0) {
-            gameStatus = GAME_OVER;
+            CommandsManager commandsManager(currentClientSocket);
+            commandsManager.executeCommand(splittedCommand.at(0),splittedCommand,rooms);
+            *//*gameStatus = GAME_OVER;
             n = write(otherClientSocket,&gameStatus,sizeof(gameStatus));
             // notify other player the game is over
             if (n ==-1) {
                 cout <<"Error writing to socket" <<endl;
                 break;
-            }
+            }*//*
             break;
         }
         gameStatus = KEEP_PLAYING;
@@ -182,7 +183,7 @@ void* Server::handleClient(int client1, int client2) {
             break;
         }
         swapClients(&currentClientSocket, &otherClientSocket);
-    }
+    }*/
 }
 
 void Server::swapClients(int * current, int* opponent) {

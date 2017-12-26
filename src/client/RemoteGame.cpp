@@ -29,14 +29,14 @@ void RemoteGame::run() {
                 if (this->status == NoPossibleMoves) {
                     this->printer->noPossibleMovesForBothPlayers();
                     this->status = GameOver;
-                    //(*this).client->sendMoveToServer(GAME_OVER,GAME_OVER);
+                    //(*this).client->sendMoveToServer(GAME_OVER,GAME_OVER)
+                    this->client->sendPlayCommand(NO_MOVES, NO_MOVES);
                     this->client->sendCloseGameRequest(this->roomName);
                     break;
                 } else {
                     //inform server this player hasn't moves
-                    this->client->sendKeepPlayingRequest(this->roomName);
-                    (*this).client->sendMoveToServer(NO_MOVES,NO_MOVES);
-                    cout << "fuck" << endl;
+                    //(*this).client->sendMoveToServer(NO_MOVES,NO_MOVES);
+                    this->client->sendPlayCommand(NO_MOVES, NO_MOVES);
                 }
                 this->printer->noPossibleMovesForCurrentPlayer();
                 switchTurn();
@@ -44,7 +44,6 @@ void RemoteGame::run() {
                 continue;
             } else {
                 this->status = Playing;
-                this->client->sendKeepPlayingRequest(this->roomName);
                 //take chosen move from player and inform server about the selection
                 pair<int, int> chosenMove = currPlayer->getInput(moves, this->board, currPlayer->getType(),
                                                                  opponentType);
@@ -57,45 +56,50 @@ void RemoteGame::run() {
         } else {
             //the waiting player side
             this->printer->waitForOtherPlayerMove();
-            int otherPlayerGameStatus = this->client->getOtherPlayerGameStatusFromServer();
-            if (otherPlayerGameStatus == GAME_OVER) {
+            /* int otherPlayerGameStatus = this->client->getOtherPlayerGameStatusFromServer();
+             if (otherPlayerGameStatus == GAME_OVER) {
+                 this->status = GameOver;
+                 break;
+             }*/
+            pair<int, int> chosenMove = (*this).client->getMoveFromServer();
+            if (chosenMove.first == GAME_OVER) {
                 this->status = GameOver;
                 break;
             }
-            pair<int, int> chosenMove = (*this).client->getMoveFromServer();
             if (chosenMove.first !=NO_MOVES && chosenMove.second !=NO_MOVES) {
                 this->gameLogic->makeMove(chosenMove.first, chosenMove.second,
                                           opponentType,currPlayer->getType());
-                this->printer->announceWhoMadeAMove(chosenMove.first, chosenMove.second, this->opponentType);
+                this->printer->announceWhoMadeAMove(chosenMove.first, chosenMove.second, opponentType);
                 this->printer->printCurrentBoard();
                 this->printer->printBoard(board);
                 this->status = Playing;
             } else {
                 (*this).status = NoPossibleMoves;
-                cout << "WOW" << endl;
+
             }
         }
         //reach this point anyway
         if (this->board->getNumOfEmptyCells() == 0) {
             this->status = GameOver;
+            (*this).client->sendCloseGameRequest((*this).roomName);
         }
         switchTurn();
         //my turn
-        if (this->turn == priority) {
+        /*if (this->turn == priority) {
             if (this->status == GameOver) {
                 // let know the server that the game is over
-                //this->client->sendGameStatusToServer(GAME_OVER);
-                this->client->sendCloseGameRequest(this->roomName);
+                this->client->sendGameStatusToServer(GAME_OVER);
             } else {
                 // let know the server that the game continues
-                //this->client->sendGameStatusToServer(KEEP_PLAYING);
-                this->client->sendKeepPlayingRequest(this->roomName);
+                this->client->sendGameStatusToServer(KEEP_PLAYING);
             }
-        }
+        }*/
 
     }
-    this->printer->announceWinner(this->board, this->myType);
+
+    this->printer->announceWinner(this->board, myType);
 }
+
 
 void RemoteGame:: switchTurn() {
 
