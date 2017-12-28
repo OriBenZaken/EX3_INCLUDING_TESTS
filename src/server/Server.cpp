@@ -23,7 +23,6 @@ void Server::start() {
     }
     //start listening to incoming connections
     listen(serverSocket, MAX_CONNECTED_CLIENTS);
-    //todo: to be exported to other thread
     ThreadArgs threadArgs;
     RoomsCollection *roomsCollection = new RoomsCollection();
     threadArgs.roomsCollection = roomsCollection;
@@ -34,6 +33,7 @@ void Server::start() {
     cin >> exit;
     if (exit.compare("exit") == 0) {
         pthread_cancel(threads[0]);
+        delete threads[0];
         for (int i = 0; i < roomsCollection->getRooms().size(); i++) {
             close(roomsCollection->getRooms().at(i).getFirstClientSocket());
             close(roomsCollection->getRooms().at(i).getSecondClientSocket());
@@ -41,6 +41,7 @@ void Server::start() {
 
         for (int i = 1; i < (*this).threads.size(); i++) {
             pthread_cancel(threads[i]);
+            delete threads[i];
         }
     }
     this->stop();

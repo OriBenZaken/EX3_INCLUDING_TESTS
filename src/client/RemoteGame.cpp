@@ -53,7 +53,7 @@ void RemoteGame::run() {
         } else {
             //the waiting player side
             this->printer->waitForOtherPlayerMove();
-           
+
             pair<int, int> chosenMove = (*this).client->getMoveFromServer();
             if (chosenMove.first == GAME_OVER) {
                 this->status = GameOver;
