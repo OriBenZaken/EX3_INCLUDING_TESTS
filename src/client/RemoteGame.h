@@ -30,11 +30,18 @@ public:
         client = getServerSettingsFromFile(serverSettingsFileName);
         gameLogic = new StandartGameLogic(board);
         currPlayer = new RemotePlayer(client, printer);
-        client->connectToServer();
         int typeNum;
-        this->printer->connectedToServer();
-        this->client->GetIntoGameRoom(roomName, printer);
-        typeNum = client->getType();
+        try {
+            client->connectToServer();
+            this->printer->connectedToServer();
+            this->client->GetIntoGameRoom(roomName, printer);
+            typeNum = client->getType();
+        } catch (...) {
+            delete gameLogic;
+            delete currPlayer;
+            delete client;
+            throw "Error while connecting to server";
+        }
         if (typeNum == BLACK_TYPE) {
             currPlayer->setType(Board::Black);
             myType = Board::Black;
@@ -66,6 +73,7 @@ private:
      * sets opponent type
      */
     void setOpponentType();
+    //todo: erase irrelevant java docs and add comments
     /**
      * Swap between current player to other player.
      */

@@ -14,6 +14,7 @@ void RemoteGame::setOpponentType() {
     }
 }
 
+//todo: delete unrelevant comments
 void RemoteGame::run() {
     (*this).turn = BLACK_TYPE;
     this->printer->printCurrentBoard();
@@ -28,11 +29,13 @@ void RemoteGame::run() {
                 if (this->status == NoPossibleMoves) {
                     this->printer->noPossibleMovesForBothPlayers();
                     this->status = GameOver;
+                    //(*this).client->sendMoveToServer(GAME_OVER,GAME_OVER)
                     this->client->sendPlayCommand(NO_MOVES, NO_MOVES);
                     this->client->sendCloseGameRequest(this->roomName);
                     break;
                 } else {
                     //inform server this player hasn't moves
+                    //(*this).client->sendMoveToServer(NO_MOVES,NO_MOVES);
                     this->client->sendPlayCommand(NO_MOVES, NO_MOVES);
                 }
                 this->printer->noPossibleMovesForCurrentPlayer();
@@ -53,7 +56,11 @@ void RemoteGame::run() {
         } else {
             //the waiting player side
             this->printer->waitForOtherPlayerMove();
-
+            /* int otherPlayerGameStatus = this->client->getOtherPlayerGameStatusFromServer();
+             if (otherPlayerGameStatus == GAME_OVER) {
+                 this->status = GameOver;
+                 break;
+             }*/
             pair<int, int> chosenMove = (*this).client->getMoveFromServer();
             if (chosenMove.first == GAME_OVER) {
                 this->status = GameOver;
@@ -122,5 +129,4 @@ RemoteGame::~RemoteGame() {
     delete this->client;
     delete this->gameLogic;
     delete this->currPlayer;
-    delete printer;
 }

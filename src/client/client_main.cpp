@@ -34,14 +34,22 @@ int main() {
         game = new TwoPlayersOneComputerGame(&b, playersType, printer);
         game->run();
         delete game;
+        delete printer;
         return 0;
     }
     try {
         game = new RemoteGame(&b, "ServerIPAndPort.txt", printer);
+    } catch (const char *msg) {
+        printer->errorConnectingToServerAndExitMsg(msg);
+        delete printer;
+        return 0;
+    }
+    try {
         game->run();
     } catch (const char *msg) {
         printer->errorConnectingToServerAndExitMsg(msg);
+        delete game;
     }
-    delete game;
+    delete printer;
     return 0;
 }
