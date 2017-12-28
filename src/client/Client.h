@@ -3,6 +3,7 @@
 #define REVERSITESTS_CLIENT_H
 #include <iostream>
 #include "Board.h"
+#include "Printer.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -48,7 +49,7 @@ public:
     bool sendJoinToGameRequest(string name);
     void sendCloseGameRequest(string name);
     void sendPlayCommand(int x, int y);
-    void GetIntoGameRoom(string &roomName);
+    void GetIntoGameRoom(string &roomName, Printer* printer);
     ~Client();
 private:
     //members

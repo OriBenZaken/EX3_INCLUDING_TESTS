@@ -11,15 +11,11 @@ using namespace std;
 int main() {
     Printer* printer = new ConsolePrinter();
 
-    cout<<"Hello!"<<endl<<"Please choose one of the following options:"<<endl;
-    cout<<"1. a human local player."<<endl;
-    cout<<"2. an AI player."<<endl;
-    cout<<"3. a remote player."<<endl;
     IGame:: PlayersType playersType;
     string input = "";
     //take selected game from player
     do {
-        getline(cin,input);
+        input = printer->mainMenu();
         if (input.compare("1") == 0) {
             playersType = IGame::Humans;
         } else if (input.compare("2") == 0) {
@@ -27,9 +23,9 @@ int main() {
         }else if (input.compare("3") ==0) {
             playersType = IGame::RemoteMode;
         } else {
-            cout<<"Please choose correct option."<<endl;
+            printer->invalidInputMainMenu();
         }
-    }while (input.compare("1") != 0 && input.compare("2") != 0 && input.compare("3") != 0);
+    } while (input.compare("1") != 0 && input.compare("2") != 0 && input.compare("3") != 0);
     Board b(SIZE);
     b.initialize();
     //create game
@@ -43,12 +39,9 @@ int main() {
     try {
         game = new RemoteGame(&b, "ServerIPAndPort.txt", printer);
         game->run();
-
     } catch (const char *msg) {
-        cout << endl << "Failed to connect to server. Reason: " << msg << endl;
-        cout << "Game ended, we're sorry. Have a nice week" << endl;
-        exit(-1);
+        printer->errorConnectingToServerAndExitMsg(msg);
     }
-
     delete game;
+    return 0;
 }

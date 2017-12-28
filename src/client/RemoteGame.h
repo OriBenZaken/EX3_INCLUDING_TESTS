@@ -32,8 +32,8 @@ public:
         currPlayer = new RemotePlayer(client, printer);
         client->connectToServer();
         int typeNum;
-        cout << "Connected to server." << endl;
-        this->client->GetIntoGameRoom(roomName);
+        this->printer->connectedToServer();
+        this->client->GetIntoGameRoom(roomName, printer);
         typeNum = client->getType();
         if (typeNum == BLACK_TYPE) {
             currPlayer->setType(Board::Black);

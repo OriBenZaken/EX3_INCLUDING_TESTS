@@ -25,7 +25,19 @@ public:
     void enterYourMove();
     void illegalMoveInput();
     void illegalMoveInputFormat();
-    void mainMenu();
+    string mainMenu();
+    void invalidInputMainMenu();
+    void errorConnectingToServerAndExitMsg(const char *msg);
+    void remoteGameWelcomeMsg();
+    string remoteGameMainMenu();
+    string enterNameForNewRoom();
+    void newRoomWasCreated(string name);
+    void requestWasRejectedByServer();
+    void noExistingRooms();
+    string printJoinGameRooms(vector<string> rooms);
+    void joinedToRoom(string name);
+    void printGameRooms(vector<string> rooms);
+    void connectedToServer();
     ~ConsolePrinter();
 };
 

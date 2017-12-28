@@ -182,60 +182,46 @@ void Client::sendPlayCommand(int x, int y) {
     }
 }
 
-void Client::GetIntoGameRoom(string &roomName) {
+void Client::GetIntoGameRoom(string &roomName, Printer* printer) {
     string choice;
-    cout << "Welcome to Reversi Online!" << endl;
+    printer->remoteGameWelcomeMsg();
     while (true) {
-        cout << "Please, choose between the following options: (enter number of option)" << endl;
-        cout << "1. Create a new game room." << endl;
-        cout << "2. Join to existing game room." << endl;
-        cout << "3. Show all available game rooms." << endl;
-        getline(cin, choice);
+        choice = printer->remoteGameMainMenu();
         if (choice == "1") {
-            cout << "Enter room name for the new room:" << endl;
-            getline(cin, choice);
+            choice = printer->enterNameForNewRoom();
             if (this->sendStartNewGameRequest(choice)) {
-                cout << "New room '" << choice << "' was created. Waiting for second player to join..." << endl;
+                printer->newRoomWasCreated(choice);
                 roomName.assign(choice);
                 return;
             } else {
-                cout << "Request was rejected by server. Let's try again." << endl;
+                printer->requestWasRejectedByServer();
                 continue;
             }
         } else if (choice == "2") {
             vector<string> rooms = this->getGamesList();
             if (rooms[0] == "") {
-                cout << "No existing rooms." << endl;
+                printer->noExistingRooms();
                 continue;
             }
-            cout << "Enter the name of room to join between the existing rooms:" << endl;
-            for (int i = 0; i < rooms.size(); i++) {
-                cout << i + 1 << ". " << rooms[i] << endl;
-            }
-            getline(cin, choice);
+            choice = printer->printJoinGameRooms(rooms);
             if (this->sendJoinToGameRequest(choice)) {
-                cout << "Joined to room '" << choice << "'." << endl;
+                printer->joinedToRoom(choice);
                 roomName.assign(choice);
                 return;
             } else {
-                cout << "Request was rejected by server. Let's try again." << endl;
+                printer->requestWasRejectedByServer();
                 continue;
             }
         } else if (choice == "3") {
             vector<string> rooms = this->getGamesList();
             if (rooms[0] == "") {
-                cout << "No existing rooms." << endl;
+                printer->noExistingRooms();
                 continue;
             }
-            cout << "Available game rooms:" << endl;
-            for (int i = 0; i < rooms.size(); i++) {
-                cout << i + 1 << ". " << rooms[i] << endl;
-            }
-            cout << endl << "Press any key + enter to go back to the main menu." << endl;
-            getline(cin, choice);
+            printer->printGameRooms(rooms);
             continue;
         } else {
-            cout << "Invalid input. Let's try again." << endl;
+            printer->invalidInputMainMenu();
         }
     }
 }

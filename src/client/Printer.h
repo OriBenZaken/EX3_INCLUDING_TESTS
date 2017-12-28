@@ -23,7 +23,19 @@ public:
     virtual void enterYourMove() = 0;
     virtual void illegalMoveInput() = 0;
     virtual void illegalMoveInputFormat() = 0;
-    virtual void mainMenu() = 0;
+    virtual string mainMenu() = 0;
+    virtual void invalidInputMainMenu() = 0;
+    virtual void errorConnectingToServerAndExitMsg(const char *msg) = 0;
+    virtual void remoteGameWelcomeMsg() = 0;
+    virtual string remoteGameMainMenu() = 0;
+    virtual string enterNameForNewRoom() = 0;
+    virtual void newRoomWasCreated(string name) = 0;
+    virtual void requestWasRejectedByServer() = 0;
+    virtual void noExistingRooms() = 0;
+    virtual string printJoinGameRooms(vector<string> rooms) = 0;
+    virtual void joinedToRoom(string name) = 0;
+    virtual void printGameRooms(vector<string> rooms) = 0;
+    virtual void connectedToServer() = 0;
     virtual ~Printer() {}
 };
 

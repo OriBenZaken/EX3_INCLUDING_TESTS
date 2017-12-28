@@ -84,17 +84,6 @@ void RemoteGame::run() {
             (*this).client->sendCloseGameRequest((*this).roomName);
         }
         switchTurn();
-        //my turn
-        /*if (this->turn == priority) {
-            if (this->status == GameOver) {
-                // let know the server that the game is over
-                this->client->sendGameStatusToServer(GAME_OVER);
-            } else {
-                // let know the server that the game continues
-                this->client->sendGameStatusToServer(KEEP_PLAYING);
-            }
-        }*/
-
     }
 
     this->printer->announceWinner(this->board, myType);
@@ -132,8 +121,7 @@ Client* RemoteGame::getServerSettingsFromFile(string fileName) {
         writable[IPString.size()] = '\0';
         return new Client(writable, port);
     } catch (char* ex) {
-        cout<<"error while reading settings file";
-        exit(-1);
+        throw "Something is wrong with the server settings file";
     }
 }
 

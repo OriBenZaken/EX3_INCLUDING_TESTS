@@ -122,8 +122,87 @@ void ConsolePrinter::illegalMoveInputFormat() {
     cout << "Wrong input format. Should be 'row,col'. Let's try again." << endl;
 }
 
-void ConsolePrinter::mainMenu() {
-
+string ConsolePrinter::mainMenu() {
+    cout<<"Hello!"<<endl<<"Please choose one of the following options:"<<endl;
+    cout<<"1. a human local player."<<endl;
+    cout<<"2. an AI player."<<endl;
+    cout<<"3. a remote player."<<endl;
+    IGame:: PlayersType playersType;
+    string input = "";
+    getline(cin,input);
+    return input;
 }
+
+void ConsolePrinter::invalidInputMainMenu() {
+    cout << "Please choose correct option." << endl;
+}
+
+void ConsolePrinter::errorConnectingToServerAndExitMsg(const char *msg) {
+    cout << endl << "Failed to connect to server. Reason: " << msg << endl;
+    cout << "Game ended, we're sorry. Have a nice week" << endl;
+}
+
+void ConsolePrinter::remoteGameWelcomeMsg() {
+    cout << "Welcome to Reversi Online!" << endl;
+}
+
+string ConsolePrinter::remoteGameMainMenu() {
+    string choice;
+    cout << "Please, choose between the following options: (enter number of option)" << endl;
+    cout << "1. Create a new game room." << endl;
+    cout << "2. Join to existing game room." << endl;
+    cout << "3. Show all available game rooms." << endl;
+    getline(cin, choice);
+    return choice;
+}
+
+string ConsolePrinter::enterNameForNewRoom() {
+    string choice;
+    cout << "Enter room name for the new room:" << endl;
+    getline(cin, choice);
+    return choice;
+}
+
+void ConsolePrinter::newRoomWasCreated(string name) {
+    cout << "New room '" << name << "' was created. Waiting for second player to join..." << endl;
+}
+
+void ConsolePrinter::requestWasRejectedByServer() {
+    cout << "Request was rejected by server. Let's try again." << endl;
+}
+
+void ConsolePrinter::noExistingRooms() {
+    cout << "No existing rooms." << endl;
+}
+
+string ConsolePrinter::printJoinGameRooms(vector<string> rooms) {
+    string choice;
+    cout << "Enter the name of room to join between the existing rooms:" << endl;
+    for (int i = 0; i < rooms.size(); i++) {
+        cout << i + 1 << ". " << rooms[i] << endl;
+    }
+    getline(cin, choice);
+    return choice;
+}
+
+void ConsolePrinter::joinedToRoom(string name) {
+    cout << "Joined to room '" << name << "'." << endl;
+}
+
+void ConsolePrinter::printGameRooms(vector<string> rooms) {
+    string choice;
+    cout << "Available game rooms:" << endl;
+    for (int i = 0; i < rooms.size(); i++) {
+        cout << i + 1 << ". " << rooms[i] << endl;
+    }
+    cout << endl << "Press any key + enter to go back to the main menu." << endl;
+    getline(cin, choice);
+}
+
+void ConsolePrinter::connectedToServer() {
+    cout << "Connected to server." << endl;
+}
+
+
 ConsolePrinter::~ConsolePrinter() {
 }
