@@ -417,7 +417,7 @@ class Foo {
   virtual void DoThat(const char* s, int* p) = 0;
 };
 
-class FakeFoo : public Foo {
+class FakeFoo : public GetIntoGameRoom {
  public:
   virtual char DoThis(int n) {
     return (n > 0) ? '+' :

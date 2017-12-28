@@ -12,6 +12,7 @@
 #include <vector>
 #define MSG_BUFFER_SIZE 100
 #define GAME_OVER -3
+#define SERVER_DISCONNECTED -4
 using namespace std;
 
 class Client {
@@ -32,26 +33,12 @@ public:
      * @param x - x selected move of remote player
      * @param y - y selected move of remote player
      */
-    void sendMoveToServer(int x, int y);
-    /**
-     * getMoveFromServer function.
-     * @return pair of opponent move
-     */
     pair<int,int> getMoveFromServer();
     /**
      * getOtherPlayerGameStatusFromServer function.
      * @return game status after opponent move from server.
      */
-    int getOtherPlayerGameStatusFromServer();
-    /**
-     * sendGameStatusToServer function.
-     * @param gameStatus - send current game status from server.
-     */
-    void sendGameStatusToServer(int gameStatus);
-    /**
-     * getType function.
-     * @return type of player
-     */
+
     int getType();
 
     //
@@ -60,9 +47,8 @@ public:
     static vector<string> getGameListFromString(char* buff);
     bool sendJoinToGameRequest(string name);
     void sendCloseGameRequest(string name);
-    void sendKeepPlayingRequest(string name);
-        void sendPlayCommand(int x, int y);
-    void Foo(string &roomName);
+    void sendPlayCommand(int x, int y);
+    void GetIntoGameRoom(string &roomName);
     ~Client();
 private:
     //members

@@ -7,7 +7,7 @@
  */
 class IGame {
 public:
-    enum Status {Playing, NoPossibleMoves, GameOver};
+    enum Status {Playing, NoPossibleMoves, GameOver, BlackWins, WhiteWins, Tie};
     enum PlayersType {Humans, HumanVSAI, RemoteMode};
     /** Runs a Reversi game until game is over : Win/Lose or a Tie.
      *
@@ -19,5 +19,8 @@ public:
      * virtual default ctor.
      */
     virtual ~IGame()  {}
+    //todo: add javadoc
+    static IGame::Status checkWinner(Board* board);
+
 };
 #endif //EX2_IGAME_H

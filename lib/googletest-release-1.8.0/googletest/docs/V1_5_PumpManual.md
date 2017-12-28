@@ -173,5 +173,5 @@ You can find real-world applications of Pump in [Google Test](http://www.google.
 
 ## Tips ##
 
-  * If a meta variable is followed by a letter or digit, you can separate them using `[[]]`, which inserts an empty string. For example `Foo$j[[]]Helper` generate `Foo1Helper` when `j` is 1.
+  * If a meta variable is followed by a letter or digit, you can separate them using `[[]]`, which inserts an empty string. For example `GetIntoGameRoom$j[[]]Helper` generate `Foo1Helper` when `j` is 1.
   * To avoid extra-long Pump source lines, you can break a line anywhere you want by inserting `[[]]` followed by a new line. Since any new-line character next to `[[` or `]]` is ignored, the generated code won't contain this new line.

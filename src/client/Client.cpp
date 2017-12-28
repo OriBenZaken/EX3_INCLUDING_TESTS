@@ -46,11 +46,10 @@ int Client::getType() {
     int n;
     Board::Cell type;
     n = read(clientSocket, &result, sizeof(result));
-    if (n==-1) {
+    if (n == -1 || n == 0) {
         throw "Error reading result from socket";
     }
     return result;
-
 }
 
 pair<int,int> Client:: getMoveFromServer() {
@@ -58,49 +57,19 @@ pair<int,int> Client:: getMoveFromServer() {
     int x;
     int y;
     n = read(clientSocket, &x, sizeof(x));
-    if (n == -1) {
+    if (n == -1 || n == 0) {
         throw "Error reading x from socket";
     }
     if (x == GAME_OVER) {
         return make_pair(x,x);
     }
     n = read(clientSocket, &y, sizeof(y));
-    if (n == -1) {
+    if (n == -1 || n == 0) {
         throw "Error reading y from socket";
     }
     return make_pair(x,y);
 }
 
-int Client::getOtherPlayerGameStatusFromServer() {
-    int n, otherPlayerGameStatus;
-    n = read(clientSocket, &otherPlayerGameStatus, sizeof(otherPlayerGameStatus));
-    if (n == -1) {
-        throw "Error reading x from socket";
-    }
-    return otherPlayerGameStatus;
-}
-
-
-
-void Client::sendMoveToServer(int x, int y) {
-
-    int n = write(clientSocket, &x, sizeof(x));
-    if (n == -1) {
-        throw "Error writing x to socket";
-    }
-    n = write(clientSocket, &y, sizeof(y));
-    if (n == -1) {
-        throw "Error writing y to socket";
-    }
-    cout << x << ", " << y << endl;
-}
-
-void Client::sendGameStatusToServer(int gameStatus) {
-    int n = write(clientSocket, &gameStatus, sizeof(gameStatus));
-    if (n == -1) {
-        throw "Error writing x to socket";
-    }
-}
 
 bool Client::sendStartNewGameRequest(string name) {
     string str = "start <";
@@ -109,12 +78,12 @@ bool Client::sendStartNewGameRequest(string name) {
     char msg[MSG_BUFFER_SIZE] = "";
     str.copy(msg, str.length());
     int n = write(clientSocket, msg, sizeof(msg));
-    if (n == -1) {
+    if (n == -1 || n == 0) {
         throw "Error writing start request to socket";
     }
     int res;
     n = read(clientSocket, &res, sizeof(res));
-    if (n == -1) {
+    if (n == -1 || n == 0) {
         throw "Error reading respond start request from socket";
     }
     if (res == 1) {
@@ -126,17 +95,17 @@ bool Client::sendStartNewGameRequest(string name) {
 vector<string> Client::getGamesList() {
     char msg[] = "list_games";
     int n = write(clientSocket, msg, sizeof(msg));
-    if (n == -1) {
+    if (n == -1 || n == 0) {
         throw "Error writing list_games request to socket";
     }
     int buffLength;
     n = read(clientSocket, &buffLength, sizeof(buffLength));
-    if (n == -1) {
+    if (n == -1 || n == 0) {
         throw "Error reading games list length from socket";
     }
     char buff[buffLength];
     n = read(clientSocket, buff, sizeof(buff));
-    if (n == -1) {
+    if (n == -1 || n == 0) {
         throw "Error reading games list from socket";
     }
     vector<string> GameList = getGameListFromString(buff);
@@ -168,12 +137,12 @@ bool Client::sendJoinToGameRequest(string name) {
     char msg[MSG_BUFFER_SIZE] = "";
     str.copy(msg, str.length());
     int n = write(clientSocket, msg, sizeof(msg));
-    if (n == -1) {
+    if (n == -1 || n == 0) {
         throw "Error writing join to game request to socket";
     }
     int res;
     n = read(clientSocket, &res, sizeof(res));
-    if (n == -1) {
+    if (n == -1 || n == 0) {
         throw "Error reading join to game respond from socket";
     }
     if (res == 1) {
@@ -194,17 +163,6 @@ void Client::sendCloseGameRequest(string name) {
     }
 }
 
-void Client::sendKeepPlayingRequest(string name) {
-    string str = "keep_playing <";
-    str.append(name);
-    str.append(">");
-    char msg[MSG_BUFFER_SIZE] = "";
-    str.copy(msg, str.length());
-    int n = write(clientSocket, msg, sizeof(msg));
-    if (n == -1) {
-        throw "Error writing keep_playing request to socket";
-    }
-}
 void Client::sendPlayCommand(int x, int y) {
     string str = "play <";
     stringstream ss;
@@ -219,19 +177,19 @@ void Client::sendPlayCommand(int x, int y) {
     char msg[MSG_BUFFER_SIZE] = "";
     str.copy(msg, str.length());
     int n = write(clientSocket, msg, sizeof(msg));
-    if (n == -1) {
+    if (n == -1 || n == 0) {
         throw "Error writing play command to socket";
     }
-
 }
 
-void Client::Foo(string &roomName) {
+void Client::GetIntoGameRoom(string &roomName) {
     string choice;
     cout << "Welcome to Reversi Online!" << endl;
     while (true) {
         cout << "Please, choose between the following options: (enter number of option)" << endl;
         cout << "1. Create a new game room." << endl;
         cout << "2. Join to existing game room." << endl;
+        cout << "3. Show all available game rooms." << endl;
         getline(cin, choice);
         if (choice == "1") {
             cout << "Enter room name for the new room:" << endl;
@@ -246,6 +204,10 @@ void Client::Foo(string &roomName) {
             }
         } else if (choice == "2") {
             vector<string> rooms = this->getGamesList();
+            if (rooms[0] == "") {
+                cout << "No existing rooms." << endl;
+                continue;
+            }
             cout << "Enter the name of room to join between the existing rooms:" << endl;
             for (int i = 0; i < rooms.size(); i++) {
                 cout << i + 1 << ". " << rooms[i] << endl;
@@ -259,6 +221,19 @@ void Client::Foo(string &roomName) {
                 cout << "Request was rejected by server. Let's try again." << endl;
                 continue;
             }
+        } else if (choice == "3") {
+            vector<string> rooms = this->getGamesList();
+            if (rooms[0] == "") {
+                cout << "No existing rooms." << endl;
+                continue;
+            }
+            cout << "Available game rooms:" << endl;
+            for (int i = 0; i < rooms.size(); i++) {
+                cout << i + 1 << ". " << rooms[i] << endl;
+            }
+            cout << endl << "Press any key + enter to go back to the main menu." << endl;
+            getline(cin, choice);
+            continue;
         } else {
             cout << "Invalid input. Let's try again." << endl;
         }

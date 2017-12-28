@@ -198,7 +198,7 @@ need to know its type.  The type depends on the macro used to define
 the action and the parameter types.  The rule is relatively simple:
 | **Given Definition** | **Expression** | **Has Type** |
 |:---------------------|:---------------|:-------------|
-| `ACTION(Foo)`        | `Foo()`        | `FooAction`  |
+| `ACTION(Foo)`        | `GetIntoGameRoom()`        | `FooAction`  |
 | `ACTION_P(Bar, param)` | `Bar(int_value)` | `BarActionP<int>` |
 | `ACTION_P2(Baz, p1, p2)` | `Baz(bool_value, int_value)` | `BazActionP2<bool, int>` |
 | ...                  | ...            | ...          |

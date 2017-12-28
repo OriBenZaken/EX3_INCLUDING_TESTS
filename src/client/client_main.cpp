@@ -45,7 +45,8 @@ int main() {
         game->run();
 
     } catch (const char *msg) {
-        cout << "Failed to connect to server. Reason:" << msg << endl;
+        cout << endl << "Failed to connect to server. Reason: " << msg << endl;
+        cout << "Game ended, we're sorry. Have a nice week" << endl;
         exit(-1);
     }
 

@@ -581,7 +581,7 @@ To write a death test, simply use one of the above macros inside your test
 function. For example,
 
 ```
-TEST(MyDeathTest, Foo) {
+TEST(MyDeathTest, GetIntoGameRoom) {
   // This death test uses a compound statement.
   ASSERT_DEATH({ int n = 5; Foo(&n); }, "Error on line .* of Foo()");
 }

@@ -34,7 +34,7 @@ class Foo {
   virtual int GetTimeOut();
 };
 
-class MockFoo : public Foo {
+class MockFoo : public GetIntoGameRoom {
  public:
   ...
   MOCK_METHOD1(Transform, bool(Gadget* g));

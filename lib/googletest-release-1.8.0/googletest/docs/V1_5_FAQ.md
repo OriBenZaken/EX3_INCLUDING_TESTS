@@ -747,7 +747,7 @@ expression syntax
 Windows, it uses a limited variant of regular expression syntax. For
 more details, see the [regular expression syntax](V1_5_AdvancedGuide.md#Regular_Expression_Syntax).
 
-## I have a fixture class Foo, but TEST\_F(Foo, Bar) gives me error "no matching function for call to Foo::Foo()". Why? ##
+## I have a fixture class Foo, but TEST\_F(Foo, Bar) gives me error "no matching function for call to Foo::GetIntoGameRoom()". Why? ##
 
 Google Test needs to be able to create objects of your test fixture class, so
 it must have a default constructor. Normally the compiler will define one for

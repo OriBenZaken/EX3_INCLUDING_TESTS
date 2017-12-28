@@ -729,7 +729,7 @@ EXPECT_TRUE(Foo::Func(12345));
 You probably should better write:
 ```
 // foo.h
-class Foo {
+class GetIntoGameRoom {
   ...
 };
 

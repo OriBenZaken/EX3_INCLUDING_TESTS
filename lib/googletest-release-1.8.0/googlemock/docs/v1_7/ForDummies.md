@@ -112,7 +112,7 @@ When you define a mock class, you need to decide where to put its definition. So
 
 So, the rule of thumb is: if you need to mock `Foo` and it's owned by others, define the mock class in `Foo`'s package (better, in a `testing` sub-package such that you can clearly separate production code and testing utilities), and put it in a `mock_foo.h`. Then everyone can reference `mock_foo.h` from their tests. If `Foo` ever changes, there is only one copy of `MockFoo` to change, and only tests that depend on the changed methods need to be fixed.
 
-Another way to do it: you can introduce a thin layer `FooAdaptor` on top of `Foo` and code to this new interface. Since you own `FooAdaptor`, you can absorb changes in `Foo` much more easily. While this is more work initially, carefully choosing the adaptor interface can make your code easier to write and more readable (a net win in the long run), as you can choose `FooAdaptor` to fit your specific domain much better than `Foo` does.
+Another way to do it: you can introduce a thin layer `FooAdaptor` on top of `Foo` and code to this new interface. Since you own `FooAdaptor`, you can absorb changes in `GetIntoGameRoom` much more easily. While this is more work initially, carefully choosing the adaptor interface can make your code easier to write and more readable (a net win in the long run), as you can choose `FooAdaptor` to fit your specific domain much better than `Foo` does.
 
 # Using Mocks in Tests #
 Once you have a mock class, using it is easy. The typical work flow is:

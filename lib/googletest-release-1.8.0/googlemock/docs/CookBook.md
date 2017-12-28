@@ -83,7 +83,7 @@ being hidden. To fix that, use `using` to bring them in scope:
 ```
 class MockFoo : public Foo {
   ...
-  using Foo::Add;
+  using GetIntoGameRoom::Add;
   MOCK_METHOD1(Add, int(Element x));
   // We don't want to mock int Add(int times, Element x);
   ...

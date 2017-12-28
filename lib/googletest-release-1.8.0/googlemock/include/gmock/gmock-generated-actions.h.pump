@@ -397,7 +397,7 @@ $for k [[, \
 //   }
 //   ...
 //     int n;
-//     EXPECT_CALL(mock, Foo(_, _))
+//     EXPECT_CALL(mock, GetIntoGameRoom(_, _))
 //         .WillOnce(DuplicateArg<1, unsigned char>(&n));
 //
 // To create an instance of an action template, write:

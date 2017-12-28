@@ -23,6 +23,7 @@ public:
     virtual void enterYourMove() = 0;
     virtual void illegalMoveInput() = 0;
     virtual void illegalMoveInputFormat() = 0;
+    virtual void mainMenu() = 0;
     virtual ~Printer() {}
 };
 

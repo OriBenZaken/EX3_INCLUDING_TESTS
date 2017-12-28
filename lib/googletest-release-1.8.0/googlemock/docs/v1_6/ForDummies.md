@@ -357,7 +357,7 @@ TEST(FooTest, DrawsLineSegment) {
     EXPECT_CALL(turtle, Forward(100));
     EXPECT_CALL(turtle, PenUp());
   }
-  Foo();
+  GetIntoGameRoom();
 }
 ```
 

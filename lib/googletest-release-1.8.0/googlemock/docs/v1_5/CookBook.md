@@ -410,7 +410,7 @@ Some times you have a non-trivial fake implementation of an
 interface. For example:
 
 ```
-class Foo {
+class GetIntoGameRoom {
  public:
   virtual ~Foo() {}
   virtual char DoThis(int n) = 0;

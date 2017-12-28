@@ -397,7 +397,7 @@ When defining a function or functor to be used with `Invoke*()`, you can declare
 ```
   double Distance(Unused, double x, double y) { return sqrt(x*x + y*y); }
   ...
-  EXPECT_CALL(mock, Foo("Hi", _, _)).WillOnce(Invoke(Distance));
+  EXPECT_CALL(mock, GetIntoGameRoom("Hi", _, _)).WillOnce(Invoke(Distance));
 ```
 
 In `InvokeArgument<N>(...)`, if an argument needs to be passed by reference, wrap it inside `ByRef()`. For example,

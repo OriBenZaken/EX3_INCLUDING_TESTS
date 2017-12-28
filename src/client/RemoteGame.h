@@ -13,10 +13,9 @@
 
 #define NO_MOVES -2
 #define GAME_OVER -3
-#define WAITING 0
+#define SERVER_DISCONNECTED -4
 #define BLACK_TYPE 1
 #define WHITE_TYPE 2
-#define KEEP_PLAYING -4
 
 //RemoteGame class
 class RemoteGame : public IGame {
@@ -32,9 +31,9 @@ public:
         gameLogic = new StandartGameLogic(board);
         currPlayer = new RemotePlayer(client, printer);
         client->connectToServer();
-        int typeNum;// = client->getType();
+        int typeNum;
         cout << "Connected to server." << endl;
-        this->client->Foo(roomName);
+        this->client->GetIntoGameRoom(roomName);
         typeNum = client->getType();
         if (typeNum == BLACK_TYPE) {
             currPlayer->setType(Board::Black);
@@ -42,6 +41,9 @@ public:
         } else if (typeNum == WHITE_TYPE) {
             currPlayer->setType(Board::White);
             myType = Board::White;
+        } else {    // myType = 0, server disconnected
+            this->status = IGame::GameOver;
+            return;
         }
         (*this).setOpponentType();
         this->status = IGame::Playing;
@@ -64,7 +66,7 @@ private:
      * sets opponent type
      */
     void setOpponentType();
-    //todo: erase java docs
+    //todo: erase irrelevant java docs and add comments
     /**
      * Swap between current player to other player.
      */

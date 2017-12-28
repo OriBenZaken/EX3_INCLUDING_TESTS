@@ -2082,7 +2082,7 @@ native assertions your testing framework provides, for example:
 
 ```
 void TestFooDoesBar() {
-  Foo foo;
+  GetIntoGameRoom foo;
   EXPECT_LE(foo.Bar(1), 100);     // A Google Test assertion.
   CPPUNIT_ASSERT(foo.IsEmpty());  // A native assertion.
 }

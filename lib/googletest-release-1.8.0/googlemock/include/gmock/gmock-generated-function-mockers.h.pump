@@ -237,7 +237,7 @@ $for i [[
 //   check.Call("1");
 //   Foo(2);
 //   check.Call("2");
-//   Foo(3);
+//   GetIntoGameRoom(3);
 // }
 //
 // The expectation spec says that the first Bar("a") must happen

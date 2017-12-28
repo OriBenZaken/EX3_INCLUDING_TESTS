@@ -442,7 +442,7 @@ TEST_F(FooTest, MethodBarDoesAbc) {
 
 // Tests that Foo does Xyz.
 TEST_F(FooTest, DoesXyz) {
-  // Exercises the Xyz feature of Foo.
+  // Exercises the Xyz feature of GetIntoGameRoom.
 }
 
 }  // namespace

@@ -671,7 +671,7 @@ class Foo {
 class FooTest : public ::testing::Test {
  protected:
   ...
-  T1 get_private_member1(Foo* obj) {
+  T1 get_private_member1(GetIntoGameRoom* obj) {
     return obj->private_member1_;
   }
 };

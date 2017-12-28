@@ -3,6 +3,7 @@
 //
 
 #include "ConsolePrinter.h"
+#include "IGame.h"
 #include <iostream>
 
 void ConsolePrinter::printCurrentBoard() {
@@ -63,26 +64,15 @@ void ConsolePrinter::waitForOtherPlayerMove() {
 }
 
 void ConsolePrinter::announceWinner(Board* board, Board::Cell myType) {
-    int numOfWhites = 0;
-    int numOfBlacks = 0;
-    int size = board->getSize();
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            if (board->getCell(i, j) == Board::Black) {
-                numOfBlacks++;
-            } else if (board->getCell(i, j) == Board::White) {
-                numOfWhites++;
-            }
-        }
-    }
-    if (numOfBlacks > numOfWhites) {
+    IGame::Status winningStatus = IGame::checkWinner(board);
+    if (winningStatus == IGame::BlackWins) {
         if (myType == Board::Black) {
             cout << "Congratulations X! You Won!." << endl;
         } else {
             cout << "O you're such a LOSER!." << endl;
 
         }
-    } else if (numOfWhites > numOfBlacks) {
+    } else if (winningStatus == IGame::WhiteWins) {
         if (myType == Board::White) {
             cout << "Congratulations O! You Won!." << endl;
         } else {
@@ -132,5 +122,8 @@ void ConsolePrinter::illegalMoveInputFormat() {
     cout << "Wrong input format. Should be 'row,col'. Let's try again." << endl;
 }
 
+void ConsolePrinter::mainMenu() {
+
+}
 ConsolePrinter::~ConsolePrinter() {
 }

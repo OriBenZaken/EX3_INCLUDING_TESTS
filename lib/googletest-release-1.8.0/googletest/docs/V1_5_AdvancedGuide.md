@@ -824,7 +824,7 @@ creates new threads, failures in these threads are ignored.
 Examples:
 
 ```
-ASSERT_NO_FATAL_FAILURE(Foo());
+ASSERT_NO_FATAL_FAILURE(GetIntoGameRoom());
 
 int i;
 EXPECT_NO_FATAL_FAILURE({

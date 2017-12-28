@@ -25,6 +25,7 @@ public:
     void enterYourMove();
     void illegalMoveInput();
     void illegalMoveInputFormat();
+    void mainMenu();
     ~ConsolePrinter();
 };
 

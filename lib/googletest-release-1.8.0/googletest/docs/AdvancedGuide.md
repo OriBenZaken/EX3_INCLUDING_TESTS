@@ -585,7 +585,7 @@ function. For example,
 ```
 TEST(MyDeathTest, Foo) {
   // This death test uses a compound statement.
-  ASSERT_DEATH({ int n = 5; Foo(&n); }, "Error on line .* of Foo()");
+  ASSERT_DEATH({ int n = 5; GetIntoGameRoom(&n); }, "Error on line .* of Foo()");
 }
 TEST(MyDeathTest, NormalExit) {
   EXPECT_EXIT(NormalExit(), ::testing::ExitedWithCode(0), "Success");
