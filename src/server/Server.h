@@ -13,17 +13,24 @@
 #include "pthread.h"
 #include "CommandsManager.h"
 #include "RoomsCollection.h"
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include "Server.h"
+#include "HandleClients.h"
+#include <fstream>
+#include <sstream>
+#include <algorithm>
 
 #define NO_MOVES -2
 #define GAME_OVER -3
-
-#define WAITING 0
-#define KEEP_PLAYING -4
 #define MSG_SIZE 100
 #define ERROR -1
 #define VALID 1
+#define  MAX_CONNECTED_CLIENTS 2
 
-#define EXIT -1000
+
+
 using namespace std;
 
 //server class. manage interaction between two players.
@@ -54,11 +61,6 @@ public:
      */
     static int getPortFromFile(string serverSettingsFileName);
 
-    vector<string> splitCommand(string command);
-
-    void *preGameRequests(int clientsocket);
-
-
     typedef struct ThreadArgs {
         int clientSocket1;
         int clientSocket2;
@@ -66,52 +68,17 @@ public:
         Server *server;
     } ThreadArgs;
 
+    int getServerSocket() const;
+    vector<pthread_t> &getThreads();
 
 private:
-
-    void *handleClient(int client1, int client2);
-
-    /**
-     * getClientSocket function.
-     * @return client socket number.
-     */
-    int getClientSocket();
-
-    /**
-     * swapClients function.
-     * @param current - current client socket
-     * @param opponent - opponent client socket
-     */
-    void swapClients(int *current, int *opponent);
-
-    void acceptClient();
-
-    static string readCommandFromClient(int clientSocket);
-
-
     //members
     int port;
     int serverSocket; //the socket's file descriptor
     int numberOfConnectedClients;
-   /* vector<Room> rooms;*/
     vector<pthread_t> threads;
-    //index of thread
     int threadNum;
-   /* pthread_mutex_t count_mutex;*/
-public:
-    int getPort() const;
 
-    int getServerSocket() const;
-
-    int getNumberOfConnectedClients() const;
-
-   /* vector<Room> &getRooms();
-*/
-    vector<pthread_t> &getThreads();
-
-    int getThreadNum() const;
-
-   /* pthread_mutex_t &getCount_mutex();*/
 };
 
 #endif //SERVERREVERSI_SERVER_H

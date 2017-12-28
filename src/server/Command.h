@@ -21,11 +21,6 @@ public:
     Command(int clientSocket):clientSocket(clientSocket) {
 
     }
-   /* enum CommonReturnCodes {
-        Success,
-        Failure
-
-    };*/
     virtual int execute(vector<string> args,vector<Room> &rooms,pthread_mutex_t &count_mutex)=0;
     virtual ~Command() {}
 protected:

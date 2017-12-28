@@ -2,12 +2,12 @@
 // Created by liz on 24/12/17.
 //
 
-#include "ServerOperations.h"
+#include "HandleClients.h"
 
 
 
 
-void* ServerOperations::handleClient(void* arguments) {
+void* HandleClients::handleClient(void* arguments) {
     cout <<"enter handleClient"<<endl;
     Server::ThreadArgs *args = (Server::ThreadArgs*) arguments;
     int clientSocket1 = args->clientSocket1;
@@ -69,7 +69,7 @@ void* ServerOperations::handleClient(void* arguments) {
     }*/
 }
 
-void ServerOperations::swapClients(int * current, int* opponent) {
+void HandleClients::swapClients(int * current, int* opponent) {
     int temp = *current;
     *current = *opponent;
     *opponent = temp;
@@ -80,7 +80,7 @@ void ServerOperations::swapClients(int * current, int* opponent) {
 
 
 
-void* ServerOperations::acceptClient(void* arguments) {
+void* HandleClients::acceptClient(void* arguments) {
     cout <<"enter acceptClient"<<endl;
 
     Server::ThreadArgs *args = (Server::ThreadArgs *) arguments;
@@ -98,7 +98,7 @@ void* ServerOperations::acceptClient(void* arguments) {
         cout << "args->clientSocket1: " << args->clientSocket1 << endl;
         (*server).getThreads().push_back(0);
         cout << "creating pthread" << endl;
-        pthread_create(&(*server).getThreads().back(), NULL,ServerOperations::preGameRequests,args);
+        pthread_create(&(*server).getThreads().back(), NULL,HandleClients::preGameRequests,args);
 
 
     }
@@ -106,7 +106,7 @@ void* ServerOperations::acceptClient(void* arguments) {
 
 
 
-void * ServerOperations::preGameRequests(void * arguments) {
+void * HandleClients::preGameRequests(void * arguments) {
     cout <<"enter preGameRequests"<<endl;
 
     Server::ThreadArgs * args = (Server::ThreadArgs *) arguments;
@@ -152,7 +152,7 @@ void * ServerOperations::preGameRequests(void * arguments) {
             args->clientSocket1 =rooms.at(i).getFirstClientSocket();
             (*server).getThreads().push_back(0);
             cout <<"we are on function preGameRequests, first client socket "<<args->clientSocket1<<"second client socket "<<args->clientSocket2 <<endl;
-            pthread_create(&(*server).getThreads().back(), NULL, ServerOperations::handleClient, args);
+            pthread_create(&(*server).getThreads().back(), NULL, HandleClients::handleClient, args);
 
 
         }
@@ -163,7 +163,7 @@ void * ServerOperations::preGameRequests(void * arguments) {
 
 
 
-string ServerOperations::readCommandFromClient(int clientSocket){
+string HandleClients::readCommandFromClient(int clientSocket){
     cout <<"enter readCommandFromClient, want to talk to "<< clientSocket<<endl;
     char commandCharArr[MSG_SIZE];
     int n = read(clientSocket, commandCharArr, sizeof(commandCharArr));
@@ -181,7 +181,7 @@ string ServerOperations::readCommandFromClient(int clientSocket){
 
 
 
-vector<string> ServerOperations::splitCommand(string command){
+vector<string> HandleClients::splitCommand(string command){
     vector<string> splitedCommand;
     //list_games
     if (command.compare("list_games")==0) {
@@ -208,7 +208,7 @@ vector<string> ServerOperations::splitCommand(string command){
 }
 
 
-int ServerOperations::getClientSocket(int serverSocket) {
+int HandleClients::getClientSocket(int serverSocket) {
     //define the client socket's structures
     struct sockaddr_in clientAddress;
     socklen_t clientAddressLen;
