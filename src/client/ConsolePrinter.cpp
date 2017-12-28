@@ -1,10 +1,6 @@
-//
-// Created by ori on 23/12/17.
-//
 
 #include "ConsolePrinter.h"
-#include "IGame.h"
-#include <iostream>
+
 
 void ConsolePrinter::printCurrentBoard() {
     cout << "Current board:" << endl;

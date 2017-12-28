@@ -2,7 +2,6 @@
 #include "HandleClients.h"
 
 void* HandleClients::handleClient(void* arguments) {
-    cout <<"enter handleClient"<<endl;
     Server::ThreadArgs *args = (Server::ThreadArgs*) arguments;
     int clientSocket1 = args->clientSocket1;
     int clientSocket2 = args->clientSocket2;
@@ -13,9 +12,7 @@ void* HandleClients::handleClient(void* arguments) {
     int otherClientSocket = clientSocket2;
     while (true) {
         //take move from current player
-        cout<<"handel client is about to call readCommandFromClient: "<<endl;
         string command = readCommandFromClient(currentClientSocket);
-        cout<<"handel client recieved this command: "<<command<<endl;
         vector<string> splittedCommand = splitCommand(command);
         CommandsManager commandsManager(currentClientSocket);
         if (splittedCommand.at(0).compare("close")==0) {
@@ -121,7 +118,6 @@ vector<string> HandleClients::splitCommand(string command){
     for (int i=0; i<splitedCommand.size();i++){
         string item;
         for (int j=0; j<splitedCommand.at(i).size();j++) {
-            cout <<splitedCommand.at(i).at(j);
             if(splitedCommand.at(i).at(j)!='>' && splitedCommand.at(i).at(j)!= ' ') {
                 item += splitedCommand.at(i).at(j);
             }

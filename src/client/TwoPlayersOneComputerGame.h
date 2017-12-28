@@ -63,7 +63,6 @@ private:
      * Swap between current player to other player.
      */
     void switchCurrPlayer();
-    //todo: erase java docs
     /**
      * Checks who is the winning player and prints a suitable message to the console.
      */

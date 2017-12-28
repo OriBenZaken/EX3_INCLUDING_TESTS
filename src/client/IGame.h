@@ -9,17 +9,24 @@ class IGame {
 public:
     enum Status {Playing, NoPossibleMoves, GameOver, BlackWins, WhiteWins, Tie};
     enum PlayersType {Humans, HumanVSAI, RemoteMode};
-    /** Runs a Reversi game until game is over : Win/Lose or a Tie.
-     *
+    /**
+     * constructor
      */
     IGame()  {}
-    //IGame(Player* currPlayer, Player* otherPlayer) : currPlayer(currPlayer), otherPlayer(otherPlayer) {}
+    /**
+     * run function
+     * runs the game
+     */
     virtual void run() = 0;
     /**
      * virtual default ctor.
      */
     virtual ~IGame()  {}
-    //todo: add javadoc
+    /**
+     * checkWinner function
+     * @param board  - game of board
+     * @return status
+     */
     static IGame::Status checkWinner(Board* board);
 
 };

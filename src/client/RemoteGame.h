@@ -66,7 +66,6 @@ private:
      * sets opponent type
      */
     void setOpponentType();
-    //todo: erase irrelevant java docs and add comments
     /**
      * Swap between current player to other player.
      */

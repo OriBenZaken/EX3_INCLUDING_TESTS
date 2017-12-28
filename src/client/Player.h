@@ -55,6 +55,7 @@ public:
      */
     virtual ~Player();
 protected:
+    //members
     Board::Cell type;
     GameLogic * gameLogic;
 };

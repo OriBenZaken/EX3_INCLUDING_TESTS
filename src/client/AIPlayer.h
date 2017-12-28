@@ -13,9 +13,7 @@ public:
  * AIPlayer c'tor
  * @param type Board::Cell (Black/White)
  */
-    AIPlayer(Board::Cell type, GameLogic* gameLogic) : Player(type, gameLogic) {
-        //gameLogic = new StardantGameLogic();
-    }
+    AIPlayer(Board::Cell type, GameLogic* gameLogic) : Player(type, gameLogic) {}
     /**
     * AIPlayer his possible moves and chooses the best move for him using the minimax algorithm.
     * @param options vector of possible moves.
