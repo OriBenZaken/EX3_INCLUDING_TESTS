@@ -27,21 +27,23 @@ void Server::start() {
     RoomsCollection *roomsCollection = new RoomsCollection();
     threadArgs.roomsCollection = roomsCollection;
     threadArgs.server = this;
-    (*this).threads.push_back(threadNum);
-    pthread_create(&(*this).threads.back(), NULL, HandleClients::acceptClient, (void *) &threadArgs);
+    (*this).threads.push_back(new pthread_t());
+    pthread_create((*this).threads.back(), NULL, HandleClients::acceptClient, (void *) &threadArgs);
+    pthread_detach(*(*this).threads.back());
+
     string exit;
     cin >> exit;
     if (exit.compare("exit") == 0) {
-        pthread_cancel(threads[0]);
-        delete threads[0];
+        pthread_cancel(*threads[0]);
+        delete(threads[0]);
         for (int i = 0; i < roomsCollection->getRooms().size(); i++) {
             close(roomsCollection->getRooms().at(i).getFirstClientSocket());
             close(roomsCollection->getRooms().at(i).getSecondClientSocket());
         }
 
         for (int i = 1; i < (*this).threads.size(); i++) {
-            pthread_cancel(threads[i]);
-            delete threads[i];
+            pthread_cancel(*threads[i]);
+            delete (threads[i]);
         }
     }
     this->stop();
@@ -73,7 +75,7 @@ int Server::getPortFromFile(string serverSettingsFileName) {
     }
 }
 
-vector<pthread_t> &Server::getThreads() {
+vector<pthread_t*> &Server::getThreads() {
     return threads;
 }
 

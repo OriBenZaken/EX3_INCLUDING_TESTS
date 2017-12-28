@@ -40,8 +40,10 @@ void* HandleClients::acceptClient(void* arguments) {
         //inform types
         int clientSocket = getClientSocket(serverSocket);
         args->clientSocket1 = clientSocket;
-        (*server).getThreads().push_back(0);
-        pthread_create(&(*server).getThreads().back(), NULL,HandleClients::preGameRequests,args);
+        (*server).getThreads().push_back(new pthread_t());
+        pthread_create((*server).getThreads().back(), NULL,HandleClients::preGameRequests,args);
+        pthread_detach(*(*server).getThreads().back());
+
     }
 }
 
@@ -76,8 +78,10 @@ void * HandleClients::preGameRequests(void * arguments) {
             rooms.at(i).setRoomStatus(Room::Running);
             args->clientSocket2 = rooms.at(i).getSecondClientSocket();
             args->clientSocket1 = rooms.at(i).getFirstClientSocket();
-            (*server).getThreads().push_back(0);
-            pthread_create(&(*server).getThreads().back(), NULL, HandleClients::handleClient, args);
+            (*server).getThreads().push_back(new pthread_t());
+            pthread_create((*server).getThreads().back(), NULL, HandleClients::handleClient, args);
+            pthread_detach(*(*server).getThreads().back());
+
         }
     }
     pthread_mutex_unlock(&count_mutex);
