@@ -18,7 +18,7 @@ set(SOURCE_FILES src/client/Board.h src/client/Board.h src/client/GameLogic.cpp 
         src/server/StartCommand.h src/server/HandleClients.cpp src/server/HandleClients.h src/server/RoomsCollection.cpp src/server/RoomsCollection.h)
 
 set(TEST_FILES test/StandardGameLogicTest.cpp test/StandardGameLogicTest.h test/BoardsMatch.h
-        test/AIPlayerTest.cpp test/AIPlayerTest.h test/RoomTest.cpp test/RoomTest.h test/RoomsCollectionTest.cpp test/RoomsCollectionTest.h test/HandleClientsTest.cpp test/HandleClientsTest.h)
+        test/AIPlayerTest.cpp test/AIPlayerTest.h test/RoomTest.cpp test/RoomTest.h test/RoomsCollectionTest.cpp test/RoomsCollectionTest.h test/HandleClientsTest.cpp test/HandleClientsTest.h test/ClientTest.cpp test/ClientTest.h)
 
 add_executable(ReversiTests ${SOURCE_FILES} ${TEST_FILES} test/gtest_main.cpp)
 add_executable(ReversiClient ${SOURCE_FILES} src/client/client_main.cpp)

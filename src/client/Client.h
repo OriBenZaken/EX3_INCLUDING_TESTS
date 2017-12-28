@@ -57,7 +57,7 @@ public:
     //
     bool sendStartNewGameRequest(string name);
     vector<string> getGamesList();
-    vector<string> getGameListFromString(char* buff);
+    static vector<string> getGameListFromString(char* buff);
     bool sendJoinToGameRequest(string name);
     void sendCloseGameRequest(string name);
     void sendKeepPlayingRequest(string name);
