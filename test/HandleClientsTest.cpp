@@ -1,10 +1,6 @@
-//
-// Created by liz on 28/12/17.
-//
 
-#include <gtest/gtest.h>
 #include "HandleClientsTest.h"
-#include "../src/server/HandleClients.h"
+
 
 TEST_F(HandleClientsTest, CorrectSwap) {
 

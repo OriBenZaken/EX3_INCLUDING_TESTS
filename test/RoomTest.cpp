@@ -1,9 +1,4 @@
-//
-// Created by liz on 28/12/17.
-//
 
-#include <gtest/gtest.h>
-#include <gmock/gmock-matchers.h>
 #include "RoomTest.h"
 TEST_F(RoomTest, CorrectRoomName) {
 Room room;

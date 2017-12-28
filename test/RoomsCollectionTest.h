@@ -1,7 +1,7 @@
-//
-// Created by liz on 28/12/17.
-//
-
+/**
+ * RoomsCollectionTest class.
+ * include tests for rooms collection.
+ */
 #ifndef REVERSITESTS_ROOMSCOLLECTIONTEST_H
 #define REVERSITESTS_ROOMSCOLLECTIONTEST_H
 #define FIRST 0
@@ -12,8 +12,17 @@
 
 class RoomsCollectionTest: public testing::Test {
 public:
-
+/**
+ * isValidRoomsNames function.
+ * @param rooms - vector of rooms.
+ * @return true if valid, false otherwise
+ */
     bool isValidRoomsNames(vector<Room> rooms);
+    /**
+     * isValidRoomsStatus function.
+     * @param rooms - vector of rooms.
+     * @return true if valid, false otherwise
+     */
     bool isValidRoomsStatus(vector<Room> rooms);
 
 };

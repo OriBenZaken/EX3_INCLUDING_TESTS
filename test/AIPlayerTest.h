@@ -10,6 +10,8 @@
 #include "StandardGameLogicTest.h"
 #include "../src/client/StandartGameLogic.h"
 #include "../src/client/AIPlayer.h"
+#include <gmock/gmock-matchers.h>
+#include "../src/client/Board.h"
 
 class AIPlayerTest : public testing::Test {
 public:

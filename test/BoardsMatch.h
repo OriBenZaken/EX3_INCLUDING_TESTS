@@ -1,7 +1,7 @@
-//
-// Created by ori on 24/11/17.
-//
-
+/**
+ * BoardsMatch class.
+ * include tests for board
+ */
 #ifndef REVERSITESTS_MATRIXASSERTION_H
 #define REVERSITESTS_MATRIXASSERTION_H
 #include <gtest/gtest.h>

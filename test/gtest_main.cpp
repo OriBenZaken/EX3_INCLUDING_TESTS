@@ -1,13 +1,15 @@
-#include <iostream>
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 using namespace testing;
+/**
+ * main func.
+ * @param argc - number of arguments from command line.
+ * @param argv - arguments from command line.
+ * @return 0;
+ */
 
 int main(int argc, char *argv[]) {
     InitGoogleTest(&argc, argv);
     RUN_ALL_TESTS();
     return 0;
 }
-
-//DELETE MAIN.CPP FROM THE ORIGINAL PROJECT

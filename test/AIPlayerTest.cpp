@@ -1,8 +1,4 @@
-
-#include <gmock/gmock-matchers.h>
-#include "../src/client/Board.h"
 #include "AIPlayerTest.h"
-
 
 bool AIPlayerTest::isExpectedMove(vector< pair<int,int> > correctOptions, pair<int,int> pairReceived){
     //check if received option is one of the exspected options

@@ -1,10 +1,6 @@
-//
-// Created by ori on 23/11/17.
-//
 
-#include <gmock/gmock-matchers.h>
+
 #include "StandardGameLogicTest.h"
-#include "BoardsMatch.h"
 /**
  * checks if in the start positions of the board - possible moves of Black player are as they should be.
  */

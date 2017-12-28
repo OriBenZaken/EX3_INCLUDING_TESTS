@@ -1,9 +1,5 @@
-//
-// Created by liz on 28/12/17.
-//
 
 #include "RoomsCollectionTest.h"
-#include "../src/server/Room.h"
 
 
 TEST_F(RoomsCollectionTest, CorrectRoomsNames) {
@@ -19,8 +15,6 @@ TEST_F(RoomsCollectionTest, CorrectRoomsNames) {
 }
 
 
-
-
 TEST_F(RoomsCollectionTest, CorrectRoomsStatuses) {
     Room room1;
     room1.setRoomStatus(Room::Running);
@@ -32,8 +26,6 @@ TEST_F(RoomsCollectionTest, CorrectRoomsStatuses) {
     EXPECT_TRUE(isValidRoomsStatus(rooms));
 
 }
-
-
 
 
 bool RoomsCollectionTest::isValidRoomsNames(vector<Room> rooms) {
@@ -55,7 +47,6 @@ bool RoomsCollectionTest::isValidRoomsNames(vector<Room> rooms) {
     return ans1 && ans2;
 
 }
-
 
 
 bool RoomsCollectionTest::isValidRoomsStatus(vector<Room> rooms) {

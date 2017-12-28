@@ -1,7 +1,7 @@
-//
-// Created by ori on 23/11/17.
-//
-
+/**
+ * StandardGameLogicTest class.
+ * include tests for class StandardGameLogic
+ */
 #ifndef REVERSITESTS_STANDARDGAMELOGICTEST_H
 #define REVERSITESTS_STANDARDGAMELOGICTEST_H
 #define TEST_SIZE 6
@@ -9,6 +9,9 @@
 #include <gtest/gtest.h>
 #include "StandardGameLogicTest.h"
 #include "../src/client/StandartGameLogic.h"
+#include <gmock/gmock-matchers.h>
+#include "BoardsMatch.h"
+
 /**
  * class for StandardGameLogic test.
  */
