@@ -12,6 +12,7 @@
 #include "Room.h"
 #include "pthread.h"
 #include "CommandsManager.h"
+#include "RoomsCollection.h"
 
 #define NO_MOVES -2
 #define GAME_OVER -3
@@ -54,13 +55,15 @@ public:
     static int getPortFromFile(string serverSettingsFileName);
 
     vector<string> splitCommand(string command);
-    void * preGameRequests(int clientsocket);
+
+    void *preGameRequests(int clientsocket);
 
 
-        typedef struct ThreadArgs {
+    typedef struct ThreadArgs {
         int clientSocket1;
         int clientSocket2;
-        Server* server;
+        RoomsCollection* roomsCollection;
+        Server *server;
     } ThreadArgs;
 
 
@@ -90,11 +93,11 @@ private:
     int port;
     int serverSocket; //the socket's file descriptor
     int numberOfConnectedClients;
-    vector<Room> rooms;
+   /* vector<Room> rooms;*/
     vector<pthread_t> threads;
     //index of thread
     int threadNum;
-    pthread_mutex_t count_mutex;
+   /* pthread_mutex_t count_mutex;*/
 public:
     int getPort() const;
 
@@ -102,13 +105,13 @@ public:
 
     int getNumberOfConnectedClients() const;
 
-    vector<Room> &getRooms();
-
+   /* vector<Room> &getRooms();
+*/
     vector<pthread_t> &getThreads();
 
     int getThreadNum() const;
 
-    pthread_mutex_t &getCount_mutex();
+   /* pthread_mutex_t &getCount_mutex();*/
 };
 
 #endif //SERVERREVERSI_SERVER_H

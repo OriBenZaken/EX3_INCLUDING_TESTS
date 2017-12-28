@@ -34,6 +34,8 @@ void Server::start() {
     listen(serverSocket, MAX_CONNECTED_CLIENTS);
     //todo: to be exported to other thread
     ThreadArgs threadArgs;
+    RoomsCollection* roomsCollection = new RoomsCollection();
+    threadArgs.roomsCollection = roomsCollection;
     threadArgs.server = this;
    (*this).threads.push_back(threadNum);
     pthread_create(&(*this).threads.back(), NULL,ServerOperations::acceptClient,(void *)&threadArgs);
@@ -44,15 +46,21 @@ void Server::start() {
     string exit;
     cin >> exit;
     if (exit.compare("exit")==0) {
-        for(int i =0; i<(*this).rooms.size();i++) {
-            int clientSocket = (*this).rooms.at(i).getFirstClientSocket();
+        pthread_cancel(threads[0]);
+        for(int i =0; i<roomsCollection->getRooms().size();i++) {
+            int clientSocket = roomsCollection->getRooms().at(i).getFirstClientSocket();
           //  int n = write(clientSocket,EXIT, )
             //todo: how to inform all clients ??!
-            close(rooms.at(i).getFirstClientSocket());
-            close(rooms.at(i).getSecondClientSocket());
+            close(roomsCollection->getRooms().at(i).getFirstClientSocket());
+            close(roomsCollection->getRooms().at(i).getSecondClientSocket());
 
         }
+
+        for (int i =1; i<(*this).threads.size(); i++) {
+            pthread_cancel(threads[i]);
+        }
     }
+    delete roomsCollection;
 
 }
 
@@ -85,6 +93,18 @@ int Server::getPortFromFile(string serverSettingsFileName) {
 }
 
 
+vector<pthread_t> &Server::getThreads() {
+    return threads;
+}
+
+int Server::getThreadNum() const {
+    return threadNum;
+}
+
+
+int Server::getServerSocket() const {
+    return serverSocket;
+}
 
 
 
@@ -111,8 +131,7 @@ int Server::getPortFromFile(string serverSettingsFileName) {
 
 
 
-
-
+/*
 
 
 
@@ -138,7 +157,7 @@ void* Server::handleClient(int client1, int client2) {
         if (splittedCommand.at(0).compare("close")==0) {
             break;
         }
-        commandsManager.executeCommand(splittedCommand.at(0),splittedCommand,rooms,count_mutex);
+        //commandsManager.executeCommand(splittedCommand.at(0),splittedCommand,rooms,count_mutex);
         swapClients(&currentClientSocket, &otherClientSocket);
     }
 
@@ -147,20 +166,25 @@ void* Server::handleClient(int client1, int client2) {
     //int gameStatus;
     //int currentClientSocket = clientSocket1;
     //int otherClientSocket = clientSocket2;
-  /*  while (true) {
+  */
+/*  while (true) {
         int n;
         vector<string> splittedCommand = splitCommand(readCommandFromClient(currentClientSocket));
         cout << endl << splittedCommand[0] << endl;
         if (splittedCommand.at(0).compare("close")==0) {
             CommandsManager commandsManager(currentClientSocket);
             commandsManager.executeCommand(splittedCommand.at(0),splittedCommand,rooms);
-            *//*gameStatus = GAME_OVER;
+            *//*
+*/
+/*gameStatus = GAME_OVER;
             n = write(otherClientSocket,&gameStatus,sizeof(gameStatus));
             // notify other player the game is over
             if (n ==-1) {
                 cout <<"Error writing to socket" <<endl;
                 break;
             }*//*
+*/
+/*
             break;
         }
         gameStatus = KEEP_PLAYING;
@@ -200,7 +224,8 @@ void* Server::handleClient(int client1, int client2) {
             break;
         }
         swapClients(&currentClientSocket, &otherClientSocket);
-    }*/
+    }*//*
+
 }
 
 void Server::swapClients(int * current, int* opponent) {
@@ -243,7 +268,7 @@ void * Server::preGameRequests(int clientSocket) {
         vector<string> splitedCommand = splitCommand(command);
         int result = ERROR;
         if (splitedCommand.size() != 0) {
-            result = commandsManagerPerClient.executeCommand(splitedCommand.at(0), splitedCommand, (*this).rooms,count_mutex);
+           // result = commandsManagerPerClient.executeCommand(splitedCommand.at(0), splitedCommand, (*this).rooms,count_mutex);
         }
 
         //stop running the while loop
@@ -254,17 +279,23 @@ void * Server::preGameRequests(int clientSocket) {
         //todo: create handle client thread after join from here!
         cout <<"create handle client thread after join from here!r";
         //continue thread of accept
-        /*pthread_mutex_t count_mutex;
-        pthread_mutex_lock(&count_mutex);*/
-      /*  for (int i = 0; i < (*this).rooms.size(); i++) {
+        */
+/*pthread_mutex_t count_mutex;
+        pthread_mutex_lock(&count_mutex);*//*
+
+      */
+/*  for (int i = 0; i < (*this).rooms.size(); i++) {
             if (rooms.at(i).getRoomStatus() == Room::TwoPlayersConnected) {
                 //todo: create handle client of two client sockets
                 (*this).handleClient(rooms.at(i).getFirstClientSocket(),rooms.at(i).getSecondClientSocket());
 
                  rooms.at(i).setRoomStatus(Room::Running);
             }
-        }*/
-       /* pthread_mutex_unlock(&count_mutex);*/
+        }*//*
+
+       */
+/* pthread_mutex_unlock(&count_mutex);*//*
+
 
 
     //###############################################thread
@@ -333,27 +364,22 @@ int Server::getPort() const {
     return port;
 }
 
-int Server::getServerSocket() const {
-    return serverSocket;
-}
 
 int Server::getNumberOfConnectedClients() const {
     return numberOfConnectedClients;
 }
 
-vector<Room> &Server::getRooms()  {
+*/
+/*vector<Room> &Server::getRooms()  {
     return rooms;
-}
+}*//*
 
-vector<pthread_t> &Server::getThreads() {
-    return threads;
-}
 
-int Server::getThreadNum() const {
-    return threadNum;
-}
 
-pthread_mutex_t &Server::getCount_mutex() {
+*/
+/*pthread_mutex_t &Server::getCount_mutex() {
     return count_mutex;
-}
+}*//*
 
+
+*/

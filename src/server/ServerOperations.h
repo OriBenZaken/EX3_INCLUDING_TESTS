@@ -21,10 +21,17 @@ public:
     static string readCommandFromClient(int clientSocket);
     static vector<string> splitCommand(string command);
     static int getClientSocket(int serverSocket);
+    /*static pthread_mutex_t count_mutex;
+    static vector<Room> rooms;*/
 
 
 
 };
+/*
+pthread_mutex_t ServerOperations::count_mutex;
+vector<Room> ServerOperations:: rooms;
+*/
+
 
 
 #endif //REVERSITESTS_SERVEROPERATIONS_H

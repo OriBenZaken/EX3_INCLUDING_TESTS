@@ -12,9 +12,12 @@ void* ServerOperations::handleClient(void* arguments) {
     Server::ThreadArgs *args = (Server::ThreadArgs*) arguments;
     int clientSocket1 = args->clientSocket1;
     int clientSocket2 = args->clientSocket2;
-    Server* server = args->server;
-    vector<Room>& rooms = (*server).getRooms();
-    pthread_mutex_t &count_mutex = (*server).getCount_mutex();
+   /* Server* server = args->server;*/
+    /*vector<Room>& rooms = (*server).getRooms();
+    pthread_mutex_t &count_mutex = (*server).getCount_mutex();*/
+    RoomsCollection* roomsCollection = args->roomsCollection;
+    vector<Room>& rooms = (*roomsCollection).getRooms();
+    pthread_mutex_t &count_mutex = (*roomsCollection).getCount_mutex();
 
 
     int x;
@@ -109,8 +112,11 @@ void * ServerOperations::preGameRequests(void * arguments) {
     Server::ThreadArgs * args = (Server::ThreadArgs *) arguments;
     int clientSocket = args->clientSocket1;
     Server *server = args->server;
-    vector<Room> &rooms = (*server).getRooms();
-    pthread_mutex_t &count_mutex = (*server).getCount_mutex();
+    /*vector<Room> &rooms = (*server).getRooms();
+    pthread_mutex_t &count_mutex = (*server).getCount_mutex();*/
+    RoomsCollection* roomsCollection = args->roomsCollection;
+    vector<Room>& rooms = (*roomsCollection).getRooms();
+    pthread_mutex_t &count_mutex = (*roomsCollection).getCount_mutex();
 
     cout << "recieved in preGame client socket: " << clientSocket << endl;
 

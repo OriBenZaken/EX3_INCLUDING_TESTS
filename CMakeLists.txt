@@ -15,7 +15,7 @@ set(SOURCE_FILES src/client/Board.h src/client/Board.h src/client/GameLogic.cpp 
         src/server/CloseCommand.cpp src/server/CloseCommand.h src/server/Command.cpp src/server/Command.h src/server/CommandsManager.cpp
         src/server/CommandsManager.h src/server/JoinCommand.cpp src/server/JoinCommand.h src/server/ListGamesCommand.cpp src/server/ListGamesCommand.h
         src/server/PlayCommand.cpp src/server/PlayCommand.h src/server/Room.cpp src/server/Room.h src/server/StartCommand.cpp
-        src/server/StartCommand.h src/server/ServerOperations.cpp src/server/ServerOperations.h)
+        src/server/StartCommand.h src/server/ServerOperations.cpp src/server/ServerOperations.h src/server/RoomsCollection.cpp src/server/RoomsCollection.h)
 
 set(TEST_FILES test/StandardGameLogicTest.cpp test/StandardGameLogicTest.h test/BoardsMatch.h
         test/AIPlayerTest.cpp test/AIPlayerTest.h )
