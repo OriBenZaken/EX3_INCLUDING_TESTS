@@ -1,6 +1,3 @@
-//
-// Created by liz on 28/12/17.
-//
 
 #include "RoomsCollection.h"
 vector<Room> &RoomsCollection::getRooms()  {

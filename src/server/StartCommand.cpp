@@ -1,15 +1,9 @@
-//
-// Created by liz on 22/12/17.
-//
 
-#include <unistd.h>
 #include "StartCommand.h"
 int StartCommand:: execute(vector<string> args,vector<Room> &rooms,pthread_mutex_t &count_mutex){
 
     Room::RoomStatus roomStatus;
     bool isValid = true;
-    //todo: add mutex
-   /* pthread_mutex_t count_mutex;*/
     pthread_mutex_lock(&count_mutex);
     for (int i = 0; i < rooms.size(); i++) {
         if ((rooms.at(i).getRoomName().compare(args.at(1)) == 0)) {

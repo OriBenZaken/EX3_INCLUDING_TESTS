@@ -1,9 +1,5 @@
 #include "CommandsManager.h"
-#include "CloseCommand.h"
-#include "JoinCommand.h"
-#include "ListGamesCommand.h"
-#include "PlayCommand.h"
-#include "StartCommand.h"
+
 CommandsManager::CommandsManager(int clientSocket): clientSocket(clientSocket) {
     //todo: pass client socket to commands
     commandsMap["start"] = new StartCommand(clientSocket);

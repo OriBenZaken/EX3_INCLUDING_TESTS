@@ -1,32 +1,24 @@
 
 #include "JoinCommand.h"
-#include <fstream>
-#include <sstream>
-#include <unistd.h>
+
 
 int JoinCommand:: execute(vector<string> args,vector<Room> &rooms,pthread_mutex_t &count_mutex) {
 
-    Room::RoomStatus roomStatus;
     bool isValid = false;
-    //todo: add mutex
-    /*pthread_mutex_t count_mutex;*/
     pthread_mutex_lock(&count_mutex);
     int indexOfRoom;
     for (int i = 0; i < rooms.size(); i++) {
         if ((rooms.at(i).getRoomName().compare(args.at(1)) == 0)&&
-                rooms.at(i).getRoomStatus() == Room::WaittingToOtherPlayer) {
+            rooms.at(i).getRoomStatus() == Room::WaittingToOtherPlayer) {
             isValid = true;
             rooms.at(i).setRoomStatus(Room::TwoPlayersConnected);
             rooms.at(i).setSecondClientSocket((*this).clientSocket);
-            cout<<"execute of join set second client socket to be "<<rooms.at(i).getSecondClientSocket()<<endl;
-            cout<<"execute of join, just to make sure, the first client socket is "<<rooms.at(i).getFirstClientSocket()<<endl;
-
             indexOfRoom = i;
             break;
 
         }
     }
-   pthread_mutex_unlock(&count_mutex);
+    pthread_mutex_unlock(&count_mutex);
     if (!isValid) {
         int msg= ERROR;
         int n = write(clientSocket, &msg, sizeof(msg));

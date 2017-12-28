@@ -4,17 +4,15 @@
 
 using namespace std;
 
-/*void la(vector<string> &d) {
-    d.push_back("la");
-}*/
-
+/**
+ * main func of server.
+ * runs the server
+ * @return 0
+ */
 int main() {
-/*vector<string> d;
-    d.push_back("liz");
-    la(d);*/
+
     int port = Server::getPortFromFile("ServerPort.txt");
     Server server(port);
-//    vector<string> splitCommands = server.splitCommand("play <7> <8>");
     try {
         server.start();
     } catch (const char* ex) {

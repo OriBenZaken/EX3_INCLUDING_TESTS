@@ -1,20 +1,12 @@
-//
-// Created by liz on 22/12/17.
-//
 
-#include <unistd.h>
 #include "PlayCommand.h"
-int PlayCommand:: execute(vector<string> args,vector<Room> &rooms,pthread_mutex_t &count_mutex){
-    int x,y;
+int PlayCommand:: execute(vector<string> args,vector<Room> &rooms,pthread_mutex_t &count_mutex) {
+    int x, y;
     istringstream(args.at(1)) >> x;
     istringstream(args.at(2)) >> y;
-    //todo: add mutex
-  /*  pthread_mutex_t count_mutex;*/
     pthread_mutex_lock(&count_mutex);
-
-
     for (int i = 0; i < rooms.size(); i++) {
-        if ((rooms.at(i).getFirstClientSocket())==clientSocket) {
+        if ((rooms.at(i).getFirstClientSocket()) == clientSocket) {
             int n = write(rooms.at(i).getSecondClientSocket(), &x, sizeof(x));
             if (n == -1) {
                 cout << "Error writing to socket" << endl;
@@ -26,7 +18,7 @@ int PlayCommand:: execute(vector<string> args,vector<Room> &rooms,pthread_mutex_
                 return ERROR;
             }
             break;
-        } else if ((rooms.at(i).getSecondClientSocket())==clientSocket) {
+        } else if ((rooms.at(i).getSecondClientSocket()) == clientSocket) {
             int n = write(rooms.at(i).getFirstClientSocket(), &x, sizeof(x));
             if (n == -1) {
                 cout << "Error writing to socket" << endl;
@@ -41,7 +33,7 @@ int PlayCommand:: execute(vector<string> args,vector<Room> &rooms,pthread_mutex_
         }
     }
 
-   pthread_mutex_unlock(&count_mutex);
+    pthread_mutex_unlock(&count_mutex);
     return VALID;
 }
 

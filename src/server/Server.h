@@ -1,3 +1,6 @@
+/**
+ * server class. manage interaction between two players.
+*/
 
 #ifndef SERVERREVERSI_SERVER_H
 #define SERVERREVERSI_SERVER_H
@@ -33,7 +36,7 @@
 
 using namespace std;
 
-//server class. manage interaction between two players.
+
 class Server {
 public:
     /**
@@ -60,15 +63,24 @@ public:
      * @return int
      */
     static int getPortFromFile(string serverSettingsFileName);
-
+    /**
+     * ThreadArgs struct - to move args between threads
+     */
     typedef struct ThreadArgs {
         int clientSocket1;
         int clientSocket2;
         RoomsCollection* roomsCollection;
         Server *server;
     } ThreadArgs;
-
+    /**
+     * getServerSocket function.
+     * @return server socket
+     */
     int getServerSocket() const;
+    /**
+     * getThreads function.
+     * @return threads of game
+     */
     vector<pthread_t> &getThreads();
 
 private:

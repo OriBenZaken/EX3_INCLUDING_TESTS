@@ -12,7 +12,7 @@ set(SOURCE_FILES src/client/Board.h src/client/Board.h src/client/GameLogic.cpp 
         src/client/Board.cpp src/client/IGame.cpp src/client/IGame.h src/client/Player.h src/client/Player.cpp src/client/AIPlayer.cpp src/client/AIPlayer.h
         src/client/Client.cpp src/client/Client.h src/client/RemotePlayer.cpp src/client/RemotePlayer.h src/client/RemoteGame.cpp src/client/RemoteGame.h
         src/server/Server.h src/server/Server.cpp src/client/Printer.h src/client/ConsolePrinter.cpp src/client/ConsolePrinter.h src/client/Printer.cpp
-        src/server/CloseCommand.cpp src/server/CloseCommand.h src/server/Command.cpp src/server/Command.h src/server/CommandsManager.cpp
+        src/server/CloseCommand.cpp src/server/CloseCommand.h src/server/Command.h src/server/CommandsManager.cpp
         src/server/CommandsManager.h src/server/JoinCommand.cpp src/server/JoinCommand.h src/server/ListGamesCommand.cpp src/server/ListGamesCommand.h
         src/server/PlayCommand.cpp src/server/PlayCommand.h src/server/Room.cpp src/server/Room.h src/server/StartCommand.cpp
         src/server/StartCommand.h src/server/HandleClients.cpp src/server/HandleClients.h src/server/RoomsCollection.cpp src/server/RoomsCollection.h)

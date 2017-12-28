@@ -35,12 +35,8 @@ void Server::start() {
     if (exit.compare("exit") == 0) {
         pthread_cancel(threads[0]);
         for (int i = 0; i < roomsCollection->getRooms().size(); i++) {
-            int clientSocket = roomsCollection->getRooms().at(i).getFirstClientSocket();
-            //  int n = write(clientSocket,EXIT, )
-            //todo: how to inform all clients ??!
             close(roomsCollection->getRooms().at(i).getFirstClientSocket());
             close(roomsCollection->getRooms().at(i).getSecondClientSocket());
-
         }
 
         for (int i = 1; i < (*this).threads.size(); i++) {
