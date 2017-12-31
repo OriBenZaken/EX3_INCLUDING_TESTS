@@ -23,9 +23,9 @@ int ListGamesCommand:: execute(vector<string> args,vector<Room> &rooms,pthread_m
         return ERROR;
     }
     //write the string to client
-    char msg[len];
-    roomNames.copy(msg, len);
-    n = write((*this).clientSocket, msg, len);
+    //char msg[len]={0};
+    //roomNames.copy(msg, len);
+    n = write((*this).clientSocket, roomNames.c_str(), len);
     if (n == -1) {
         cout << "Error writing to socket" << endl;
         return ERROR;

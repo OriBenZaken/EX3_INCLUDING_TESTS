@@ -40,9 +40,15 @@ void* HandleClients::acceptClient(void* arguments) {
         //inform types
         int clientSocket = getClientSocket(serverSocket);
         args->clientSocket1 = clientSocket;
-        (*server).getThreads().push_back(new pthread_t());
-        pthread_create((*server).getThreads().back(), NULL,HandleClients::preGameRequests,args);
-        pthread_detach(*(*server).getThreads().back());
+
+        /*pthread_create(&pthread, NULL, HandleClients::acceptClient, (void *) &threadArgs);
+        (*this).threads.push_back(pthread);*/
+
+        pthread_t pthread;
+        pthread_create(&pthread, NULL,HandleClients::preGameRequests,args);
+        (*server).getThreads().push_back(pthread);
+
+       // pthread_detach(*(*server).getThreads().back());
 
     }
 }
@@ -78,9 +84,11 @@ void * HandleClients::preGameRequests(void * arguments) {
             rooms.at(i).setRoomStatus(Room::Running);
             args->clientSocket2 = rooms.at(i).getSecondClientSocket();
             args->clientSocket1 = rooms.at(i).getFirstClientSocket();
-            (*server).getThreads().push_back(new pthread_t());
-            pthread_create((*server).getThreads().back(), NULL, HandleClients::handleClient, args);
-            pthread_detach(*(*server).getThreads().back());
+            pthread_t pthread;
+            pthread_create(&pthread, NULL, HandleClients::handleClient, args);
+            //pthread_detach(*(*server).getThreads().back());
+            (*server).getThreads().push_back(pthread);
+
 
         }
     }
@@ -134,7 +142,8 @@ vector<string> HandleClients::splitCommand(string command){
 int HandleClients::getClientSocket(int serverSocket) {
     //define the client socket's structures
     struct sockaddr_in clientAddress;
-    socklen_t clientAddressLen;
+    socklen_t clientAddressLen = sizeof(clientAddress);
+    bzero((void *) &clientAddress, sizeof(clientAddress));
     //accept a new client connection
     int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressLen);
     cout <<"Client connected" <<endl;

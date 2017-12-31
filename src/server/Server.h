@@ -81,14 +81,14 @@ public:
      * getThreads function.
      * @return threads of game
      */
-    vector<pthread_t*> &getThreads();
+    vector<pthread_t> &getThreads();
 
 private:
     //members
     int port;
     int serverSocket; //the socket's file descriptor
     int numberOfConnectedClients;
-    vector<pthread_t*> threads;
+    vector<pthread_t> threads;
     int threadNum;
 
 };

@@ -6,30 +6,32 @@ int PlayCommand:: execute(vector<string> args,vector<Room> &rooms,pthread_mutex_
     istringstream(args.at(2)) >> y;
     pthread_mutex_lock(&count_mutex);
     for (int i = 0; i < rooms.size(); i++) {
-        if ((rooms.at(i).getFirstClientSocket()) == clientSocket) {
-            int n = write(rooms.at(i).getSecondClientSocket(), &x, sizeof(x));
-            if (n == -1) {
-                cout << "Error writing to socket" << endl;
-                return ERROR;
+        if (rooms.at(i).getRoomStatus() == Room::Running) {
+            if ((rooms.at(i).getFirstClientSocket()) == clientSocket) {
+                int n = write(rooms.at(i).getSecondClientSocket(), &x, sizeof(x));
+                if (n == -1) {
+                    cout << "Error writing to socket" << endl;
+                    return ERROR;
+                }
+                n = write(rooms.at(i).getSecondClientSocket(), &y, sizeof(y));
+                if (n == -1) {
+                    cout << "Error writing to socket" << endl;
+                    return ERROR;
+                }
+                break;
+            } else if ((rooms.at(i).getSecondClientSocket()) == clientSocket) {
+                int n = write(rooms.at(i).getFirstClientSocket(), &x, sizeof(x));
+                if (n == -1) {
+                    cout << "Error writing to socket" << endl;
+                    return ERROR;
+                }
+                n = write(rooms.at(i).getFirstClientSocket(), &y, sizeof(y));
+                if (n == -1) {
+                    cout << "Error writing to socket" << endl;
+                    return ERROR;
+                }
+                break;
             }
-            n = write(rooms.at(i).getSecondClientSocket(), &y, sizeof(y));
-            if (n == -1) {
-                cout << "Error writing to socket" << endl;
-                return ERROR;
-            }
-            break;
-        } else if ((rooms.at(i).getSecondClientSocket()) == clientSocket) {
-            int n = write(rooms.at(i).getFirstClientSocket(), &x, sizeof(x));
-            if (n == -1) {
-                cout << "Error writing to socket" << endl;
-                return ERROR;
-            }
-            n = write(rooms.at(i).getFirstClientSocket(), &y, sizeof(y));
-            if (n == -1) {
-                cout << "Error writing to socket" << endl;
-                return ERROR;
-            }
-            break;
         }
     }
 
