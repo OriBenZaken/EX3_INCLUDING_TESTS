@@ -119,7 +119,7 @@ public:
      * @param rooms of game
      * @return string
      */
-    string printJoinGameRooms(vector<string> rooms);
+    string printJoinGameRooms();
     /**
      * joinedToRoom function
      * @param name of room

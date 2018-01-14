@@ -1,7 +1,8 @@
 #include "Server.h"
+#include "ThreadPool.h"
 
 
-Server::Server(int port): port(port), serverSocket(0), numberOfConnectedClients(0), threadNum(0) {
+Server::Server(int port): port(port), serverSocket(0), numberOfConnectedClients(0) {
     cout<<"Server" <<endl;
 }
 
@@ -27,17 +28,17 @@ void Server::start() {
     RoomsCollection *roomsCollection = new RoomsCollection();
     threadArgs.roomsCollection = roomsCollection;
     threadArgs.server = this;
-    pthread_t pthread;
-    pthread_create(&pthread, NULL, HandleClients::acceptClient, (void *) &threadArgs);
-    (*this).threads.push_back(pthread);
-
-    //pthread_detach(*(*this).threads.back());
+    ThreadPool pool(THREADS_NUM);
+    threadArgs.pool = &pool;
+    vector<Task*> tasks;
+    threadArgs.tasks = &tasks;
+    Task* task = new Task(HandleClients::acceptClient,(void *) &threadArgs);
+    tasks.push_back(task);
+    pool.addTask(task);
 
     string exit;
     cin >> exit;
     if (exit.compare("exit") == 0) {
-        pthread_cancel(threads[0]);
-        pthread_join(threads[0], NULL);
         for (int i = 0; i < roomsCollection->getRooms().size(); i++) {
             switch (roomsCollection->getRooms().at(i).getRoomStatus()) {
                 case Room::Running:
@@ -54,9 +55,8 @@ void Server::start() {
 
         }
 
-        for (int i = 1; i < (*this).threads.size(); i++) {
-            pthread_cancel(threads[i]);
-            pthread_join(threads[i], NULL);
+        for (int i = 0; i < tasks.size(); i++) {
+            delete tasks[i];
         }
     }
     this->stop();
@@ -88,9 +88,6 @@ int Server::getPortFromFile(string serverSettingsFileName) {
     }
 }
 
-vector<pthread_t> &Server::getThreads() {
-    return threads;
-}
 
 int Server::getServerSocket() const {
     return serverSocket;

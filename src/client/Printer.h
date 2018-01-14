@@ -115,7 +115,7 @@ public:
      * @param rooms of game
      * @return string
      */
-    virtual string printJoinGameRooms(vector<string> rooms) = 0;
+    virtual string printJoinGameRooms() = 0;
     /**
      * joinedToRoom function
      * @param name of room

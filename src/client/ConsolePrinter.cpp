@@ -171,12 +171,9 @@ void ConsolePrinter::noExistingRooms() {
     cout << "No existing rooms." << endl;
 }
 
-string ConsolePrinter::printJoinGameRooms(vector<string> rooms) {
+string ConsolePrinter::printJoinGameRooms() {
     string choice;
-    cout << "Enter the name of room to join between the existing rooms:" << endl;
-    for (int i = 0; i < rooms.size(); i++) {
-        cout << i + 1 << ". " << rooms[i] << endl;
-    }
+    cout << "Enter the name of room to join:" << endl;
     getline(cin, choice);
     return choice;
 }

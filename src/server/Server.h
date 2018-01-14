@@ -21,6 +21,7 @@
 #include <algorithm>
 #include "Server.h"
 #include "HandleClients.h"
+#include "ThreadPool.h"
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -31,6 +32,7 @@
 #define ERROR -1
 #define VALID 1
 #define  MAX_CONNECTED_CLIENTS 2
+#define THREADS_NUM 5
 
 
 
@@ -71,25 +73,21 @@ public:
         int clientSocket2;
         RoomsCollection* roomsCollection;
         Server *server;
+        ThreadPool* pool;
+        vector<Task*>* tasks;
     } ThreadArgs;
     /**
      * getServerSocket function.
      * @return server socket
      */
     int getServerSocket() const;
-    /**
-     * getThreads function.
-     * @return threads of game
-     */
-    vector<pthread_t> &getThreads();
+   
 
 private:
     //members
     int port;
     int serverSocket; //the socket's file descriptor
     int numberOfConnectedClients;
-    vector<pthread_t> threads;
-    int threadNum;
 
 };
 

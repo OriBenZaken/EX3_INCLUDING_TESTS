@@ -184,8 +184,13 @@ void Client::sendPlayCommand(int x, int y) {
 
 void Client::GetIntoGameRoom(string &roomName, Printer* printer) {
     string choice;
+    int counter =0;
     printer->remoteGameWelcomeMsg();
     while (true) {
+        if(counter>0){
+            this->connectToServer();
+        }
+        counter++;
         choice = printer->remoteGameMainMenu();
         if (choice == "1") {
             choice = printer->enterNameForNewRoom();
@@ -198,12 +203,9 @@ void Client::GetIntoGameRoom(string &roomName, Printer* printer) {
                 continue;
             }
         } else if (choice == "2") {
-            vector<string> rooms = this->getGamesList();
-            if (rooms[0] == "") {
-                printer->noExistingRooms();
-                continue;
-            }
-            choice = printer->printJoinGameRooms(rooms);
+
+            string choice = printer->printJoinGameRooms();
+            
             if (this->sendJoinToGameRequest(choice)) {
                 printer->joinedToRoom(choice);
                 roomName.assign(choice);
