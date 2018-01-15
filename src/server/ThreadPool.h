@@ -6,6 +6,7 @@
 #ifndef REVERSITESTS_THREADPOOL_H
 #define REVERSITESTS_THREADPOOL_H
 
+#define THREADS_NUM 5
 
 #include "Task.h"
 #include <queue>

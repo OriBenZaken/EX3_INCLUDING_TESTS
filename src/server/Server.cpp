@@ -54,6 +54,7 @@ void Server::start() {
             }
 
         }
+        pool.terminate();
 
         for (int i = 0; i < tasks.size(); i++) {
             delete tasks[i];
